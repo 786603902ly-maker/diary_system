@@ -1,0 +1,470 @@
+<title>个人思维操作系统 · Mind OS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+  :root{
+    --bg:#faf8f4; --bg-elev:#ffffff; --ink:#20201c; --ink-soft:#57544c; --ink-faint:#8c887e;
+    --line:#e7e2d8; --line-soft:#f0ece2;
+    --accent:#a8631f; --accent-soft:#f1e2cd; --accent-ink:#7a4614;
+    --quad-mas:#a8631f; --quad-inw:#3f6e5b; --quad-deo:#6a5a9e; --quad-leg:#9e4a4a;
+    --recent:#3f6e5b; --recent-soft:#e3ece7;
+    --shadow:0 1px 2px rgba(30,25,15,.04), 0 6px 20px rgba(30,25,15,.06);
+    --radius:14px;
+    --life-bg:#f3f1ec;
+    font-size:16px;
+  }
+  :root[data-theme="dark"]{
+    --bg:#171613; --bg-elev:#201f1b; --ink:#ecE8DF; --ink-soft:#b9b4a8; --ink-faint:#838075;
+    --line:#332f28; --line-soft:#282520;
+    --accent:#e0a259; --accent-soft:#3a2c17; --accent-ink:#f0c286;
+    --quad-mas:#e0a259; --quad-inw:#7fb69c; --quad-deo:#a79bde; --quad-leg:#d68787;
+    --recent:#7fb69c; --recent-soft:#22322a;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --life-bg:#1c1a16;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#171613; --bg-elev:#201f1b; --ink:#ecE8DF; --ink-soft:#b9b4a8; --ink-faint:#838075;
+      --line:#332f28; --line-soft:#282520;
+      --accent:#e0a259; --accent-soft:#3a2c17; --accent-ink:#f0c286;
+      --quad-mas:#e0a259; --quad-inw:#7fb69c; --quad-deo:#a79bde; --quad-leg:#d68787;
+      --recent:#7fb69c; --recent-soft:#22322a;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+      --life-bg:#1c1a16;
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;line-height:1.6;}
+  a{color:inherit}
+  .wrap{max-width:980px;margin:0 auto;padding:0 16px 80px;}
+
+  /* ---------- header ---------- */
+  header.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+  .top-inner{max-width:980px;margin:0 auto;padding:14px 16px 10px;}
+  .title-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .title-row h1{font-size:1.15rem;margin:0;font-weight:700;letter-spacing:.02em;}
+  .title-row .sub{font-size:.78rem;color:var(--ink-faint);}
+  .theme-btn{border:1px solid var(--line);background:var(--bg-elev);color:var(--ink-soft);border-radius:20px;padding:5px 11px;font-size:.75rem;cursor:pointer;}
+  .theme-btn:hover{border-color:var(--accent)}
+
+  .controls{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap;}
+  .search-box{flex:1 1 220px;position:relative;}
+  .search-box input{width:100%;padding:9px 14px 9px 34px;border-radius:20px;border:1px solid var(--line);background:var(--bg-elev);color:var(--ink);font-size:.88rem;outline:none;}
+  .search-box input:focus{border-color:var(--accent)}
+  .search-box::before{content:"⌕";position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--ink-faint);font-size:1rem;}
+  .toggle-recent{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--ink-soft);border:1px solid var(--line);background:var(--bg-elev);border-radius:20px;padding:6px 12px;cursor:pointer;user-select:none;white-space:nowrap;}
+  .toggle-recent.on{background:var(--recent-soft);color:var(--recent);border-color:var(--recent);font-weight:600;}
+  .toggle-recent .dot{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);}
+  .toggle-recent.on .dot{background:var(--recent);}
+
+  .tabs{display:flex;gap:4px;margin-top:10px;overflow-x:auto;padding-bottom:2px;}
+  .tab{flex:none;padding:7px 14px;border-radius:20px;font-size:.82rem;color:var(--ink-soft);cursor:pointer;border:1px solid transparent;white-space:nowrap;}
+  .tab.active{background:var(--accent-soft);color:var(--accent-ink);font-weight:700;}
+
+  .breadcrumb{max-width:980px;margin:12px auto 0;padding:0 16px;font-size:.8rem;color:var(--ink-faint);display:flex;flex-wrap:wrap;gap:4px;align-items:center;}
+  .breadcrumb .crumb{cursor:pointer;}
+  .breadcrumb .crumb:hover{color:var(--accent);}
+  .breadcrumb .crumb.current{color:var(--ink);font-weight:600;cursor:default;}
+  .breadcrumb .sep{color:var(--line);}
+
+  main{padding-top:14px;}
+
+  /* ---------- L1 quadrant tiles ---------- */
+  .quad-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px;}
+  @media (max-width:520px){.quad-grid{grid-template-columns:1fr;}}
+  .quad-tile{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s;}
+  .quad-tile:hover{transform:translateY(-2px);}
+  .quad-tile .qname{font-size:1.15rem;font-weight:800;margin-bottom:2px;}
+  .quad-tile .qen{font-size:.72rem;letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:8px;}
+  .quad-tile .qtag{font-size:.82rem;color:var(--ink-soft);margin-bottom:10px;}
+  .quad-tile .qcount{font-size:.72rem;color:var(--ink-faint);}
+  .quad-tile[data-q="MAS"]{border-top:3px solid var(--quad-mas);} .quad-tile[data-q="MAS"] .qname{color:var(--quad-mas);}
+  .quad-tile[data-q="INW"]{border-top:3px solid var(--quad-inw);} .quad-tile[data-q="INW"] .qname{color:var(--quad-inw);}
+  .quad-tile[data-q="DEO"]{border-top:3px solid var(--quad-deo);} .quad-tile[data-q="DEO"] .qname{color:var(--quad-deo);}
+  .quad-tile[data-q="LEG"]{border-top:3px solid var(--quad-leg);} .quad-tile[data-q="LEG"] .qname{color:var(--quad-leg);}
+
+  /* ---------- L2 subcat tiles ---------- */
+  .subcat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:6px;}
+  .subcat-tile{background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;box-shadow:var(--shadow);}
+  .subcat-tile:hover{border-color:var(--accent);}
+  .subcat-tile .scname{font-weight:700;font-size:.95rem;margin-bottom:4px;}
+  .subcat-tile .sccount{font-size:.75rem;color:var(--ink-faint);}
+
+  /* ---------- L3 keyword cards ---------- */
+  .kw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-top:6px;}
+  .kw-card{background:var(--bg-elev);border:1px solid var(--line);border-radius:11px;padding:13px 14px;cursor:pointer;transition:border-color .12s;}
+  .kw-card:hover{border-color:var(--accent);}
+  .kw-card .kw{font-weight:700;font-size:.92rem;margin-bottom:3px;}
+  .kw-card .kwtitle{font-size:.72rem;color:var(--ink-faint);line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+  .kw-card .kwmeta{margin-top:6px;font-size:.65rem;color:var(--ink-faint);display:flex;gap:6px;align-items:center;}
+  .badge-recent{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--recent);}
+
+  /* ---------- detail ---------- */
+  .detail{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;box-shadow:var(--shadow);margin-top:6px;}
+  .detail .back{font-size:.78rem;color:var(--ink-faint);cursor:pointer;margin-bottom:10px;display:inline-block;}
+  .detail .back:hover{color:var(--accent)}
+  .detail .id-tag{font-size:.68rem;color:var(--ink-faint);letter-spacing:.05em;font-family:ui-monospace,monospace;}
+  .detail h2{font-size:1.3rem;margin:4px 0 14px;}
+  .detail .core{font-size:.95rem;color:var(--ink);margin-bottom:14px;white-space:pre-wrap;}
+  .detail .action{font-size:.88rem;color:var(--ink-soft);background:var(--accent-soft);border-radius:10px;padding:12px 14px;margin-bottom:16px;white-space:pre-wrap;}
+  .detail .action b{color:var(--accent-ink);}
+  .section-label{font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--ink-faint);text-transform:uppercase;margin:18px 0 8px;}
+
+  .quote-block{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:10px;}
+  .quote-block .qtext{font-size:.95rem;font-style:italic;color:var(--accent-ink);}
+  .quote-block .qdate{font-size:.7rem;color:var(--ink-faint);margin-top:5px;}
+
+  .case-item{position:relative;padding:0 0 14px 18px;border-left:2px solid var(--line-soft);}
+  .case-item:last-child{border-color:transparent;padding-bottom:0;}
+  .case-item::before{content:"";position:absolute;left:-5px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--ink-faint);}
+  .case-item.recent::before{background:var(--recent);}
+  .case-item .cdate{font-size:.72rem;color:var(--ink-faint);font-weight:600;margin-bottom:3px;}
+  .case-item .ctext{font-size:.85rem;color:var(--ink-soft);}
+  .root-toggle{font-size:.78rem;color:var(--ink-faint);cursor:pointer;border:1px dashed var(--line);border-radius:8px;padding:7px 12px;display:inline-block;margin-top:4px;}
+  .root-toggle:hover{border-color:var(--accent);color:var(--accent);}
+  .root-cases{display:none;margin-top:10px;}
+  .root-cases.open{display:block;}
+
+  /* ---------- quotes tab ---------- */
+  .quote-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:6px;}
+  .quote-card{background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);cursor:pointer;}
+  .quote-card:hover{border-color:var(--accent);}
+  .quote-card .qtext{font-size:.92rem;font-style:italic;color:var(--ink);margin-bottom:10px;}
+  .quote-card .qfoot{font-size:.7rem;color:var(--ink-faint);display:flex;justify-content:space-between;gap:8px;}
+  .quote-card .qfoot .qprin{color:var(--accent-ink);font-weight:600;}
+
+  /* ---------- life tab ---------- */
+  .life-list{margin-top:10px;}
+  .life-year{font-size:.78rem;font-weight:700;color:var(--ink-faint);margin:18px 0 8px;letter-spacing:.05em;}
+  .life-item{background:var(--life-bg);border-radius:10px;padding:10px 14px;margin-bottom:6px;font-size:.85rem;color:var(--ink-soft);display:flex;gap:10px;}
+  .life-item .ldate{flex:none;font-size:.72rem;color:var(--ink-faint);font-family:ui-monospace,monospace;padding-top:1px;white-space:nowrap;}
+
+  .empty-hint{color:var(--ink-faint);font-size:.85rem;padding:30px 10px;text-align:center;}
+  .search-hit-meta{font-size:.7rem;color:var(--ink-faint);margin-bottom:10px;}
+</style>
+
+<div class="wrap" id="app">
+  <header class="top">
+    <div class="top-inner">
+      <div class="title-row">
+        <div>
+          <h1 id="site-title">个人思维操作系统</h1>
+          <span class="sub" id="site-sub"></span>
+        </div>
+        <button class="theme-btn" id="theme-btn">🌗 主题</button>
+      </div>
+      <div class="controls">
+        <div class="search-box"><input id="search" type="text" placeholder="搜索关键词 / 原话 / 案例…" /></div>
+        <div class="toggle-recent" id="recent-toggle"><span class="dot"></span>只看近 3–4 年</div>
+      </div>
+      <div class="tabs">
+        <div class="tab active" data-tab="kb">思维库</div>
+        <div class="tab" data-tab="quotes">原话集</div>
+        <div class="tab" data-tab="life">生活记录</div>
+      </div>
+    </div>
+  </header>
+  <div class="breadcrumb" id="breadcrumb"></div>
+  <main id="main"></main>
+</div>
+
+<script type="application/json" id="mind-os-data">__MIND_OS_DATA__</script>
+<script>
+(function(){
+  var DATA = JSON.parse(document.getElementById('mind-os-data').textContent);
+  var state = { tab: 'kb', quadrant: null, subcat: null, principle: null, search: '', recentOnly: false, showRootFor: {} };
+
+  var $ = function(sel, el){ return (el||document).querySelector(sel); };
+  var main = $('#main');
+  var breadcrumbEl = $('#breadcrumb');
+
+  $('#site-title').textContent = DATA.meta.title || '个人思维操作系统';
+  $('#site-sub').textContent = DATA.meta.subtitle || '';
+
+  // ---------- theme ----------
+  var themeBtn = $('#theme-btn');
+  function applyTheme(t){
+    if(t){ document.documentElement.setAttribute('data-theme', t); localStorage.setItem('mindos-theme', t); }
+    else { document.documentElement.removeAttribute('data-theme'); localStorage.removeItem('mindos-theme'); }
+  }
+  var savedTheme = localStorage.getItem('mindos-theme');
+  if(savedTheme) applyTheme(savedTheme);
+  themeBtn.addEventListener('click', function(){
+    var cur = document.documentElement.getAttribute('data-theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var next;
+    if(!cur) next = prefersDark ? 'light' : 'dark';
+    else if(cur === 'dark') next = 'light';
+    else next = 'dark';
+    applyTheme(next);
+  });
+
+  // ---------- tabs ----------
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+      t.classList.add('active');
+      state.tab = t.getAttribute('data-tab');
+      state.quadrant = null; state.subcat = null; state.principle = null; state.search=''; $('#search').value='';
+      render();
+    });
+  });
+
+  // ---------- search / recent toggle ----------
+  var searchInput = $('#search');
+  var searchTimer;
+  searchInput.addEventListener('input', function(){
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function(){ state.search = searchInput.value.trim(); render(); }, 120);
+  });
+  var recentToggle = $('#recent-toggle');
+  recentToggle.addEventListener('click', function(){
+    state.recentOnly = !state.recentOnly;
+    recentToggle.classList.toggle('on', state.recentOnly);
+    render();
+  });
+
+  function esc(s){
+    return (s||'').replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function principleById(id){ return DATA.principles.find(function(p){return p.id===id;}); }
+  function quadrantById(id){ return DATA.quadrants.find(function(q){return q.id===id;}); }
+  function subcatName(qid, scid){
+    var q = quadrantById(qid); if(!q) return scid;
+    var sc = q.subcats.find(function(s){return s.id===scid;});
+    return sc ? sc.name : scid;
+  }
+  function principlesOf(qid, scid){
+    return DATA.principles.filter(function(p){ return p.quadrant===qid && (!scid || p.subcat===scid); });
+  }
+  function isRecentEnough(p){
+    // evergreen：旧年但至今仍适用的重大教训，用户明确要求即使在"只看近3-4年"模式下也应保留可见
+    return p.recency === 'recent' || p.recency === 'mixed' || p.recency === 'evergreen';
+  }
+
+  function matchText(hay, needle){ return hay && hay.toLowerCase().indexOf(needle) !== -1; }
+  function principleMatchesSearch(p, q){
+    if(matchText(p.title, q) || matchText(p.keyword, q) || matchText(p.core, q) || matchText(p.action, q)) return true;
+    if((p.quotes||[]).some(function(x){return matchText(x.text, q);})) return true;
+    if((p.cases||[]).some(function(x){return matchText(x.text, q);})) return true;
+    return false;
+  }
+
+  // ---------- breadcrumb ----------
+  function renderBreadcrumb(){
+    var parts = [];
+    if(state.tab === 'kb'){
+      parts.push({label:'思维库', onClick:function(){state.quadrant=null;state.subcat=null;state.principle=null;render();}});
+      if(state.quadrant){
+        var q = quadrantById(state.quadrant);
+        parts.push({label:q.name, onClick:function(){state.subcat=null;state.principle=null;render();}});
+      }
+      if(state.subcat){
+        parts.push({label:subcatName(state.quadrant,state.subcat), onClick:function(){state.principle=null;render();}});
+      }
+      if(state.principle){
+        var p = principleById(state.principle);
+        parts.push({label:p?p.keyword:'', onClick:null});
+      }
+    } else if(state.tab === 'quotes'){
+      parts.push({label:'原话集', onClick:null});
+    } else {
+      parts.push({label:'生活记录', onClick:null});
+    }
+    breadcrumbEl.innerHTML = parts.map(function(p,i){
+      var cls = (i===parts.length-1) ? 'crumb current' : 'crumb';
+      return (i>0?'<span class="sep">›</span>':'') + '<span class="'+cls+'" data-i="'+i+'">'+esc(p.label)+'</span>';
+    }).join('');
+    Array.prototype.forEach.call(breadcrumbEl.querySelectorAll('.crumb'), function(el, idx){
+      if(parts[idx] && parts[idx].onClick) el.addEventListener('click', parts[idx].onClick);
+    });
+  }
+
+  // ---------- render: KB tab ----------
+  function renderKB(){
+    if(state.search){
+      var q = state.search.toLowerCase();
+      var results = DATA.principles.filter(function(p){ return principleMatchesSearch(p,q); });
+      if(state.recentOnly) results = results.filter(isRecentEnough);
+      return renderSearchResults(results);
+    }
+    if(state.principle) return renderDetail(principleById(state.principle));
+    if(state.subcat) return renderKeywordGrid(state.quadrant, state.subcat);
+    if(state.quadrant) return renderSubcatGrid(state.quadrant);
+    return renderQuadrantGrid();
+  }
+
+  function renderQuadrantGrid(){
+    var html = '<div class="quad-grid">' + DATA.quadrants.map(function(q){
+      var n = principlesOf(q.id).length;
+      return '<div class="quad-tile" data-q="'+q.id+'">'+
+        '<div class="qname">'+esc(q.name)+'</div>'+
+        '<div class="qen">'+esc(q.en)+'</div>'+
+        '<div class="qtag">'+esc(q.tagline)+'</div>'+
+        '<div class="qcount">'+n+' 条思维点</div></div>';
+    }).join('') + '</div>';
+    main.innerHTML = html;
+    Array.prototype.forEach.call(main.querySelectorAll('.quad-tile'), function(el){
+      el.addEventListener('click', function(){ state.quadrant = el.getAttribute('data-q'); render(); });
+    });
+  }
+
+  function renderSubcatGrid(qid){
+    var q = quadrantById(qid);
+    var html = '<div class="subcat-grid">' + q.subcats.map(function(sc){
+      var n = principlesOf(qid, sc.id).length;
+      return '<div class="subcat-tile" data-sc="'+sc.id+'">'+
+        '<div class="scname">'+esc(sc.name)+'</div>'+
+        '<div class="sccount">'+n+' 条</div></div>';
+    }).join('') + '</div>';
+    main.innerHTML = html;
+    Array.prototype.forEach.call(main.querySelectorAll('.subcat-tile'), function(el){
+      el.addEventListener('click', function(){ state.subcat = el.getAttribute('data-sc'); render(); });
+    });
+  }
+
+  function keywordCardHTML(p){
+    var dot = '';
+    if(p.recency === 'evergreen') dot = '<span title="旧年但至今仍适用的主教训">⏳</span>';
+    else if(isRecentEnough(p)) dot = '<span class="badge-recent"></span>';
+    return '<div class="kw-card" data-id="'+p.id+'">'+
+      '<div class="kw">'+esc(p.keyword)+'</div>'+
+      '<div class="kwtitle">'+esc(p.title)+'</div>'+
+      '<div class="kwmeta">'+dot+'<span>'+p.id+'</span></div></div>';
+  }
+
+  function renderKeywordGrid(qid, scid){
+    var list = principlesOf(qid, scid);
+    if(state.recentOnly) list = list.filter(isRecentEnough);
+    if(!list.length){ main.innerHTML = '<div class="empty-hint">「只看近3–4年」筛掉了这个子类下的全部条目，试试关闭筛选。</div>'; return; }
+    main.innerHTML = '<div class="kw-grid">' + list.map(keywordCardHTML).join('') + '</div>';
+    Array.prototype.forEach.call(main.querySelectorAll('.kw-card'), function(el){
+      el.addEventListener('click', function(){ state.principle = el.getAttribute('data-id'); render(); });
+    });
+  }
+
+  function renderSearchResults(list){
+    if(!list.length){ main.innerHTML = '<div class="empty-hint">没有找到匹配的内容。</div>'; return; }
+    var meta = '<div class="search-hit-meta">找到 '+list.length+' 条匹配</div>';
+    main.innerHTML = meta + '<div class="kw-grid">' + list.map(keywordCardHTML).join('') + '</div>';
+    Array.prototype.forEach.call(main.querySelectorAll('.kw-card'), function(el){
+      el.addEventListener('click', function(){
+        var p = principleById(el.getAttribute('data-id'));
+        state.search=''; searchInput.value=''; state.quadrant=p.quadrant; state.subcat=p.subcat; state.principle=p.id; render();
+      });
+    });
+  }
+
+  function renderDetail(p){
+    if(!p){ main.innerHTML = '<div class="empty-hint">未找到该条目。</div>'; return; }
+    var cases = p.cases || [];
+    var recentCases = cases.filter(function(c){return c.era==='recent'||c.era==='mixed';});
+    var rootCases = cases.filter(function(c){return c.era==='root';});
+    var quotesHTML = (p.quotes||[]).map(function(qt){
+      return '<div class="quote-block"><div class="qtext">"'+esc(qt.text)+'"</div><div class="qdate">'+esc(qt.date||'')+'</div></div>';
+    }).join('');
+    var recentHTML = recentCases.map(function(c){
+      return '<div class="case-item recent"><div class="cdate">'+esc(c.date||'')+'</div><div class="ctext">'+esc(c.text)+'</div></div>';
+    }).join('');
+    var rootHTML = rootCases.map(function(c){
+      return '<div class="case-item"><div class="cdate">'+esc(c.date||'')+'</div><div class="ctext">'+esc(c.text)+'</div></div>';
+    }).join('');
+    var rootOpen = !!state.showRootFor[p.id];
+    var html = '<div class="detail">'+
+      '<span class="back" id="back-btn">‹ 返回</span>'+
+      '<div class="id-tag">'+p.id+'</div>'+
+      '<h2>'+esc(p.title)+'</h2>'+
+      '<div class="core">'+esc(p.core||'')+'</div>'+
+      (p.action ? '<div class="action"><b>行动指南　</b>'+esc(p.action)+'</div>' : '')+
+      (quotesHTML ? '<div class="section-label">📖 原话</div>'+quotesHTML : '')+
+      (recentHTML ? '<div class="section-label">⏳ 历史回溯（近年）</div>'+recentHTML : '')+
+      (rootHTML ? '<div class="section-label">🕰 历史根系（旧年，'+rootCases.length+' 条）</div>'+
+        '<div class="root-toggle" id="root-toggle">'+(rootOpen?'收起旧年案例 ▲':'展开旧年案例 ▼')+'</div>'+
+        '<div class="root-cases'+(rootOpen?' open':'')+'" id="root-cases">'+rootHTML+'</div>' : '')+
+      '</div>';
+    main.innerHTML = html;
+    $('#back-btn').addEventListener('click', function(){ state.principle=null; render(); });
+    var rt = $('#root-toggle');
+    if(rt) rt.addEventListener('click', function(){
+      state.showRootFor[p.id] = !state.showRootFor[p.id];
+      render();
+    });
+  }
+
+  // ---------- render: quotes tab ----------
+  function renderQuotes(){
+    var all = [];
+    DATA.principles.forEach(function(p){
+      (p.quotes||[]).forEach(function(qt){
+        all.push({text:qt.text, date:qt.date, pid:p.id, ptitle:p.title, quadrant:p.quadrant, subcat:p.subcat, recency:p.recency});
+      });
+    });
+    if(state.recentOnly) all = all.filter(function(x){return x.recency==='recent'||x.recency==='mixed';});
+    if(state.search){
+      var q = state.search.toLowerCase();
+      all = all.filter(function(x){ return matchText(x.text,q) || matchText(x.ptitle,q); });
+    }
+    all.sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
+    if(!all.length){ main.innerHTML = '<div class="empty-hint">还没有收录原话，或没有匹配结果。随着新日记不断融入，这里会持续增多。</div>'; return; }
+    main.innerHTML = '<div class="quote-grid">' + all.map(function(x){
+      return '<div class="quote-card" data-id="'+x.pid+'">'+
+        '<div class="qtext">"'+esc(x.text)+'"</div>'+
+        '<div class="qfoot"><span class="qprin">'+esc(x.ptitle)+'</span><span>'+esc(x.date||'')+'</span></div></div>';
+    }).join('') + '</div>';
+    Array.prototype.forEach.call(main.querySelectorAll('.quote-card'), function(el){
+      el.addEventListener('click', function(){
+        var p = principleById(el.getAttribute('data-id'));
+        state.tab='kb'; document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('active', t.getAttribute('data-tab')==='kb');});
+        state.quadrant=p.quadrant; state.subcat=p.subcat; state.principle=p.id; render();
+      });
+    });
+  }
+
+  // ---------- render: life tab ----------
+  function renderLife(){
+    var list = (DATA.lifeRecords||[]).slice();
+    var health = (DATA.healthLog||[]).slice();
+    if(state.search){
+      var q = state.search.toLowerCase();
+      list = list.filter(function(x){ return matchText(x.text,q); });
+      health = health.filter(function(x){ return matchText(x.note,q) || matchText(x.member,q); });
+    }
+    list.sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
+    health.sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
+
+    var healthHTML = '';
+    if(health.length){
+      healthHTML = '<div class="life-year">🩺 全家健康追踪</div><div class="life-list" style="margin-top:0;">' +
+        health.map(function(x){
+          return '<div class="life-item"><span class="ldate">'+esc(x.date||'')+'</span><span><b style="color:var(--ink-faint);font-weight:600;">'+esc(x.member||'')+'</b>　'+esc(x.note)+'</span></div>';
+        }).join('') + '</div>';
+    }
+
+    if(!list.length && !health.length){ main.innerHTML = '<div class="empty-hint">生活记录还在陆续补充中。</div>'; return; }
+    var byYear = {};
+    list.forEach(function(x){
+      var y = (x.date||'未知').slice(0,4);
+      (byYear[y]=byYear[y]||[]).push(x);
+    });
+    var years = Object.keys(byYear).sort().reverse();
+    var lifeHTML = years.length ? ('<div class="life-list">' + years.map(function(y){
+      return '<div class="life-year">'+y+'</div>' + byYear[y].map(function(x){
+        return '<div class="life-item"><span class="ldate">'+esc(x.date||'')+'</span><span>'+esc(x.text)+'</span></div>';
+      }).join('');
+    }).join('') + '</div>') : '';
+    main.innerHTML = healthHTML + lifeHTML;
+  }
+
+  function render(){
+    renderBreadcrumb();
+    if(state.tab === 'kb') renderKB();
+    else if(state.tab === 'quotes') renderQuotes();
+    else renderLife();
+  }
+
+  render();
+})();
+</script>
