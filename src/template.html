@@ -179,6 +179,7 @@
   .life-year{font-size:.78rem;font-weight:700;color:var(--ink-faint);margin:18px 0 8px;letter-spacing:.05em;}
   .life-item{background:var(--life-bg);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:6px;font-size:.85rem;color:var(--ink-soft);display:flex;gap:10px;}
   .life-item .ldate{flex:none;font-size:.72rem;color:var(--ink-faint);padding-top:1px;white-space:nowrap;}
+  .life-item .life-body{flex:1;min-width:0;}
   .life-member{color:var(--ink-faint);font-weight:600;}
 
   .empty-hint{color:var(--ink-faint);font-size:.85rem;padding:40px 10px;text-align:center;}
@@ -572,7 +573,7 @@
       '<div class="core editable" data-key="' + coreKey + '">' + fieldHTML(coreKey, p.core) + '</div>' +
       (p.action ? '<div class="action"><b>行动指南　</b><span class="editable" data-key="' + actionKey + '">' + fieldHTML(actionKey, p.action) + '</span></div>' : '') +
       (quotesHTML ? '<div class="section-label" data-id="q-' + p.id + '">📖 原话</div>' + quotesHTML : '') +
-      (recentHTML ? '<div class="section-label">⏳ 历史回溯（近年）</div>' + recentHTML : '') +
+      (recentHTML ? '<div class="section-label">📎 案例</div>' + recentHTML : '') +
       (rootHTML ? '<div class="section-label">🕰 历史根系（旧年，' + rootCases.length + ' 条）</div>' +
         '<button class="root-toggle" data-id="' + p.id + '">' + (rootOpen ? '收起旧年案例 ▲' : '展开旧年案例 ▼') + '</button>' +
         '<div class="root-cases' + (rootOpen ? ' open' : '') + '">' + rootHTML + '</div>' : '') +
@@ -699,8 +700,10 @@
       healthHTML = '<div class="life-year">🩺 全家健康追踪</div><div class="life-list" style="margin-top:0;">' +
         health.map(function(o){
           var key = 'health::' + o.idx;
+          var ctxKey = key + '::ctx';
           return '<div class="life-item"><span class="ldate mono">' + esc(o.rec.date || '') + '</span>' +
-            '<span><span class="life-member">' + esc(o.rec.member || '') + '</span>　<span class="editable" data-key="' + key + '">' + fieldHTML(key, o.rec.note) + '</span></span></div>';
+            '<div class="life-body"><span class="life-member">' + esc(o.rec.member || '') + '</span>　<span class="editable" data-key="' + key + '">' + fieldHTML(key, o.rec.note) + '</span>' +
+            ctxToggleHTML(ctxKey, o.rec.context) + '</div></div>';
         }).join('') + '</div>';
     }
     if(!list.length && !health.length){ main.innerHTML = '<div class="empty-hint">生活记录还在陆续补充中，或没有匹配结果。</div>'; return; }
@@ -710,8 +713,10 @@
     var lifeHTML = years.length ? ('<div class="life-list">' + years.map(function(y){
       return '<div class="life-year">' + y + '</div>' + byYear[y].map(function(o){
         var key = 'life::' + o.idx;
+        var ctxKey = key + '::ctx';
         return '<div class="life-item"><span class="ldate mono">' + esc(o.rec.date || '') + '</span>' +
-          '<span class="editable" data-key="' + key + '">' + fieldHTML(key, o.rec.text) + '</span></div>';
+          '<div class="life-body"><span class="editable" data-key="' + key + '">' + fieldHTML(key, o.rec.text) + '</span>' +
+          ctxToggleHTML(ctxKey, o.rec.context) + '</div></div>';
       }).join('');
     }).join('') + '</div>') : '';
     main.innerHTML = healthHTML + lifeHTML;
