@@ -306,6 +306,7 @@
         <div class="tab-divider"></div>
         <div class="tab-group">
           <button class="tab" data-tab="pyramid">普世智金字塔</button>
+          <button class="tab" data-tab="library">读书思维库</button>
           <button class="tab" data-tab="graph">关联图谱</button>
           <button class="tab" data-tab="books">书籍索引</button>
         </div>
@@ -346,8 +347,8 @@
 (function(){
   var DATA = JSON.parse(document.getElementById('mind-os-data').textContent);
   var BOOKS = JSON.parse(document.getElementById('book-os-data').textContent);
-  var TAB_FAMILY = {kb:'mindos', quotes:'mindos', life:'mindos', pyramid:'bookos', graph:'bookos', books:'bookos'};
-  var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, showCtxFor:{}, jumpTo:null };
+  var TAB_FAMILY = {kb:'mindos', quotes:'mindos', life:'mindos', pyramid:'bookos', library:'bookos', graph:'bookos', books:'bookos'};
+  var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, showCtxFor:{}, jumpTo:null, graphMode:'library' };
 
   var $ = function(sel, el){ return (el||document).querySelector(sel); };
   var main = $('#main');
@@ -601,11 +602,15 @@
   function truthById(id){ return BOOKS.universalTruths.find(function(t){ return t.id === id; }); }
   function bookById(id){ return BOOKS.books.find(function(b){ return b.id === id; }); }
   function threadById(id){ return BOOKS.threads.find(function(t){ return t.id === id; }); }
+  function libById(id){ return (BOOKS.library || []).find(function(e){ return e.id === id; }); }
   function principlesOf(qid, scid){
     return DATA.principles.filter(function(p){ return p.quadrant === qid && (!scid || p.subcat === scid); });
   }
   function truthsOf(qid, scid){
     return BOOKS.universalTruths.filter(function(t){ return t.quadrant === qid && (!scid || t.subcat === scid); });
+  }
+  function libraryOf(qid, scid){
+    return (BOOKS.library || []).filter(function(e){ return e.quadrant === qid && (!scid || e.subcat === scid); });
   }
   function isRecentEnough(p){
     return p.recency === 'recent' || p.recency === 'mixed' || p.recency === 'evergreen';
@@ -632,6 +637,17 @@
     for(var i=0;i<books.length;i++){ if(matchText(books[i].title.toLowerCase(), q)) return true; }
     var insights = t.insights || [];
     for(var j=0;j<insights.length;j++){ if(matchText((insights[j].title||'').toLowerCase(), q)) return true; }
+    return false;
+  }
+
+  function libMatchesSearch(e, q){
+    if(matchText(effectiveText(e.id + '::title', e.title), q)) return true;
+    if(matchText(effectiveText(e.id + '::keyword', e.keyword), q)) return true;
+    if(matchText(effectiveText(e.id + '::core', e.core), q)) return true;
+    if(matchText(effectiveText(e.id + '::annotation', e.annotation), q)) return true;
+    if(e.quote && matchText(e.quote.toLowerCase(), q)) return true;
+    var b = bookById(e.book);
+    if(b && matchText(b.title.toLowerCase(), q)) return true;
     return false;
   }
 
@@ -808,6 +824,48 @@
       '</article>';
   }
 
+  // ---------- 读书思维库 library entries: comprehensive per-book distillation ----------
+  function libRelatedChipsHTML(e){
+    var chips = '';
+    var b = bookById(e.book);
+    if(b) chips += '<span class="chip-book" data-jump-books>📖 ' + esc(b.title) + '</span>';
+    (e.relatedIds || []).forEach(function(rid){
+      var r = libById(rid);
+      if(r) chips += '<span class="chip-jump" data-jump-library="' + rid + '">🔗 ' + esc(r.keyword || rid) + ' →</span>';
+    });
+    return chips ? '<div class="link-chips">' + chips + '</div>' : '';
+  }
+  function libDetailHTML(e){
+    var coreKey = e.id + '::core';
+    var annKey = e.id + '::annotation';
+    return '<div class="pcard-body">' +
+      '<div class="core editable" data-key="' + coreKey + '">' + fieldHTML(coreKey, e.core) + '</div>' +
+      (e.quote ? '<div class="quote-block"><div class="qtext">' + esc(e.quote) + '</div></div>' : '') +
+      (e.annotation ? '<div class="action"><b>🖊 我的批注　</b><span class="editable" data-key="' + annKey + '">' + fieldHTML(annKey, e.annotation) + '</span></div>' : '') +
+      libRelatedChipsHTML(e) +
+      '</div>';
+  }
+  function libCardHTML(e){
+    var starred = isStarred(e.id);
+    var expanded = !!state.expanded[e.id];
+    var b = bookById(e.book);
+    return '<article class="pcard' + (expanded ? ' expanded' : '') + (starred ? ' starred' : '') + '" data-id="' + e.id + '">' +
+      '<div class="pcard-head" data-id="' + e.id + '" tabindex="0">' +
+        '<button class="star-btn" data-id="' + e.id + '" title="标记重点">' + (starred ? '★' : '☆') + '</button>' +
+        '<div class="pcard-head-text">' +
+          '<div class="pc-kw editable" data-key="' + e.id + '::keyword">' + fieldHTML(e.id + '::keyword', e.keyword) + '</div>' +
+          '<div class="pc-title editable" data-key="' + e.id + '::title">' + fieldHTML(e.id + '::title', e.title) + '</div>' +
+        '</div>' +
+        '<div class="pc-meta">' +
+          (b ? '<span class="pc-books" title="' + esc(b.title) + '">📖 ' + esc(b.title.length > 6 ? b.title.slice(0,6)+'…' : b.title) + '</span>' : '') +
+          '<span class="pc-id mono">' + e.id + '</span>' +
+          '<span class="pc-chev">' + (expanded ? '▲' : '▾') + '</span>' +
+        '</div>' +
+      '</div>' +
+      (expanded ? libDetailHTML(e) : '') +
+      '</article>';
+  }
+
   // ---------- shared: quadrant/subcat/cluster section renderer (used by both KB and Pyramid) ----------
   function sectionForSubcat(quad, sc, list, cardRenderer){
     var id = 'sc-' + quad.id + '-' + sc.id;
@@ -845,6 +903,12 @@
     var list = truthsOf(qid, scid);
     if(state.starOnly) list = list.filter(function(t){ return isStarred(t.id); });
     if(q) list = list.filter(function(t){ return truthMatchesSearch(t, q); });
+    return list;
+  }
+  function filteredLibrary(qid, scid, q){
+    var list = libraryOf(qid, scid);
+    if(state.starOnly) list = list.filter(function(e){ return isStarred(e.id); });
+    if(q) list = list.filter(function(e){ return libMatchesSearch(e, q); });
     return list;
   }
 
@@ -947,10 +1011,83 @@
     main.innerHTML = html || '<div class="empty-hint">这里还没有收录的普世智条目，或没有匹配结果。随着新一天的 Mind Card 融入，这里会持续增多。</div>';
   }
 
-  // ---------- render: graph tab ----------
-  function renderGraph(){
+  // ---------- render: library tab ----------
+  function renderLibrary(){
+    var q = state.search.toLowerCase();
+    var html = '';
+    BOOKS.quadrants.forEach(function(quad){
+      var quadHTML = '';
+      quad.subcats.forEach(function(sc){
+        var list = filteredLibrary(quad.id, sc.id, q);
+        if(!list.length) return;
+        quadHTML += sectionForSubcat(quad, sc, list, libCardHTML);
+      });
+      if(quadHTML) html += '<div class="quad-block">' + quadHeaderHTML(quad) + quadHTML + '</div>';
+    });
+    main.innerHTML = html || '<div class="empty-hint">读书思维库还没有收录条目，或没有匹配结果。</div>';
+  }
+
+  // ---------- render: graph tab (two modes: 思维库全景 comprehensive map, 金字塔主线 thread constellation) ----------
+  function graphModeSwitchHTML(){
+    return '<div class="controls" style="margin:0 0 12px;">' +
+      '<button class="tab' + (state.graphMode==='library'?' active':'') + '" data-graph-mode="library" style="background:' + (state.graphMode==='library'?'var(--bg-elev)':'transparent') + '">思维库全景</button>' +
+      '<button class="tab' + (state.graphMode==='thread'?' active':'') + '" data-graph-mode="thread" style="background:' + (state.graphMode==='thread'?'var(--bg-elev)':'transparent') + '">金字塔主线</button>' +
+      '</div>';
+  }
+  function renderLibraryGraph(){
+    var entries = BOOKS.library || [];
+    if(!entries.length){ main.innerHTML = graphModeSwitchHTML() + '<div class="empty-hint">读书思维库还没有条目可视化。</div>'; return; }
+    var quadOrder = ['MAS','INW','DEO','LEG'];
+    var byQuad = {MAS:[],INW:[],DEO:[],LEG:[]};
+    entries.forEach(function(e){ (byQuad[e.quadrant] = byQuad[e.quadrant] || []).push(e); });
+    var W = 900, H = 900, cx = W/2, cy = H/2;
+    var arcWidth = (Math.PI/2) * 0.82;
+    var pos = {};
+    quadOrder.forEach(function(qid, qi){
+      var list = byQuad[qid] || [];
+      var centerAngle = qi * (Math.PI/2) + Math.PI/4 - Math.PI/2; // start MAS at top, go clockwise
+      var ringCount = Math.min(4, Math.max(1, Math.ceil(list.length / 14)));
+      list.forEach(function(e, i){
+        var ring = i % ringCount;
+        var idxInRing = Math.floor(i / ringCount);
+        var perRing = Math.ceil(list.length / ringCount);
+        var a = (perRing > 1) ? (centerAngle - arcWidth/2 + (idxInRing/(perRing-1)) * arcWidth) : centerAngle;
+        var r = 140 + ring * 85;
+        pos[e.id] = { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+      });
+    });
+    var edgesSvg = '';
+    entries.forEach(function(e){
+      (e.relatedIds || []).forEach(function(rid){
+        if(!pos[rid] || !pos[e.id]) return;
+        if(e.id > rid) return; // draw each edge once
+        var p1 = pos[e.id], p2 = pos[rid];
+        edgesSvg += '<line x1="' + p1.x.toFixed(1) + '" y1="' + p1.y.toFixed(1) + '" x2="' + p2.x.toFixed(1) + '" y2="' + p2.y.toFixed(1) + '" stroke="var(--ink-faint)" stroke-width="0.8" stroke-opacity="0.35"/>';
+      });
+    });
+    var nodesSvg = entries.map(function(e){
+      var p = pos[e.id];
+      if(!p) return '';
+      var qColor = 'var(--quad-' + e.quadrant.toLowerCase() + ')';
+      return '<g class="g-node" data-jump-library="' + e.id + '" transform="translate(' + p.x.toFixed(1) + ',' + p.y.toFixed(1) + ')">' +
+        '<title>' + esc(e.title) + '</title>' +
+        '<circle r="4.5" fill="' + qColor + '"/>' +
+        '</g>';
+    }).join('');
+    var quadLabelsSvg = quadOrder.map(function(qid, qi){
+      var centerAngle = qi * (Math.PI/2) + Math.PI/4 - Math.PI/2;
+      var lx = cx + (140 + 4*85 + 30) * Math.cos(centerAngle), ly = cy + (140 + 4*85 + 30) * Math.sin(centerAngle);
+      var quad = BOOKS.quadrants.find(function(q){ return q.id === qid; });
+      var qColor = 'var(--quad-' + qid.toLowerCase() + ')';
+      return '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="middle" fill="' + qColor + '" font-size="15" font-weight="700">' + esc(quad ? quad.name : qid) + '</text>';
+    }).join('');
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">' + edgesSvg + nodesSvg + quadLabelsSvg + '</svg>';
+    main.innerHTML = graphModeSwitchHTML() + '<div class="graph-wrap">' + svg + '</div>' +
+      '<div class="graph-hint">' + entries.length + ' 条读书思维库条目，按四象限分布；节点颜色=象限，连线=同一底层概念在不同书/不同条目间的呼应（跨学科连接）。悬停看标题，点击跳转到读书思维库对应卡片。</div>';
+  }
+  function renderThreadGraph(){
     var truths = BOOKS.universalTruths;
-    if(!truths.length){ main.innerHTML = '<div class="empty-hint">还没有可视化的条目。</div>'; return; }
+    if(!truths.length){ main.innerHTML = graphModeSwitchHTML() + '<div class="empty-hint">还没有可视化的条目。</div>'; return; }
     var buckets = {};
     truths.forEach(function(t){
       var tids = (t.threads && t.threads.length) ? t.threads : ['_unassigned'];
@@ -994,8 +1131,12 @@
         esc(th ? th.name + '（' + th.desc + '）' : '待归类') + '</div>';
     }).join('') + '</div>';
 
-    main.innerHTML = '<div class="graph-wrap">' + svg + '</div>' + legend +
+    main.innerHTML = graphModeSwitchHTML() + '<div class="graph-wrap">' + svg + '</div>' + legend +
       '<div class="graph-hint">节点 = 一条普世智条目（颜色按四象限），线条颜色 = 所属跨学科主线；点击节点跳转到金字塔中的完整卡片。</div>';
+  }
+  function renderGraph(){
+    if(state.graphMode === 'thread') renderThreadGraph();
+    else renderLibraryGraph();
   }
 
   // ---------- render: books tab ----------
@@ -1010,18 +1151,20 @@
     });
     if(!order.length){ main.innerHTML = '<div class="empty-hint">没有匹配的书。</div>'; return; }
     var distilled = BOOKS.books.filter(function(b){ return b.status !== 'queued'; }).length;
-    var html = '<div class="stat-pill" style="margin-bottom:14px;display:inline-block;">已开始梳理 ' + distilled + ' / ' + BOOKS.books.length + ' 本</div>';
+    var html = '<div class="stat-pill" style="margin-bottom:14px;display:inline-block;">已收录读书思维库 ' + distilled + ' / ' + BOOKS.books.length + ' 本</div>';
     order.forEach(function(doc){
       html += '<div class="book-doc-group"><div class="book-doc-h">' + esc(doc) + '</div>';
       byDoc[doc].forEach(function(b){
-        var refs = BOOKS.universalTruths.filter(function(t){ return (t.books||[]).indexOf(b.id) !== -1; });
+        var pyrRefs = BOOKS.universalTruths.filter(function(t){ return (t.books||[]).indexOf(b.id) !== -1; });
+        var libRefs = (BOOKS.library || []).filter(function(e){ return e.book === b.id; });
         html += '<div class="book-row">' +
           '<span class="book-status ' + esc(b.status) + '"></span>' +
           '<span class="book-title">' + esc(b.title) + '</span>' +
           (b.author ? '<span class="book-author">' + esc(b.author) + '</span>' : '') +
-          '<div class="book-links">' + refs.map(function(t){
-            return '<span class="book-link" data-jump-pyramid="' + t.id + '">' + esc(t.keyword || t.id) + ' →</span>';
-          }).join('') + '</div>' +
+          '<div class="book-links">' +
+            pyrRefs.map(function(t){ return '<span class="book-link" data-jump-pyramid="' + t.id + '">🌍 ' + esc(t.keyword || t.id) + ' →</span>'; }).join('') +
+            libRefs.map(function(e){ return '<span class="book-link" data-jump-library="' + e.id + '">📖 ' + esc(e.keyword || e.id) + ' →</span>'; }).join('') +
+          '</div>' +
           '</div>';
       });
       html += '</div>';
@@ -1048,7 +1191,7 @@
     Array.prototype.forEach.call(sections, function(s){ io.observe(s); });
   }
   function renderQuickJump(){
-    if(state.tab !== 'kb' && state.tab !== 'pyramid'){ quickjumpEl.hidden = true; quickjumpEl.innerHTML = ''; return; }
+    if(state.tab !== 'kb' && state.tab !== 'pyramid' && state.tab !== 'library'){ quickjumpEl.hidden = true; quickjumpEl.innerHTML = ''; return; }
     quickjumpEl.hidden = false;
     var html = '';
     DATA.quadrants.forEach(function(quad){
@@ -1083,6 +1226,9 @@
   function jumpToPyramid(id){
     state.tab = 'pyramid'; setActiveTab('pyramid'); state.search = ''; searchInput.value = ''; state.expanded[id] = true; state.jumpTo = id; render();
   }
+  function jumpToLibrary(id){
+    state.tab = 'library'; setActiveTab('library'); state.search = ''; searchInput.value = ''; state.expanded[id] = true; state.jumpTo = id; render();
+  }
   function jumpToBooksTab(){
     state.tab = 'books'; setActiveTab('books'); state.search = ''; searchInput.value = ''; render();
   }
@@ -1116,8 +1262,12 @@
     if(jumpKB){ jumpToKB(jumpKB.getAttribute('data-jump-kb')); return; }
     var jumpPyr = t.closest && t.closest('[data-jump-pyramid]');
     if(jumpPyr){ jumpToPyramid(jumpPyr.getAttribute('data-jump-pyramid')); return; }
+    var jumpLib = t.closest && t.closest('[data-jump-library]');
+    if(jumpLib){ jumpToLibrary(jumpLib.getAttribute('data-jump-library')); return; }
     var jumpBooksChip = t.closest && t.closest('[data-jump-books]');
     if(jumpBooksChip){ jumpToBooksTab(); return; }
+    var graphModeBtn = t.closest && t.closest('[data-graph-mode]');
+    if(graphModeBtn){ state.graphMode = graphModeBtn.getAttribute('data-graph-mode'); render(); return; }
     var rootToggle = t.closest && t.closest('.root-toggle');
     if(rootToggle){
       var id2 = rootToggle.getAttribute('data-id');
@@ -1153,7 +1303,8 @@
     statPill.hidden = family !== 'bookos';
     if(family === 'bookos'){
       var distilled = BOOKS.books.filter(function(b){ return b.status !== 'queued'; }).length;
-      statPill.textContent = distilled + ' / ' + BOOKS.books.length + ' 本已开始梳理 · ' + BOOKS.universalTruths.length + ' 条普世智';
+      statPill.textContent = distilled + ' / ' + BOOKS.books.length + ' 本已收录读书思维库 · ' +
+        (BOOKS.library || []).length + ' 条思维库条目 · ' + BOOKS.universalTruths.length + ' 条普世智';
     }
   }
 
@@ -1162,6 +1313,7 @@
     else if(state.tab === 'quotes') renderQuotes();
     else if(state.tab === 'life') renderLife();
     else if(state.tab === 'pyramid') renderPyramid();
+    else if(state.tab === 'library') renderLibrary();
     else if(state.tab === 'graph') renderGraph();
     else renderBooks();
     renderControls();
@@ -1170,12 +1322,13 @@
     afterRenderJump();
   }
 
-  // deep-link support: #MAS-C-50 or #UT-MAS-C-10 opens directly into that card on first load,
-  // routing to whichever system (kb vs pyramid) the id belongs to.
+  // deep-link support: #MAS-C-50 / #UT-MAS-C-10 / #LIB-MAS-A-10 opens directly into that card
+  // on first load, routing to whichever tab (kb / pyramid / library) the id belongs to.
   if(location.hash && location.hash.length > 1){
     var hashId = decodeURIComponent(location.hash.slice(1));
     if(principleById(hashId)){ state.tab = 'kb'; setActiveTab('kb'); state.expanded[hashId] = true; state.jumpTo = hashId; }
     else if(truthById(hashId)){ state.tab = 'pyramid'; setActiveTab('pyramid'); state.expanded[hashId] = true; state.jumpTo = hashId; }
+    else if(libById(hashId)){ state.tab = 'library'; setActiveTab('library'); state.expanded[hashId] = true; state.jumpTo = hashId; }
   }
 
   render();
