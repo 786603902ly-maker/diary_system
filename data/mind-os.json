@@ -15,15 +15,61 @@
       "subcats": [
         {
           "id": "A",
-          "name": "效能、习惯与学习执行"
+          "name": "效能、习惯与学习执行",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "专注与习惯基础"
+            },
+            {
+              "id": "c2",
+              "name": "学习方法论"
+            },
+            {
+              "id": "c3",
+              "name": "阅读方法"
+            },
+            {
+              "id": "c4",
+              "name": "AI协作方法"
+            }
+          ]
         },
         {
           "id": "B",
-          "name": "情绪与内耗管理"
+          "name": "情绪与内耗管理",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "情绪根源认知"
+            },
+            {
+              "id": "c2",
+              "name": "认可与自我价值"
+            },
+            {
+              "id": "c3",
+              "name": "欲望与自控"
+            }
+          ]
         },
         {
           "id": "C",
-          "name": "底层操作系统重塑"
+          "name": "底层操作系统重塑",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "身心基础"
+            },
+            {
+              "id": "c2",
+              "name": "自我认知框架"
+            },
+            {
+              "id": "c3",
+              "name": "意义与仪式"
+            }
+          ]
         }
       ]
     },
@@ -35,11 +81,43 @@
       "subcats": [
         {
           "id": "A",
-          "name": "底层心智模型"
+          "name": "底层心智模型",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "底层分析工具"
+            },
+            {
+              "id": "c2",
+              "name": "认知偏误觉察"
+            },
+            {
+              "id": "c3",
+              "name": "特殊主题"
+            }
+          ]
         },
         {
           "id": "B",
-          "name": "世界观与核心信念"
+          "name": "世界观与核心信念",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "时间与因果观"
+            },
+            {
+              "id": "c2",
+              "name": "决策与判断"
+            },
+            {
+              "id": "c3",
+              "name": "幸福论"
+            },
+            {
+              "id": "c4",
+              "name": "成长姿态"
+            }
+          ]
         }
       ]
     },
@@ -51,19 +129,71 @@
       "subcats": [
         {
           "id": "A",
-          "name": "原则与社交边界"
+          "name": "原则与社交边界",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "自我立场"
+            },
+            {
+              "id": "c2",
+              "name": "边界与拒绝"
+            },
+            {
+              "id": "c3",
+              "name": "待人姿态"
+            }
+          ]
         },
         {
           "id": "B",
-          "name": "沟通与人际技巧"
+          "name": "沟通与人际技巧",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "表达技巧"
+            },
+            {
+              "id": "c2",
+              "name": "倾听与理解"
+            },
+            {
+              "id": "c3",
+              "name": "关系维系"
+            }
+          ]
         },
         {
           "id": "C",
-          "name": "家庭与亲密关系"
+          "name": "家庭与亲密关系",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "夫妻关系"
+            },
+            {
+              "id": "c2",
+              "name": "原生家庭"
+            },
+            {
+              "id": "c3",
+              "name": "大家庭社交"
+            }
+          ]
         },
         {
           "id": "D",
-          "name": "育儿策略"
+          "name": "育儿策略",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "育儿哲学"
+            },
+            {
+              "id": "c2",
+              "name": "具体方法"
+            }
+          ]
         }
       ]
     },
@@ -75,15 +205,53 @@
       "subcats": [
         {
           "id": "A",
-          "name": "职场进阶与执行力"
+          "name": "职场进阶与执行力",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "沟通与执行"
+            },
+            {
+              "id": "c2",
+              "name": "战略定位"
+            },
+            {
+              "id": "c3",
+              "name": "心态与成长"
+            },
+            {
+              "id": "c4",
+              "name": "决策框架"
+            }
+          ]
         },
         {
           "id": "B",
-          "name": "团队管理与领导力"
+          "name": "团队管理与领导力",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "团队沟通"
+            },
+            {
+              "id": "c2",
+              "name": "领导力心态"
+            }
+          ]
         },
         {
           "id": "C",
-          "name": "财富积累与风控投资"
+          "name": "财富积累与风控投资",
+          "clusters": [
+            {
+              "id": "c1",
+              "name": "投资心态"
+            },
+            {
+              "id": "c2",
+              "name": "决策策略"
+            }
+          ]
         }
       ]
     }
@@ -94,7 +262,7 @@
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "专注力保护",
-      "title": "专注力是稀缺资源",
+      "title": "深度工作要物理隔绝手机，而不是靠意志力硬扛",
       "core": "保护专注力比保护时间更重要。深度 Work 期间，彻底切断手机和干扰。周末早上的手机是专注力杀手。",
       "action": "",
       "quotes": [],
@@ -105,14 +273,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c1"
     },
     {
       "id": "MAS-A-20",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "微习惯起步",
-      "title": "微习惯：15分钟起步",
+      "title": "把目标缩到不可思议的小，才真的启动得了",
       "core": "计划不要定在“困难区”。本能脑厌恶困难。不要定“一天看一本书”这种宏大目标，这会直接吓跑行动力。",
       "action": "把目标缩小到不可思议的程度——“就学15分钟”。用“完成过程”代替“完成目标”。一旦开始，惯性会推着你走。",
       "quotes": [],
@@ -123,14 +292,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c1"
     },
     {
       "id": "MAS-A-30",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "习惯回路",
-      "title": "习惯回路与环境保护重塑",
+      "title": "改的是信号触发的反应，不是靠意志力硬扛",
       "core": "改变坏习惯（拖延）的关键在于识别“信号（Cue）”并替换“反应（Respond）”。坏信号：周末起床→大脑觉得无聊→玩手机（惯性反应）。新回路：周末起床（信号）→告诉自己“小恶魔在诱惑我了”→启动番茄钟（新反应）。",
       "action": "",
       "quotes": [
@@ -146,14 +316,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "MAS-A-40",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "拒绝好高骛远",
-      "title": "摆脱“好高骛远”",
+      "title": "目标定太高，反而会导致什么都不做",
       "core": "不要高估自己一天的能力，也不要低估自己一年的能力。每天进步一点点，好过三天打鱼两天晒网的突击。",
       "action": "",
       "quotes": [
@@ -188,14 +359,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "MAS-A-50",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "删除的艺术",
-      "title": "极简主义：删除的艺术",
+      "title": "选择本身也是一种消耗，要靠标准而不是纠结",
       "core": "少花时间去挑工具，想清楚最看重的功能是哪个，选定一个工具，然后删除其他的，花时间去用一个。避免冲动消费，买东西前冷静三天，放入购物车三天后通常就不想买了。解决选择困难：在小事上（买衣服、选PPT模板）犹豫不决是浪费生命，设定标准（限时10分钟），快速决策，把决策力留给真正的大事。",
       "action": "",
       "quotes": [
@@ -216,14 +388,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "MAS-A-60",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "一个爱好",
-      "title": "培养一个爱好",
+      "title": "工作之外要有能进入心流的事，是精神的避难所",
       "core": "工作之外，要有一个能让你进入心流的事（如吉他、写作）。它是你灵魂的避难所。",
       "action": "",
       "quotes": [],
@@ -234,14 +407,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c1"
     },
     {
       "id": "MAS-A-70",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "拉伸区学习",
-      "title": "学习的“拉伸区”策略",
+      "title": "太易没有成长，太难会丧失兴趣，甜蜜点在中间",
       "core": "最高效的学习发生在“拉伸区”中靠近“困难区”的那一端。太简单（舒适区）没有成长，太难（困难区）会丧失兴趣。",
       "action": "学习新知识时，初期的一知半解是正常的。保持在“有点难但能啃动”的状态效率最高，利用大脑的“后台自动消化”能力，只要坚持输入，过段时间再看就会豁然开朗。",
       "quotes": [
@@ -267,14 +441,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c2"
     },
     {
       "id": "MAS-A-80",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "费曼技巧",
-      "title": "费曼技巧：输出倒逼输入",
+      "title": "讲不出来，就说明还没真的懂",
       "core": "如果你不能简单地解释它，你就没有真正理解它。尝试把学到的东西讲给别人听，或者写下来。",
       "action": "",
       "quotes": [
@@ -300,14 +475,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c2"
     },
     {
       "id": "MAS-A-90",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "先记忆后理解",
-      "title": "先记忆，后理解",
+      "title": "啃不动的知识先背下来，理解会自己追上来",
       "core": "学习不是线性的。遇到极难理解的知识（如复杂算法），不要钻牛角尖停滞不前。先背下来，背着背着脑中有了素材，某一天自然就理解了（书读百遍其义自见）。",
       "action": "",
       "quotes": [],
@@ -318,14 +494,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c2"
     },
     {
       "id": "MAS-A-100",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "概念生活化",
-      "title": "概念的生活化解释",
+      "title": "找不到对应的生活事例，说明还没真的掌握",
       "core": "检验是否掌握一个新观点的唯一标准：能否找到对应的生活事例来解释它。抽象概念如果不能落地，只是空中楼阁。这不仅帮助理解，也能在给别人通俗易懂解释时发挥威力。清晰概念→价值观→方法论→践行改进。",
       "action": "",
       "quotes": [
@@ -346,14 +523,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "MAS-A-110",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "建立知识体系",
-      "title": "建立自己的知识体系",
+      "title": "碎片知识不挂上体系，读了也留不住",
       "core": "碎片化阅读不仅无效，反而有害。必须把碎片知识挂载到自己的知识树上（如个人提升、为人处世、管理等分类）。",
       "action": "",
       "quotes": [
@@ -369,14 +547,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "MAS-A-120",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "记录清空大脑",
-      "title": "记录的力量",
+      "title": "大脑是用来想事的，不是用来记事的",
       "core": "大脑是用来思考的，不是用来记事的。把想法写下来，能清空内存，让思考更深入。",
       "action": "",
       "quotes": [
@@ -402,14 +581,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c2"
     },
     {
       "id": "MAS-A-130",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "AI重塑学习流",
-      "title": "AI重塑学习流：低价值的外包，高价值的自己内化",
+      "title": "AI包耗时的整理工作，我只做划重点和应用",
       "core": "分工明确：AI负责耗时并重复的工作（如构建框架、读完原书并像老师一样提炼讲解），我负责划重点与应用（高价值劳动）。降低门槛：AI总结不仅提高了摄入速度，更因为降低了“开始学习”的门槛而增强了行动力。应用导向：打破“必须看完整本书才能学到东西”的执念，可以边学边应用，遇到不懂的地方再返回去查阅原书精确理解。",
       "action": "",
       "quotes": [
@@ -439,14 +619,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c4"
     },
     {
       "id": "MAS-A-140",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "AI分步喂养",
-      "title": "AI实战技巧：分步喂养与工具筛选准则",
+      "title": "复杂任务一次性丢给AI效果差，要拆步骤喂",
       "core": "复杂任务链式拆解：对于复杂任务，直接丢给AI效果很差，必须拆解为“逻辑生成”与“内容扩写”两步。时间检验真需求：检验一个工具（或AI功能）是否是真需求的唯一标准是“时间”。",
       "action": "",
       "quotes": [
@@ -486,14 +667,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c4"
     },
     {
       "id": "MAS-A-150",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "AI是加速器",
-      "title": "AI的本质：加速器与老师，而不是替代品",
+      "title": "AI替代不了判断力，它只是老师和加速器",
       "core": "AI是极佳的学习助手，用它来解释复杂概念、润色文章、生成代码，但核心的 Domain Knowledge and judgement 必须在你脑子里，AI不能替代你判断。AI即老师：使用AI本质上和老师教学生一样，都是帮我们将晦涩的“天书”拆解、梳理、内化，只要知识最终变成了你的，老师是人还是AI并不重要。",
       "action": "",
       "quotes": [
@@ -527,14 +709,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c4"
     },
     {
       "id": "MAS-A-160",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "带着目标阅读",
-      "title": "阅读是为了改变",
+      "title": "读完没带来认知或行为的改变，就只是娱乐",
       "core": "读书如果不带来认知或行为的改变，就是一种娱乐。读完一本书，问自己：我哪里的想法变了？我准备怎么做？",
       "action": "",
       "quotes": [],
@@ -550,14 +733,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c3"
     },
     {
       "id": "MAS-A-170",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "模仿是创新开始",
-      "title": "模仿是创新的开始",
+      "title": "不知道怎么做的时候，先照着标杆模仿",
       "core": "不知道怎么做的时候，先找一个标杆去模仿。在模仿中寻找感觉，再慢慢形成风格。",
       "action": "",
       "quotes": [],
@@ -568,14 +752,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c2"
     },
     {
       "id": "MAS-A-180",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "谈吐即思想",
-      "title": "谈吐即思想",
+      "title": "没被赋予意义的信息，记住了也很快会漏掉",
       "core": "谈吐不俗的前提是思想有层次。死记硬背的数据如果不赋予意义（Pattern Matching），很快就会遗忘。",
       "action": "在记忆信息时，强制进行意义联结。问自己：“这个数据意味着什么？它和整体趋势有什么关系？”",
       "quotes": [],
@@ -586,14 +771,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c2"
     },
     {
       "id": "MAS-B-10",
       "quadrant": "MAS",
       "subcat": "B",
       "keyword": "高敏感特质",
-      "title": "接纳高敏感特质（INFJ）",
+      "title": "自己的情绪很容易被身边人的负面情绪带着走",
       "core": "我是一个高敏感、高共情的人（INFJ倾向）。既能敏锐感知他人的需求，也极易受他人情绪影响，易追求和谐，对冲突会本能不适甚至逃避。",
       "action": "必须开启“上帝视角”，将“感受”与“事实”剥离。告诉自己：“我现在的情绪波动是因为我的特质在共振，不要因为冲突而逃避，而是去就事论事地解决实际的问题”。",
       "quotes": [
@@ -618,14 +804,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "MAS-B-20",
       "quadrant": "MAS",
       "subcat": "B",
       "keyword": "认可欲求陷阱",
-      "title": "认可欲求的陷阱",
+      "title": "不必人人都喜欢我，赢得尊重就够了",
       "core": "极度渴望外部认可曾让我成为情绪的奴隶，很多行为的本能反应都是去想“做完别人会怎么看”。被讨厌的勇气：你不是人民币，不可能让所有人都喜欢；被讨厌往往是因为你坚持了原则，这是做自己的代价，也是勇气的勋章。",
       "action": "放弃“让所有人满意”的幼稚幻想。做决定时问自己：“我觉得怎样做是我觉得正确的（而不是别人会怎样想）？”追求共同体感觉，谁也不是世界中心，既不过度看重别人的看法，也不以自我为中心。在职场中，不强求被“喜欢”（Like），但必须赢得“尊重”（Respect）。",
       "quotes": [
@@ -683,14 +870,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c2"
     },
     {
       "id": "MAS-B-30",
       "quadrant": "MAS",
       "subcat": "B",
       "keyword": "拒绝受害者心态",
-      "title": "警惕“受害者心态”",
+      "title": "从被动等待转向主动行动，伤害力就会减弱",
       "core": "不要总觉得全世界都对不起自己，或者老板故意针对自己。这种心态会让人放弃主观能动性，变成一个只会抱怨的废人。一旦从“被动等待者”转为“主动行动者”，世界对你的伤害力就减弱了。",
       "action": "遇到不公时，先问自己：“我能做什么来改变现状？”而不是“为什么倒霉的总是我？”——“谁痛苦，谁改变”。",
       "quotes": [
@@ -719,14 +907,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "MAS-B-40",
       "quadrant": "MAS",
       "subcat": "B",
       "keyword": "真正的勇敢",
-      "title": "真正的勇敢",
+      "title": "不是不害怕，是怕也依然往前走",
       "core": "勇敢不是不害怕，而是虽然害怕，但依然前行。",
       "action": "",
       "quotes": [],
@@ -737,14 +926,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c2"
     },
     {
       "id": "MAS-B-50",
       "quadrant": "MAS",
       "subcat": "B",
       "keyword": "精神内耗",
-      "title": "精神内耗的根源",
+      "title": "内耗是想得太多做得太少，行动是唯一的解药",
       "core": "内耗往往是因为想得太多，做得太少。躺在床上焦虑时间流逝，却不肯起来看一页书。行动是治愈恐惧和焦虑的唯一良药，一旦去学一会、去写一会日记、去做一点欠了很久的工作，那种焦虑感就会大幅缓解。",
       "action": "",
       "quotes": [
@@ -780,14 +970,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "MAS-B-60",
       "quadrant": "MAS",
       "subcat": "B",
       "keyword": "适可而止",
-      "title": "自控力实用技巧",
+      "title": "靠适可而止拿回掌控感，而不是靠硬扛",
       "core": "通过“适可而止”来获得心理上的掌控感，或“彻底戒断”后时间变多的reward成就感，建立良性循环。当自控力不足时，引入外部的“紧迫需求”来对抗本能的欲望。",
       "action": "",
       "quotes": [
@@ -817,14 +1008,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c3"
     },
     {
       "id": "MAS-B-70",
       "quadrant": "MAS",
       "subcat": "B",
       "keyword": "内啡肽快乐",
-      "title": "多巴胺 vs 内啡肽",
+      "title": "多巴胺越刷越空虚，内啡肽才耐久",
       "core": "多巴胺来自对奖赏的渴望（刷视频、打游戏），短暂、成瘾，耐受性不断提高，是“垃圾快乐”。内啡肽来自付出努力后的补偿（长跑、完成困难任务），宁静、持久，能对抗痛苦并带来成就感，是“高级快乐”。",
       "action": "警惕廉价的多巴胺，主动追求需要付出汗水才能获得的内啡肽。当感到空虚时，去运动或深度学习，而不是刷手机。用“责任分子”（如照顾宝宝、明确的社交计划）对抗“多巴胺分子”。",
       "quotes": [
@@ -854,14 +1046,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "MAS-B-80",
       "quadrant": "MAS",
       "subcat": "B",
       "keyword": "ABC情绪理论",
-      "title": "ABC情绪理论",
+      "title": "让你痛苦的不是事件本身，是你对它的解读",
       "core": "情绪不是由事件(A)直接引起的，而是由你对事件的belief(B)引起的。当你感到痛苦时，一定是B出了问题。",
       "action": "",
       "quotes": [],
@@ -872,14 +1065,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c1"
     },
     {
       "id": "MAS-C-10",
       "quadrant": "MAS",
       "subcat": "C",
       "keyword": "仪式感",
-      "title": "仪式感",
+      "title": "仪式是给平凡生活打的锚点，不是演给别人看的",
       "core": "婚礼、节日不是为了做给别人看，而是为了给平凡生活打上锚点。婚礼完成了自己的成人礼，也替父母松了口气。",
       "action": "",
       "quotes": [
@@ -895,14 +1089,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "MAS-C-20",
       "quadrant": "MAS",
       "subcat": "C",
       "keyword": "身体维护协议",
-      "title": "身体维护协议——警钟、睡眠、运动与独处",
+      "title": "身体的小警报是福气，早睡能治一半的情绪问题",
       "core": "身体的早期预警（如吞咽困难、牙痛）其实是福气，它用不致命但警醒的方式强制你转向健康。早睡是万能药，很多情绪和身体问题睡一觉就好了一半，熬夜是对明天的透支。运动不仅是为了身材，更是为了内啡肽，为了让大脑更清晰。独处不等于孤独，高质量的独处是自我疗愈和精神滋养。",
       "action": "感谢身体的小病痛。早睡、少油少辣、多运动，这不是任务，是身体给你的第二次机会。",
       "quotes": [
@@ -991,14 +1186,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "MAS-C-30",
       "quadrant": "MAS",
       "subcat": "C",
       "keyword": "饮食节制",
-      "title": "饮食节制",
+      "title": "人如其食，节制比放纵更配得上年纪",
       "core": "少油少辣。人如其食（You are what you eat）。",
       "action": "",
       "quotes": [
@@ -1019,14 +1215,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "MAS-C-40",
       "quadrant": "MAS",
       "subcat": "C",
       "keyword": "全人模型",
-      "title": "全人模型（Whole Person Model）",
+      "title": "身体思维情绪意义要协同升级，不能只顾一头",
       "core": "人的完整状态由四大要素构成：Body（身体/生存）、Mind（思维/专注）、Heart（情绪/连接）、Spirit（精神/意义）。自我成长不仅仅是思维的进化，更是这四者的协同。",
       "action": "Body：睡眠与运动（如八段锦、篮球）。Mind：通过读书和写作建立意识的秩序（心流）。Heart：通过冥想和“课题分离”管理情绪带宽。Spirit：寻找让生活产生意义感的支点（如家人、利他）。",
       "quotes": [
@@ -1042,14 +1239,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "MAS-C-50",
       "quadrant": "MAS",
       "subcat": "C",
       "keyword": "人的操作系统",
-      "title": "人的操作系统（Human Operating System）",
+      "title": "像升级系统一样，反思修补自己的概念和方法论",
       "core": "人应当像计算机一样去理解和升级自己的“操作系统”。三层构成：概念（Concepts，底层代码，如“元认知”“复利”“机会成本”）、价值观（Values，算法逻辑，如“注意力>时间>金钱”）、方法论（Methodology，输出程序）。硬件升级（鳄鱼脑→猴子脑→智慧脑）靠进化，软件升级（概念→价值观→方法论）靠反思与学习。通过“践行+改进”的闭环，不断修补Bug，完成OS的迭代。",
       "action": "",
       "quotes": [
@@ -1065,14 +1263,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "MAS-C-60",
       "quadrant": "MAS",
       "subcat": "C",
       "keyword": "痛苦是催化剂",
-      "title": "痛苦是成长的催化剂",
+      "title": "舒适区里长不出新东西",
       "core": "舒适区里没有成长。感到痛苦和吃力的时候，往往是正在走上坡路的时候。",
       "action": "",
       "quotes": [
@@ -1103,14 +1302,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c3"
     },
     {
       "id": "MAS-C-70",
       "quadrant": "MAS",
       "subcat": "C",
       "keyword": "承认无知",
-      "title": "承认无知",
+      "title": "不知道不可耻，假装知道才可怕",
       "core": "不知道并不可耻，假装知道才可怕。承认无知是开启新知的钥匙。",
       "action": "",
       "quotes": [
@@ -1126,14 +1326,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c2"
     },
     {
       "id": "INW-A-10",
       "quadrant": "INW",
       "subcat": "A",
       "keyword": "第一性原理",
-      "title": "第一性原理",
+      "title": "类比别人怎么做容易陷入平庸，要回到最基本事实",
       "core": "类比思维（别人怎么做我也怎么做）容易陷入平庸。第一性原理要求我们打破知识的硬壳，回溯到最基本的真理。",
       "action": "当遇到复杂问题时，问自己：“这个问题的本质是什么？最基础的事实是什么？”不依赖既定经验或他人观点推导。",
       "quotes": [],
@@ -1154,14 +1355,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "INW-A-20",
       "quadrant": "INW",
       "subcat": "A",
       "keyword": "常见心智模型",
-      "title": "常见心智模型（Mental Models）",
+      "title": "马太效应与二八定律：早期积累和关键投入决定结果",
       "core": "掌握即用的思维工具箱，能快速看透事物本质。马太效应：强者愈强，弱者愈弱，优势是累加的，职场中早期的成功会带来更多资源和声望，“开局”和“早期积累”至关重要。二八定律：80%的结果来自20%的原因，找到并专注于那20%的关键投入（如High Light工作），而不是在80%的琐事中空耗。",
       "action": "",
       "quotes": [],
@@ -1172,14 +1374,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "INW-A-30",
       "quadrant": "INW",
       "subcat": "A",
       "keyword": "跨界思维",
-      "title": "跨界思维",
+      "title": "一个领域的解法，常常藏在另一个领域里",
       "core": "很多问题的解法在另一个领域。育儿的智慧完全可以迁移到组织管理中。",
       "action": "",
       "quotes": [],
@@ -1190,14 +1393,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "INW-A-40",
       "quadrant": "INW",
       "subcat": "A",
       "keyword": "承诺与一致性",
-      "title": "承诺与一致性（Commitment & Consistency）",
+      "title": "一旦表过态，就会有压力让言行自圆其说",
       "core": "人一旦做出了某种决定或选择了某种立场，就会产生一种强烈的心理压力，迫使自己的言行与该决定保持一致。这是一种自我说服的机制。",
       "action": "",
       "quotes": [],
@@ -1208,14 +1412,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "INW-A-50",
       "quadrant": "INW",
       "subcat": "A",
       "keyword": "屁股决定脑袋",
-      "title": "屁股决定脑袋（Role Determinism）",
+      "title": "站得高看不见细节，蹲得低只看见细节，不是能力差距",
       "core": "不要过度神话Upper Leader的“战略思维”，也不要贬低Engineer的“细节思维”。这种差异往往不是能力的差距，而是职责（Role）的产物——Leader看不到细节只能关注High Level；Engineer每天处理细节自然关注细节。",
       "action": "理解这一点，能祛除对领导的盲目崇拜，也能更客观地看待不同层级的沟通鸿沟。",
       "quotes": [
@@ -1231,14 +1436,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "INW-A-60",
       "quadrant": "INW",
       "subcat": "A",
       "keyword": "熵减与心流",
-      "title": "意义的科学视角：熵减与心流",
+      "title": "维持秩序要持续做功，随波逐流才是真正的失控",
       "core": "物理层（熵增铁律）：宇宙的趋势是熵增，生命本质上是“负熵”的孤岛，维持任何形式的秩序都需要持续注入能量——坦然接受生活中的“麻烦”，解决麻烦的过程就是维持生命系统有序运作的必要做功。生物心理层：人类对环境的“掌控感”有基本需求，混乱无序的环境会持续引发焦虑；通过行动建立秩序是心理健康的核心基石，大脑会用多巴胺和血清素奖励“对抗熵增”的行为。社会精神层：随波逐流看似轻松，本质是放弃个人选择、被环境裹挟，终点往往是无路可走；主动建立的精神秩序（意义感）是抵御人生苦难的终极盾牌。",
       "action": "拥抱“费力”：告诉自己“我现在付出的辛苦，是在为我的生命系统注入负熵”。制造秩序：当感到焦虑时，从小事做起建立秩序（如整理书桌、写日记），用“有序感”对抗内心的“精神熵”。",
       "quotes": [
@@ -1281,14 +1487,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "INW-B-10",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "拥抱变化",
-      "title": "拥抱变化",
+      "title": "唯一不变的就是变化，别死守过去的确定性",
       "core": "唯一不变的就是变化。不要试图抓住过去的确定性。",
       "action": "",
       "quotes": [],
@@ -1304,14 +1511,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "INW-B-20",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "直觉的重要性",
-      "title": "直觉的重要性",
+      "title": "逻辑分析僵住时，直觉是潜意识算出来的结果",
       "core": "在逻辑分析无法决断时，听从直觉。直觉不是玄学，而是潜意识大数据的快速计算结果。",
       "action": "",
       "quotes": [],
@@ -1322,14 +1530,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "INW-B-30",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "冷静后再评估",
-      "title": "冷静后的再评估（The Cooling-Off Rule）",
+      "title": "第一反应总把事情想得太糟，等冷却了再评估",
       "core": "面对突发状况或冒犯性言论，第一反应往往是焦虑或愤怒，容易把情况想得极糟。只要按下暂停键，等待情绪冷却，再重新评估，往往会发现事实优于最初的判断。",
       "action": "无论当时觉得处境多糟糕，告诉自己：“先别急，等一天再说。”",
       "quotes": [
@@ -1350,14 +1559,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "INW-B-40",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "当下的力量",
-      "title": "意义的“当下性”",
+      "title": "意义不是一个终极答案，是当下每一刻过得值不值",
       "core": "广义的、宏大的人生意义是不存在的，不要试图去寻找一个终极答案。当下的每一刻过得有意义，一生自然就有意义。旅行的意义不在于终点，在于沿途的风景。",
       "action": "不要为过去悔恨（没用），不要为未来焦虑（没来），你拥有的只有“现在”。Past is history, Future is mystery, Today is a gift. 当你因为未来可能发生的困难而焦虑时，告诉自己：“只专注解决眼前这一步”。",
       "quotes": [
@@ -1386,14 +1596,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "INW-B-50",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "爱喜悦和平",
-      "title": "幸福的终极指标——爱、喜悦、和平",
+      "title": "别把意义等同于成就，平静和喜悦才是终极指标",
       "core": "人生的终极奥义不是宏大的成就，而是去做那些能带来“爱、喜悦、和平”的事。不要把“意义”等同于“成就”，无论工作还是生活，只要内心感受是平静与喜悦的，那就是意义所在。",
       "action": "",
       "quotes": [
@@ -1418,14 +1629,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "INW-B-60",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "幸福的相对论",
-      "title": "幸福的相对论",
+      "title": "幸福等于现实减预期，预期越高越容易痛苦",
       "core": "幸福感=现实-预期，高预期是痛苦之源。痛苦是幸福的背景板，幸福往往隐藏在“不痛苦”的平淡中，黑色的墨才能衬出纸的白。",
       "action": "不对老板期待像父母般的包容，不对伴侣期待读心术般的理解。适度降低期待，惊喜就会随处可见。",
       "quotes": [
@@ -1468,14 +1680,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "INW-B-70",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "终身学习姿态",
-      "title": "终身学习的姿态",
+      "title": "毕业不是学习的终点，停止学习就是在退步",
       "core": "毕业不是学习的终点。在快速变化的时代（如AI浪潮），停止学习就是退步。",
       "action": "",
       "quotes": [],
@@ -1486,14 +1699,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c4"
     },
     {
       "id": "INW-B-80",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "相信复利",
-      "title": "相信复利，长期主义",
+      "title": "人总高估一年能做的事，低估十年能做的事",
       "core": "学习不是为了应付当下的考试，而是为了建立长期的知识复利。无论是财富、知识还是健康，只要方向正确，时间会给你答案。人总是高估一年能做的事，低估十年能做的事。量变到质变之间存在一个需要耐心坚持的“蛰伏期”，且过程中一定存在“平台期”。",
       "action": "",
       "quotes": [
@@ -1538,14 +1752,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "INW-B-90",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "保持好奇心",
-      "title": "保持好奇心",
+      "title": "多问几个为什么，是心态不老的秘诀",
       "core": "对世界保持好奇，多问为什么。这是心态年轻的秘诀。",
       "action": "",
       "quotes": [],
@@ -1556,14 +1771,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c4"
     },
     {
       "id": "DEO-A-10",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "人际投资策略",
-      "title": "人际关系的“投资策略”模型",
+      "title": "别人的反应是市场噪音，你的原则才是交易纪律",
       "core": "在投资中，成熟的投资者只关注“是否符合交易纪律”，而忽略市场噪音。人际交往中亦然：你的纪律（Strategy）是你预设的原则（如真诚、Clarity、坚持做正确的事、棱角）；市场噪音（Noise）是别人的反应、评价、脸色。如果做每件事前都想“别人想要什么”，做完后想“别人怎么看”，这本质上就是投资中的追涨杀跌和FOMO——你会被外界无法控制的信息牵着走，最终迷失自我且亏损（失去尊重）。",
       "action": "专注于执行你的“策略”（原则），只要符合原则，就坚决执行。至于“市场”（他人）如何反应，那是市场的自由，与你的策略正确性无关。长期坚持“价值投资”（做正确的人），回报（尊重与深厚关系）自然会来。",
       "quotes": [
@@ -1579,14 +1795,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "DEO-A-20",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "真实性",
-      "title": "真实性（Authenticity）",
+      "title": "人设完美但脆弱，真实有瑕疵但有生命力",
       "core": "不要为了讨好世界而强行立“完美人设”。真实虽有瑕疵，但有生命力；人设虽然完美，但极其脆弱。在职场和生活中，与其伪装，不如放大自己的真实特质，做consistent的自己。",
       "action": "",
       "quotes": [
@@ -1612,14 +1829,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "DEO-A-30",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "谦卑的力量",
-      "title": "谦卑的力量",
+      "title": "自己的观点不是唯一真理，是启发别人还是强加于人",
       "core": "自胜者强。意识到自己的观点并非唯一真理，保持好奇和开明，是解决复杂问题的关键。李嘉诚：“你是启发别人的天使，还是把主观强加于别人的牛魔王？”",
       "action": "",
       "quotes": [],
@@ -1640,14 +1858,15 @@
           "era": "root"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c3"
     },
     {
       "id": "DEO-A-40",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "程序正义",
-      "title": "道德功利论与程序正义",
+      "title": "效率牺牲了公平，社会根基就会松动",
       "core": "如果为了效率牺牲了公平，社会根基就会崩塌。功利论无可厚非，但必须在不违背道德的前提下。",
       "action": "",
       "quotes": [
@@ -1668,14 +1887,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "DEO-A-50",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "拒绝油滑",
-      "title": "拒绝“油滑”，保持“棱角”",
+      "title": "棱角是内心的坚定，不是不会来事",
       "core": "拒绝“油滑”和“好好先生”。棱角代表着坚定的立场和Inner Firmness（内心的坚定），不害怕冲突。在面临诱惑或压力时，听从内心道德罗盘的指引，坚持Do what you think is right，而不是做别人让你做的，或者做最容易的。面对无底线的恶意，忍让是不可取的，必须坚持底线，用法律和规则反击。",
       "action": "不要为了讨好而模糊立场，也不要为了小利而因小失大。当面临选择时，问自己：“哪一个选项让我内心更坦荡？”在需要表达立场的场合，必须坚持“对就是对，错就是错”。",
       "quotes": [
@@ -1717,14 +1937,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "DEO-A-60",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "课题分离",
-      "title": "课题分离",
+      "title": "只对自己能改变的事情负责，剩下的彻底接受",
       "core": "区分“关注圈”和“影响圈”。把精力花在能改变的事情上（自己的能力、态度），彻底接受不能改变的（父母的性格、过去的事实）。",
       "action": "对于他人的虚荣或固执，选择“课题分离”，那是他们的人生课题，不是我的。",
       "quotes": [],
@@ -1750,14 +1971,15 @@
           "era": "root"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c2"
     },
     {
       "id": "DEO-A-70",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "不苛责自己",
-      "title": "不苛责自己与别人",
+      "title": "过去的自己已经尽力了，别用今天的标准苛责他",
       "core": "不要因为过去的愚蠢而苛责现在的自己，那时的你已经尽力了。也不要高估自己与他人的耐心，未经他人苦，莫劝他人善。",
       "action": "对瞬间失控的自己和他人保持宽容。",
       "quotes": [
@@ -1810,14 +2032,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "DEO-A-80",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "不做烂好人",
-      "title": "不做烂好人——有原则的拒绝",
+      "title": "不懂拒绝的善意，是廉价的善意",
       "core": "不懂拒绝的善意是廉价的。有原则的拒绝，才能赢得真正的尊重。",
       "action": "",
       "quotes": [],
@@ -1828,14 +2051,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c2"
     },
     {
       "id": "DEO-A-90",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "建立原则",
-      "title": "建立原则",
+      "title": "选择困难的时候，原则就是你的导航仪",
       "core": "遇到选择困难时，回到你的原则上来（如：诚实、家庭第一）。原则是决策的导航仪。",
       "action": "",
       "quotes": [],
@@ -1846,14 +2070,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "DEO-A-100",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "真理优于和谐",
-      "title": "追求真理 > 追求和谐",
+      "title": "当场没问清楚，事后诸葛亮就没用了",
       "core": "不要为了表面的一团和气而放弃当场反驳或追问的机会。事后诸葛亮（“哎呀当时我应该问这个”）是无效的。",
       "action": "真正的尊重是严肃地对待对方的观点，哪怕这意味着当场争论。",
       "quotes": [
@@ -1873,14 +2098,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c1"
     },
     {
       "id": "DEO-A-110",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "不改变别人",
-      "title": "不要试图改变别人",
+      "title": "成年人的世界只能筛选，不能教育",
       "core": "成年人的世界只能筛选，不能教育。试图改变父母或伴侣是痛苦的根源。",
       "action": "",
       "quotes": [
@@ -1905,14 +2131,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "DEO-A-120",
       "quadrant": "DEO",
       "subcat": "A",
       "keyword": "做减法",
-      "title": "做减法",
+      "title": "人生前半段做加法，后半段要学会做减法",
       "core": "人生前半段是做加法，后半段是做减法。减去无效社交，减去多余物质，减去不必要的欲望。",
       "action": "",
       "quotes": [],
@@ -1923,14 +2150,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "DEO-B-10",
       "quadrant": "DEO",
       "subcat": "B",
       "keyword": "社交价值交换",
-      "title": "社交的本质是价值交换",
+      "title": "提供不了价值，光靠人脉是没用的",
       "core": "不管是情绪价值还是利益价值，如果你不能提供价值，仅靠“人脉”是没用的。",
       "action": "",
       "quotes": [
@@ -1951,14 +2179,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "DEO-B-20",
       "quadrant": "DEO",
       "subcat": "B",
       "keyword": "结构化表达",
-      "title": "结构化表达：自下而上思考，自上而下表达",
+      "title": "先抓住对方最核心的痛点，别急着钻细节",
       "core": "在沟通时，不要急于跳入细枝末节（side notes），而应第一时间抓住对方最核心的痛点或诉求。",
       "action": "沟通三步法：1. 先acknowledge（确认）自己了解对方的核心想法；2. 直接answer to the key point；3. 讲清楚关键矛盾后，再divert（下钻）到具体细节。这是让表达精炼、直击痛点的重要习惯。",
       "quotes": [],
@@ -1969,14 +2198,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "DEO-B-30",
       "quadrant": "DEO",
       "subcat": "B",
       "keyword": "有效道歉",
-      "title": "有效道歉",
+      "title": "道歉不是说对不起，是说清楚哪里错了、以后怎么改",
       "core": "道歉不是说“对不起”，而是“我意识到我的行为在什么地方伤害了你，我以后会……”。",
       "action": "",
       "quotes": [],
@@ -1987,14 +2217,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c3"
     },
     {
       "id": "DEO-B-40",
       "quadrant": "DEO",
       "subcat": "B",
       "keyword": "倾听是恭维",
-      "title": "倾听是最高级的恭维",
+      "title": "大多数人都在等着说话，很少人真的在听",
       "core": "大多数人都在等着说话，而不是在倾听。真正听进去，并给出反馈，能瞬间拉近关系。",
       "action": "",
       "quotes": [],
@@ -2005,14 +2236,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "DEO-B-50",
       "quadrant": "DEO",
       "subcat": "B",
       "keyword": "愤怒背后是需求",
-      "title": "愤怒的背后是需求",
+      "title": "看见情绪背后没被满足的需求，而不是情绪本身",
       "core": "当别人生气时，不要只看到他的情绪，要看到他未被满足的需求。",
       "action": "",
       "quotes": [],
@@ -2023,14 +2255,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c2"
     },
     {
       "id": "DEO-B-60",
       "quadrant": "DEO",
       "subcat": "B",
       "keyword": "具体的赞美",
-      "title": "赞美的艺术——有具体内容的赞美才有力量",
+      "title": "空洞的夸奖没有力量，具体才有",
       "core": "具体的赞美（“你这个PPT的逻辑架构很清晰”）比空洞的赞美（“你真棒”）更有力量。",
       "action": "",
       "quotes": [],
@@ -2041,14 +2274,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c1"
     },
     {
       "id": "DEO-B-70",
       "quadrant": "DEO",
       "subcat": "B",
       "keyword": "避免读心术",
-      "title": "避免“读心术”",
+      "title": "别猜别人怎么想，直接问",
       "core": "不要猜测别人怎么想，直接问。大多数人际烦恼都源于猜测。",
       "action": "",
       "quotes": [
@@ -2069,14 +2303,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c2"
     },
     {
       "id": "DEO-C-10",
       "quadrant": "DEO",
       "subcat": "C",
       "keyword": "小家优于原生家庭",
-      "title": "小家 > 原生家庭",
+      "title": "愚孝或界限不清，是婚姻破裂的元凶",
       "core": "以夫妻二人的小家为中心，有商有量。对原生家庭保持礼貌但坚定的界限。愚孝或界限不清是婚姻破裂的元凶。",
       "action": "面对不合理要求，不迁就，在尽孝道的同时保护小家利益。",
       "quotes": [
@@ -2092,14 +2327,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "DEO-C-20",
       "quadrant": "DEO",
       "subcat": "C",
       "keyword": "亲戚社交能量管理",
-      "title": "亲戚社交的能量管理",
+      "title": "不再需要亲戚的夸赞来获得认同感",
       "core": "回国过年感到“无趣”且“压力大”的本质：记忆滤镜破碎（童年是“被照顾者”视角的狂欢，现在是“照顾者”视角的责任）；代际文化冲突（核心家庭的原子化生活与原生大家庭的“强行团聚”无法兼容）；需求层级跃迁（不再需要亲戚的夸赞来满足虚荣心和认同感）。",
       "action": "抓大放小：幸福感核心来源是父母、老婆、孩子，其他义务性拜年能减则减。情面规则软着陆：利用孩子做挡箭牌，制造不得不走的理由，实现礼貌撤退。主动设计脚本：用“逛公园、拍全家福”替代“坐着尬聊、打牌”。",
       "quotes": [
@@ -2119,14 +2355,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "DEO-C-30",
       "quadrant": "DEO",
       "subcat": "C",
       "keyword": "翁婿本质",
-      "title": "婆媳/翁婿关系的本质——互相尊重，保持距离",
+      "title": "互相尊重保持距离，不必强求亲如母女",
       "core": "互相尊重，保持距离。不要强求亲如母女/父子。",
       "action": "",
       "quotes": [
@@ -2152,14 +2389,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "DEO-C-40",
       "quadrant": "DEO",
       "subcat": "C",
       "keyword": "婚姻合伙人",
-      "title": "婚姻是合伙人制度",
+      "title": "婚姻不只是爱情，更是经济与责任的共同体",
       "core": "婚姻不仅是爱情，更是经济和责任的共同体。有商有量是最高准则。",
       "action": "不要在家里讲道理，要讲感情。家务和责任需要明确分工，但多付出少计较。",
       "quotes": [
@@ -2180,14 +2418,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "DEO-C-50",
       "quadrant": "DEO",
       "subcat": "C",
       "keyword": "夫妻关系优先",
-      "title": "夫妻关系第一，然后才是亲子关系",
+      "title": "最好的家教，是父母相爱",
       "core": "在一个家庭中，夫妻关系优于亲子关系。最好的家教是父母相爱。",
       "action": "",
       "quotes": [],
@@ -2198,14 +2437,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "DEO-C-60",
       "quadrant": "DEO",
       "subcat": "C",
       "keyword": "共同成长",
-      "title": "共同成长——精神的同步很重要",
+      "title": "婚姻最怕一个人在跑，一个人在原地踏步",
       "core": "婚姻最怕一个人在跑，一个人在原地踏步。保持精神上的同步。",
       "action": "",
       "quotes": [],
@@ -2221,14 +2461,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "DEO-C-70",
       "quadrant": "DEO",
       "subcat": "C",
       "keyword": "情感代际转移",
-      "title": "情感独立：代际转移",
+      "title": "有了自己的小家后，情感支持系统已经换了主场",
       "core": "建立了自己的核心家庭（伴侣、孩子）后，情感支持系统已完成代际转移，不再像小时候那样依赖父母的情感反馈。",
       "action": "",
       "quotes": [
@@ -2248,14 +2489,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "DEO-C-80",
       "quadrant": "DEO",
       "subcat": "C",
       "keyword": "父母是普通人",
-      "title": "父母是普通人——放弃改造父母",
+      "title": "父母也有他们的局限，别想着改造他们",
       "core": "父母也有他们的局限、虚荣和性格缺陷。不要试图改造他们，也不要被他们绑架。",
       "action": "",
       "quotes": [
@@ -2280,14 +2522,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "DEO-C-90",
       "quadrant": "DEO",
       "subcat": "C",
       "keyword": "不出恶言",
-      "title": "即使争吵，也不出恶言",
+      "title": "语言的伤口很难愈合，生气先离开现场",
       "core": "语言的伤口很难愈合。生气时先深呼吸，或者离开现场，先冷静后再行动。",
       "action": "",
       "quotes": [
@@ -2308,14 +2551,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "DEO-D-10",
       "quadrant": "DEO",
       "subcat": "D",
       "keyword": "全人发展",
-      "title": "育儿观：全人发展 > 分数成就",
+      "title": "支持孩子学习是为了立足社会，不只是为了分数",
       "core": "支持孩子学习是为了完善心智、提高认知，让她有能力在未来社会立足和自我实现，而不仅仅是为了分数。",
       "action": "关注孩子的知识储备和思维能力，而非单纯的排名。",
       "quotes": [],
@@ -2326,14 +2570,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "DEO-D-20",
       "quadrant": "DEO",
       "subcat": "D",
       "keyword": "得失相伴",
-      "title": "人生守恒定律：得失相伴",
+      "title": "得到孩子的信任，就必然要失去自由和娱乐时间",
       "core": "人生是你得到一些什么，就必定会失去一些什么。得到了孩子的纯真快乐和无穷信任，就必须失去自由和娱乐时间。",
       "action": "接受这个设定，将其视为一种公平的“交易”，就不会在育儿的疲惫中感到委屈。",
       "quotes": [],
@@ -2344,14 +2589,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "DEO-D-30",
       "quadrant": "DEO",
       "subcat": "D",
       "keyword": "避免牺牲感",
-      "title": "避免“牺牲感”——一切都应是我自己的选择",
+      "title": "别说我为你牺牲了什么，那是在索取愧疚感",
       "core": "不要对孩子说“我为了你牺牲了什么”，这是在索取愧疚感。一切都是我的选择（谁痛苦，谁改变）。",
       "action": "",
       "quotes": [],
@@ -2362,14 +2608,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "DEO-D-40",
       "quadrant": "DEO",
       "subcat": "D",
       "keyword": "孩子是独立个体",
-      "title": "孩子是独立的个体——孩子的路要自己走，你无法代劳",
+      "title": "孩子不是我未竟梦想的替身",
       "core": "孩子不是我的附属品，不是我实现未竟梦想的工具。她有她的人生。",
       "action": "",
       "quotes": [
@@ -2385,14 +2632,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "DEO-D-45",
       "quadrant": "DEO",
       "subcat": "D",
       "keyword": "马斯洛驱动",
-      "title": "育儿的心智模型：马斯洛驱动（Maslow in Parenting）",
+      "title": "用社交和尊重需求驱动，而不是单纯逼迫",
       "core": "利用马斯洛需求层次理论来科学激励孩子。社交需求：用“交更多朋友”来激励去幼儿园的动力，培养分享与助人的习惯。尊重需求：用“懂更多东西会让大家觉得你很厉害”来激励学习，而不是单纯的逼迫，让孩子为了“赢得尊重”而自发努力。",
       "action": "",
       "quotes": [],
@@ -2403,14 +2651,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "DEO-D-50",
       "quadrant": "DEO",
       "subcat": "D",
       "keyword": "温柔而坚定",
-      "title": "育儿感悟——温柔而坚定",
+      "title": "温柔是态度，坚定是边界，两个都不能少",
       "core": "温柔而坚定。",
       "action": "",
       "quotes": [
@@ -2426,14 +2675,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "LEG-A-10",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "向上管理",
-      "title": "向上管理：给答案，不是给问题",
+      "title": "带着两三个方案去汇报，别让老板做填空题",
       "core": "给老板汇报时，不要只抛出问题。带着方案（最好是2-3个选项），并说明利弊和你倾向的建议。老板的时间是稀缺资源，你的价值在于帮他节省决策成本，而不是让他做填空题。",
       "action": "",
       "quotes": [],
@@ -2444,14 +2694,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c1"
     },
     {
       "id": "LEG-A-20",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "时间估算",
-      "title": "时间估算：Over-estimate",
+      "title": "承诺时间要故意留余量，别信自己的乐观估计",
       "core": "在承诺时间（ETA）时，刻意Over-estimate（多估算一点）。潜意识总希望自己能快点做完，导致总是给出一个不切实际的短时间，结果不仅没做完还失信。",
       "action": "如果觉得1小时能做完，对外承诺1.5小时。",
       "quotes": [
@@ -2467,14 +2718,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c1"
     },
     {
       "id": "LEG-A-30",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "优先级First Thing First",
-      "title": "优先级：First Thing First",
+      "title": "按重要性排序，而不是按紧急程度排序",
       "core": "永远把老板/核心KPI的要求放在第一位。依据重要性而非紧急性排序。",
       "action": "",
       "quotes": [],
@@ -2485,14 +2737,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c1"
     },
     {
       "id": "LEG-A-40",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "以终为始",
-      "title": "以终为始",
+      "title": "没想清楚终点，过程就都是无效的折腾",
       "core": "做任何事之前，先在脑海中构想“做完的样子”。如果没有清晰的终点，过程就会充满了无效的折腾。",
       "action": "",
       "quotes": [],
@@ -2508,14 +2761,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c2"
     },
     {
       "id": "LEG-A-50",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "追求unique value",
-      "title": "工作重心——追求unique value",
+      "title": "做别人干不了、想不到的事，才是真的Working Smart",
       "core": "区分“牛马活”与“高光活”。别人不能干我能干的：关键的Steer Com Update，Top Issue的Heads up，给出的明确Direction。别人想不到我能想到的：Create transformative team，提前布局Critical Conv。这才是Working Smart的本质。",
       "action": "",
       "quotes": [
@@ -2531,14 +2785,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "LEG-A-60",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "结果导向",
-      "title": "结果导向——不看付出，看价值的产出",
+      "title": "只有功劳没有苦劳，别为自己的加班感动",
       "core": "只有功劳，没有苦劳。这句话很残酷但很真实。不要感动于自己的加班，要看产出了什么价值。",
       "action": "",
       "quotes": [
@@ -2559,14 +2814,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "LEG-A-70",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "名字即品牌",
-      "title": "你的名字就是你的个人品牌",
+      "title": "别人提起你的名字，第一反应是什么",
       "core": "你的名字就是你的品牌。让别人提到你时，联想到的是“靠谱”“专业”“解决问题”。",
       "action": "",
       "quotes": [],
@@ -2577,14 +2833,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c2"
     },
     {
       "id": "LEG-A-75",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "个人产品化思维",
-      "title": "个人产品化思维（Work as a Product）",
+      "title": "把当下的工作当成一次产品来经营",
       "core": "将自己作为一件产品，把当前的工作视为一次个人产品的售卖。工作压力大、累是常态，但不应只沉浸在消耗感中。",
       "action": "定期反思：“在这段过程中我有没有获得成长？我有什么不一样了的地方？”只要有总结经验，就不亏；如果回头一看什么都想不出来，才是真正的浪费。",
       "quotes": [],
@@ -2595,14 +2852,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "LEG-A-80",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "走出舒适区",
-      "title": "终身职业规划与走出舒适区",
+      "title": "别把平台当本事，随时想清楚自己离开后还剩什么",
       "core": "公司只是工具。不要把平台当本事。随时保持“如果明天失业，我能干什么”的危机感。走出舒适区是成长的唯一路径。",
       "action": "",
       "quotes": [
@@ -2641,14 +2899,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c3"
     },
     {
       "id": "LEG-A-90",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "自信的底气",
-      "title": "对自信的思考",
+      "title": "自信不是我能搞定一切，是搞不定我也扛得住",
       "core": "自信不是盲目相信“我能搞定一切”，而是一种底气：“搞不定也没关系，我能接受最坏的结果，并且我有能力兜底”。",
       "action": "在项目遇到困难时，不再掩饰太平，而是坦诚沟通风险。这种坦诚反而赢得了他人的信任。",
       "quotes": [],
@@ -2679,14 +2938,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c3"
     },
     {
       "id": "LEG-A-100",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "接受批评",
-      "title": "接受批评",
+      "title": "先压住反驳的本能，那多半是自尊心在说话",
       "core": "被指出不足时，先压制反驳的本能。有则改之，无则加勉。反驳往往是因为自尊心受伤，而非事实错误。",
       "action": "",
       "quotes": [],
@@ -2697,14 +2957,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c3"
     },
     {
       "id": "LEG-B-10",
       "quadrant": "LEG",
       "subcat": "B",
       "keyword": "管理者同理心",
-      "title": "管理者的同理心",
+      "title": "内容对不对不够，对方当下的状态和需求才是关键",
       "core": "做启发别人的天使，而不是强加意志的牛魔王。沟通与分享的有效性，不仅取决于“内容是否正确”，更取决于“对方的状态与需求”。",
       "action": "管理者意识到自己的观点并非唯一真理，在做决定前先真诚地询问下属：“你的建议是什么？为什么？”设身处地判断时机：在分享大道理前先问自己——对方是否已经深刻理解了这些？对方现在是不是太累了，时机对吗？这真的是对方在乎的东西吗？不要只讲自己想讲的，要用最短的时间，分享对他人最有价值的东西。",
       "quotes": [
@@ -2730,14 +2991,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "LEG-B-20",
       "quadrant": "LEG",
       "subcat": "B",
       "keyword": "不假装听懂",
-      "title": "不要为了面子假装听懂",
+      "title": "会上装懂，事后返工的成本更高",
       "core": "会议上不懂装懂，事后返工成本更高。当场问清楚，哪怕显得“笨”一点。",
       "action": "打破“碍于面子”的习惯。在谈话结束前确认：“我真的懂了吗？逻辑通了吗？”课后努力永远抵不上当场领悟。",
       "quotes": [],
@@ -2748,14 +3010,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c1"
     },
     {
       "id": "LEG-B-30",
       "quadrant": "LEG",
       "subcat": "B",
       "keyword": "情绪稳定竞争力",
-      "title": "情绪稳定是核心竞争力",
+      "title": "压力下不把情绪带进工作，是专业的底线",
       "core": "在压力下保持冷静，不把情绪带入工作，是专业人士的基本素养。",
       "action": "",
       "quotes": [
@@ -2785,14 +3048,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c2"
     },
     {
       "id": "LEG-B-40",
       "quadrant": "LEG",
       "subcat": "B",
       "keyword": "适当的露怯",
-      "title": "适当的“露怯”",
+      "title": "管理者适当露怯，反而更让团队觉得真实",
       "core": "作为管理者，适当展示自己的不足，反而能增加团队的凝聚力，让人觉得真实。",
       "action": "",
       "quotes": [],
@@ -2808,14 +3072,15 @@
           "era": "root"
         }
       ],
-      "recency": "root"
+      "recency": "root",
+      "cluster": "c2"
     },
     {
       "id": "LEG-B-50",
       "quadrant": "LEG",
       "subcat": "B",
       "keyword": "跨部门win-win",
-      "title": "跨部门沟通——seek win win",
+      "title": "先搞懂对方的KPI，才找得到合作的切入点",
       "core": "换位思考。理解对方的KPI是什么，才能找到合作的切入点。",
       "action": "",
       "quotes": [
@@ -2841,14 +3106,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c1"
     },
     {
       "id": "LEG-B-60",
       "quadrant": "LEG",
       "subcat": "B",
       "keyword": "问题即机会",
-      "title": "问题即机会",
+      "title": "没有问题的话，公司就不需要你了",
       "core": "公司请你来是解决问题的。如果没有问题，就不需要你了。遇到棘手问题（Bug、危机），不要抱怨，这是你展现能力、脱颖而出的时刻。",
       "action": "",
       "quotes": [],
@@ -2864,14 +3130,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c2"
     },
     {
       "id": "LEG-B-70",
       "quadrant": "LEG",
       "subcat": "B",
       "keyword": "管理强将",
-      "title": "管理强将（Managing High Performers）——Strength, Help, Empower",
+      "title": "下属比你耀眼时，赋能她而不是和她比细节",
       "core": "当下属比自己更耀眼、更专业时，不要嫉妒，要视作资源。Empower（授权）：给她舞台，给她Promotion，衷心赞美她的表演。Help（补位）：在她搞不定的资源和卡点上，用你的职级去帮她扫清障碍。Strength（赋能）：用你的长处（Big Picture、Executive Update、Strategy）去补她的短处，而不是在她擅长的领域和她比细节。",
       "action": "",
       "quotes": [],
@@ -2882,14 +3149,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "LEG-C-10",
       "quadrant": "LEG",
       "subcat": "C",
       "keyword": "财务自由定义",
-      "title": "财务自由的定义",
+      "title": "自由不是钱的多少，是能拒绝不喜欢的事的权利",
       "core": "不是拥有多少钱，而是拥有“拒绝不喜欢的事情”的权利，与对时间的决定权。Time Freedom > Financial Freedom。",
       "action": "",
       "quotes": [],
@@ -2900,14 +3168,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "LEG-C-20",
       "quadrant": "LEG",
       "subcat": "C",
       "keyword": "投资心态策略",
-      "title": "投资的心态与策略",
+      "title": "定投加逢低买入，拒绝All-in断送自己的主动权",
       "core": "策略：定投+Buy the Dip（混合模式），既避免踏空，又保留回调时降低成本的子弹。拒绝All-in：投资要留有子弹，少量多次投资，一旦All-in被套在山顶，就失去了后续操作的所有主动权。估值锚点：拒绝FOMO，必须有科学的估值判断，规则要简单到“无脑执行”。",
       "action": "当股价长期上涨且估值合理时，按规则加仓；当估值离谱时，克制贪婪，等待回调或坚持定投。",
       "quotes": [
@@ -2928,14 +3197,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "LEG-C-30",
       "quadrant": "LEG",
       "subcat": "C",
       "keyword": "拒绝原创迷信",
-      "title": "拒绝原创迷信——你以为的好想法，别人可能早知道了",
+      "title": "你以为的绝妙点子，别人早就研究透了",
       "core": "你以为的绝妙投资点子，别人早研究透了。保持谦卑，多看专业分析，站在巨人肩膀上。",
       "action": "",
       "quotes": [],
@@ -2946,14 +3216,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "MAS-A-15",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "人是怎么废掉的",
-      "title": "人是怎么废掉的：五点自毁诊断",
+      "title": "五个自我麻痹的信号：低密度信息+错位成就感+封闭输出",
       "core": "一套完整的自毁行为诊断框架：1. 沉溺于'轻易获得高成就感'的事情；2. 只接收'低信息密度'的信息源；3. 习惯用'错位成就感'麻痹自己；4. 过度依赖'既有可行路径'；5. 封闭'强化学习'的通道——只听不说、只看不写、只学不练，还麻痹自己说学到了很多东西。",
       "action": "定期用这五条自检，尤其警惕第5条：接收信息不等于学到东西，没有输出和实践的“学习”是自我麻痹。",
       "quotes": [
@@ -2969,14 +3240,15 @@
           "era": "root"
         }
       ],
-      "recency": "evergreen"
+      "recency": "evergreen",
+      "cluster": "c1"
     },
     {
       "id": "MAS-C-15",
       "quadrant": "MAS",
       "subcat": "C",
       "keyword": "问题在己不在境",
-      "title": "跨阶段模式识别法：反复出现的问题在己不在境",
+      "title": "同一个坑跨阶段反复踩，大概率是自己的问题",
       "core": "如果同一种困境（如被边缘化、无法融入圈子）在完全不同的人生阶段（转学、大学社团、职场）反复出现，那大概率不是环境的问题，而是自己身上某个尚未被识别的问题。跨阶段的模式重复，是比单次挫败更可靠的自我诊断信号。",
       "action": "遇到似曾相识的困境时，先问自己：这个问题是不是在别的阶段、别的环境也发生过？如果是，答案在自己身上，不在环境里。",
       "quotes": [
@@ -2992,14 +3264,15 @@
           "era": "root"
         }
       ],
-      "recency": "evergreen"
+      "recency": "evergreen",
+      "cluster": "c2"
     },
     {
       "id": "MAS-B-25",
       "quadrant": "MAS",
       "subcat": "B",
       "keyword": "李杨定律",
-      "title": "李杨定律：进步感与认可需求",
+      "title": "没有进步又被否定，负面情绪会双重叠加",
       "core": "自创的两条个人心理定律：定律一——绝大多数好学生（包括我）都能在有进步、有意义的一天中，获得比纯娱乐/玩耍多得多的愉悦感（自我实现需求）；定律二——绝大多数好学生（我）都渴望得到别人的肯定、减少批评（即便可以虚心接受），这可能源于学生时代师生教育下养成的尊重与社会需求。这两条定律解释了一天情绪起伏的根源：一旦'没有进步'叠加'没被肯定/被批评'，负面情绪会双重叠加。",
       "action": "情绪低落时，用这两条定律拆解原因——是今天没有进步感？还是被否定了？分开处理，比笼统地说“心情不好”更有操作性。",
       "quotes": [
@@ -3020,14 +3293,15 @@
           "era": "recent"
         }
       ],
-      "recency": "mixed"
+      "recency": "mixed",
+      "cluster": "c2"
     },
     {
       "id": "INW-A-70",
       "quadrant": "INW",
       "subcat": "A",
       "keyword": "能力温度分离",
-      "title": "识人的两面性：能力与温度分离评估",
+      "title": "让人尊重和让人愿意追随，是两件不同的事",
       "core": "评价一个人（尤其是领导/前辈）时，把'能力/格局'和'温度/耐心'分开衡量。一个人可以思维很深、格局很高、让人尊重，同时又缺乏耐心和温润感，让人难以真心追随——'让人尊重，却难以让人跟随'是两个完全不同的评价维度，不能因为佩服能力就忽略共情的缺失，反之亦然。",
       "action": "",
       "quotes": [
@@ -3043,14 +3317,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "INW-B-45",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "内力与术",
-      "title": "内力与术：价值观优先于方法论",
+      "title": "价值观是内力，技巧是术，内力不够术就是花招",
       "core": "借金庸武侠'内力vs花招'的隐喻：若没有好的内功做基础，就会陷入花招甚至邪路。应用到现实：好的、正确的价值观就是'内力'，是'大道'；而'说话之道''生财之道''接人待物之道'之类的技巧书，都是'术'。心术不正的人学了这些术，不过是无根之水，经不起推敲，甚至误入歧途；一旦先有强大的内功，所有的术都是水到渠成。",
       "action": "学习任何沟通/管理技巧之前，先确认自己的价值观底座是否稳固——技巧是放大器，会同等放大正的动机和歪的动机。",
       "quotes": [
@@ -3066,14 +3341,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "DEO-D-35",
       "quadrant": "DEO",
       "subcat": "D",
       "keyword": "渐进折中育儿",
-      "title": "渐进折中式育儿训练：避免非黑即白",
+      "title": "非黑即白的训练法不如渐进折中，留有余地",
       "core": "育儿场景下，'渐进折中式'方法优于'激进的哭声免疫法'或'完全不训练'两个极端。核心是循序渐进、留有余地——比如断夜奶不是一刀切，而是从'半夜抱着安抚不给奶'逐步过渡到'温母乳/奶粉/稀释奶粉'，历时约一个月，既达成目标又不激进。",
       "action": "",
       "quotes": [],
@@ -3084,14 +3360,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "LEG-A-15",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "换工作三问",
-      "title": "换工作决策三问框架",
+      "title": "换工作前问三遍：喜欢吗、能迁移吗、旧问题真解决了吗",
       "core": "换工作不应是情绪冲动的决定，而应过三问：1. 我喜欢这份工作、这个行业吗？我最想做的、最擅长的到底是什么？2. 新工作可以给同样的赏识、工作表现空间、发展潜力吗（可迁移性验证）？3. 换了之后，旧工作的问题都能解决吗（根本问题是否真的被解决，而不是换了个地方继续存在）？",
       "action": "",
       "quotes": [
@@ -3107,14 +3384,15 @@
           "era": "root"
         }
       ],
-      "recency": "evergreen"
+      "recency": "evergreen",
+      "cluster": "c4"
     },
     {
       "id": "LEG-A-33",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "雇佣双向交换",
-      "title": "雇主雇员的双向质量交换",
+      "title": "雇佣关系是对等交换，不是单向的忠诚或索取",
       "core": "把'员工-雇主'关系定义为双向的质量对等交换，而非单向的忠诚或索取。好员工（service provider）的品质要求：tenacity（坚韧）、commitment（投入）。好雇主（buyer）的品质要求：work-life balance、工作时间合理、薪水足够、sense of achievement足够（解决问题、带新人）、上升空间足够。",
       "action": "评估一份工作是否该继续投入，用这套双向清单打分，而不是单方面问'我够不够努力'或'公司够不够好'。",
       "quotes": [
@@ -3130,14 +3408,15 @@
           "era": "root"
         }
       ],
-      "recency": "evergreen"
+      "recency": "evergreen",
+      "cluster": "c4"
     },
     {
       "id": "LEG-A-55",
       "quadrant": "LEG",
       "subcat": "A",
       "keyword": "职场投入清醒边界",
-      "title": "职场投入的清醒边界：工具化而非忘我",
+      "title": "工作是完善自己的工具，忘我付出往往最先被牺牲",
       "core": "经历公司裁员后领悟：所谓caring for people，本质是把信任与热情转化为更高效的工作成果，风雨来时员工往往最早被牺牲。启示：1. 在工作中追求忘我与付出，你就输了——可以尽力而为，但要保持内心清醒，想清楚ROI，在'control your life'的前提下投入，把工作当作完善自己、追寻人生意义的工具；2. 如果一份工作钱和福利不是最好、精力付出偏多、前景想象力有限，那它凭什么值得你长期投入？",
       "action": "",
       "quotes": [
@@ -3153,14 +3432,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
-      "id": "LEG-B-15",
+      "id": "LEG-A-12",
       "quadrant": "LEG",
-      "subcat": "B",
+      "subcat": "A",
       "keyword": "对事不对人",
-      "title": "对事不对人：主动争取有效反馈的方式",
+      "title": "对事不对人的反馈更可持续，这是要主动向上争取的",
       "core": "明确总结出自己'对事不对人的客观反馈'比'贴标签式的人格批评'更能带来可持续、低耗能的成长动力，并主动向上级提出这一诉求。这不只是“如何给别人反馈”，更是“如何为自己争取有效反馈”——认清自己的驱动方式，主动塑造被管理的方式。",
       "action": "",
       "quotes": [
@@ -3176,14 +3456,15 @@
           "era": "root"
         }
       ],
-      "recency": "evergreen"
+      "recency": "evergreen",
+      "cluster": "c1"
     },
     {
       "id": "MAS-A-105",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "阅读情绪匹配",
-      "title": "阅读的情绪-场景匹配",
+      "title": "书要配得上当下的心情和精力，不必死磕",
       "core": "读书应该是愉悦的事情，follow your heart——如果一本书暂时提不起兴趣，就不要强行读。按当下情绪状态和精力水平匹配不同类型的书：睡前心情平静，读不复杂的短文；白天大段时间心情平静，读需要消化的书；心情浮躁，读更接近舒适区的书；周末容易焦虑；工作日晚上不焦虑但疲累难专注，适合读生活/文学/社会政治类。",
       "action": "不用固定书单硬啃，而是根据当下的情绪与精力状态动态选书。",
       "quotes": [
@@ -3199,14 +3480,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "MAS-A-85",
       "quadrant": "MAS",
       "subcat": "A",
       "keyword": "先分后总读书法",
-      "title": "读书方法论：先分后总，反对碎片化摘录",
+      "title": "先啃全书逻辑再摘触动点，反过来会流于表面",
       "core": "反对'只挑触动点'的碎片化读书法——一本好书不同章节间一定有逻辑联系，只挑片段读会失去背后细节论证的过程，理解会很表面。正确顺序是先由分到总（掌握整本书的逻辑架构），再由总到分（在理解全局的基础上提炼触动点）。",
       "action": "读书先花时间搞清楚整体框架/目录逻辑，再回头精读打动自己的章节，不要一上来就摘金句。",
       "quotes": [
@@ -3222,14 +3504,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c3"
     },
     {
       "id": "DEO-B-35",
       "quadrant": "DEO",
       "subcat": "B",
       "keyword": "深入浅出",
-      "title": "深入浅出：用父母能懂的话讲清楚",
+      "title": "能讲给父母听懂，才是真的想透了",
       "core": "对自己思想深度与表达能力的最好总结，就是'深入浅出'：想得很透彻，但解释的时候又能用生活中的例子讲清楚——那种给父母讲，他们都能用有限的耐心和知识接受的程度，才是真正的理解和表达能力。",
       "action": "检验自己是否真的想透了一件事：能不能用父母能听懂的大白话讲清楚。",
       "quotes": [
@@ -3245,14 +3528,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "LEG-C-25",
       "quadrant": "LEG",
       "subcat": "C",
       "keyword": "小仓位保留期权",
-      "title": "少量进场保持参与：错过风口后的期权思维",
+      "title": "错过风口不必空手旁观，小仓位保留上车的权利",
       "core": "投资中，如果已经错过了最佳进场时机，又怕被套牢、又怕错过后续行情，最好的选择不是完全观望，而是先小仓位/低强度进场，保留'上车'的选择权——如果风口进一步扩大，已经进场；如果没有，损失也有限。这一心法同样适用于职业选择：错过风口型机会时，先建立联系、保持visibility，见机行事。",
       "action": "",
       "quotes": [
@@ -3268,14 +3552,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     },
     {
       "id": "MAS-B-22",
       "quadrant": "MAS",
       "subcat": "B",
       "keyword": "钝感力",
-      "title": "钝感力：值得刻意培养的迟钝",
+      "title": "别人一句不经意的话，不必照单全收放在心上",
       "core": "长期以来'太在意别人想法'的性格弱点，反过来提示了一个值得刻意修炼的品质——'钝感力'：别人不经意的一句话，不需要照单全收放在心上；不必对每一次'没被及时回应'都赋予情绪意义。钝感不是麻木，而是有选择地不较真。",
       "action": "遇到自己又开始'较真'某句无心之言时，提醒自己：这可能是'太敏感'在作祟，试着刻意迟钝一点。",
       "quotes": [
@@ -3291,14 +3576,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c1"
     },
     {
       "id": "INW-B-85",
       "quadrant": "INW",
       "subcat": "B",
       "keyword": "通透五原则",
-      "title": "32岁的人生通透论：五条实践原则",
+      "title": "通透不是看破变消极，是认清规则后依然热情地玩下去",
       "core": "事业家庭双双步入稳定期后，对'如何活得通透'的一次系统总结——通透不是看穿一切后变得消极，而是认清世界的'规则'之后，依然满怀热情地去玩这场人生的游戏。五条原则：1. 接纳不确定性与不完美；2. 觉察并管理人性（而非对抗人性）；3. 投资于核心连接（而非泛泛社交）；4. 主动构建意义（而非等待意义降临）；5. 追求过程，而非结果。",
       "action": "",
       "quotes": [],
@@ -3309,14 +3595,15 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c4"
     },
     {
       "id": "DEO-D-42",
       "quadrant": "DEO",
       "subcat": "D",
       "keyword": "陪伴质量补偿",
-      "title": "陪伴的质量补偿：忙碌期专注胜过时长",
+      "title": "陪伴时间少的时候，用专注度补回来",
       "core": "工作极度繁忙、亲子陪伴时间被大幅压缩时，追求的不应是陪伴时长，而是陪伴时的专注度——用'总量减少但质量专注'来补偿陪伴时间的不足：有机会就多陪玩游戏，尽量在陪伴的时间里专心致志，这是最重要的。",
       "action": "",
       "quotes": [
@@ -3332,7 +3619,8 @@
           "era": "recent"
         }
       ],
-      "recency": "recent"
+      "recency": "recent",
+      "cluster": "c2"
     }
   ],
   "lifeRecords": [

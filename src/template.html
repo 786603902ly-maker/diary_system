@@ -109,6 +109,8 @@
   .subcat-section{margin-bottom:18px;scroll-margin-top:118px;}
   .subcat-h{display:flex;align-items:baseline;gap:8px;font-size:.88rem;font-weight:700;color:var(--ink-soft);margin-bottom:8px;}
   .sc-count{font-size:.68rem;color:var(--ink-faint);font-weight:400;background:var(--bg-sunken);border-radius:999px;padding:2px 8px;}
+  .cluster-h{font-size:.72rem;font-weight:600;color:var(--ink-faint);margin:12px 0 6px;padding-left:9px;border-left:2px solid var(--line);}
+  .cluster-h:first-child{margin-top:0;}
 
   /* ---------- card grid (flat, expand-in-place) ---------- */
   .card-grid{display:flex;flex-wrap:wrap;gap:8px;}
@@ -153,6 +155,10 @@
   .case-item.recent::before{background:var(--recent);}
   .case-item .cdate{font-size:.7rem;color:var(--ink-faint);font-weight:600;margin-bottom:2px;}
   .case-item .ctext{font-size:.83rem;color:var(--ink-soft);}
+
+  .ctx-toggle{font-size:.68rem;color:var(--accent-ink);background:none;border:none;cursor:pointer;padding:0;margin-top:5px;text-decoration:underline;text-underline-offset:2px;display:inline-block;}
+  .ctx-panel{display:none;margin-top:6px;padding:9px 11px;background:var(--bg-sunken);border-radius:var(--radius-sm);font-size:.8rem;color:var(--ink-soft);white-space:pre-wrap;}
+  .ctx-panel.open{display:block;}
   .root-toggle{font-size:.76rem;color:var(--ink-faint);cursor:pointer;border:1px dashed var(--line);background:none;border-radius:var(--radius-sm);padding:6px 12px;display:inline-block;margin-top:2px;}
   .root-toggle:hover{border-color:var(--accent);color:var(--accent);}
   .root-cases{display:none;margin-top:9px;}
@@ -256,7 +262,7 @@
 <script>
 (function(){
   var DATA = JSON.parse(document.getElementById('mind-os-data').textContent);
-  var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, jumpTo:null };
+  var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, showCtxFor:{}, jumpTo:null };
 
   var $ = function(sel, el){ return (el||document).querySelector(sel); };
   var main = $('#main');
@@ -527,10 +533,27 @@
       '<div class="quad-tag">' + esc(quad.tagline) + '</div>';
   }
 
+  function ctxToggleHTML(ctxKey, context){
+    if(!context) return '';
+    var open = !!state.showCtxFor[ctxKey];
+    return '<button class="ctx-toggle" data-ctx="' + ctxKey + '">' + (open ? '收起原始日记片段 ▲' : '查看原始日记片段 ▼') + '</button>' +
+      '<div class="ctx-panel' + (open ? ' open' : '') + '">' + esc(context) + '</div>';
+  }
+
   function caseItemHTML(p, o, recentClass){
     var key = p.id + '::case::' + o.i;
+    var ctxKey = key + '::ctx';
     return '<div class="case-item' + (recentClass ? ' recent' : '') + '"><div class="cdate mono">' + esc(o.c.date || '') + '</div>' +
-      '<div class="ctext editable" data-key="' + key + '">' + fieldHTML(key, o.c.text) + '</div></div>';
+      '<div class="ctext editable" data-key="' + key + '">' + fieldHTML(key, o.c.text) + '</div>' +
+      ctxToggleHTML(ctxKey, o.c.context) + '</div>';
+  }
+
+  function quoteBlockHTML(p, qt, idx){
+    var key = p.id + '::quote::' + idx;
+    var ctxKey = key + '::ctx';
+    return '<div class="quote-block"><div class="qtext editable" data-key="' + key + '">' + fieldHTML(key, qt.text) + '</div>' +
+      '<div class="qdate mono">' + esc(qt.date || '') + '</div>' +
+      ctxToggleHTML(ctxKey, qt.context) + '</div>';
   }
 
   function pcardDetailHTML(p){
@@ -539,11 +562,7 @@
     var casesWithIdx = cases.map(function(c, i){ return {c: c, i: i}; });
     var recentCases = casesWithIdx.filter(function(o){ return o.c.era === 'recent' || o.c.era === 'mixed'; });
     var rootCases = casesWithIdx.filter(function(o){ return o.c.era === 'root'; });
-    var quotesHTML = quotes.map(function(qt, idx){
-      var key = p.id + '::quote::' + idx;
-      return '<div class="quote-block"><div class="qtext editable" data-key="' + key + '">' + fieldHTML(key, qt.text) + '</div>' +
-        '<div class="qdate mono">' + esc(qt.date || '') + '</div></div>';
-    }).join('');
+    var quotesHTML = quotes.map(function(qt, idx){ return quoteBlockHTML(p, qt, idx); }).join('');
     var recentHTML = recentCases.map(function(o){ return caseItemHTML(p, o, true); }).join('');
     var rootHTML = rootCases.map(function(o){ return caseItemHTML(p, o, false); }).join('');
     var rootOpen = !!state.showRootFor[p.id];
@@ -587,9 +606,27 @@
 
   function sectionForSubcat(quad, sc, list){
     var id = 'sc-' + quad.id + '-' + sc.id;
+    var clusterDefs = (sc.clusters && sc.clusters.length) ? sc.clusters : [{id: null, name: null}];
+    var byCluster = {};
+    list.forEach(function(p){
+      var cid = p.cluster || '_none';
+      (byCluster[cid] = byCluster[cid] || []).push(p);
+    });
+    var groupsHTML = '';
+    clusterDefs.forEach(function(cl){
+      var items = byCluster[cl.id || '_none'] || [];
+      if(!items.length) return;
+      groupsHTML += (cl.name ? '<div class="cluster-h">' + esc(cl.name) + '</div>' : '') +
+        '<div class="card-grid">' + items.map(principleCardHTML).join('') + '</div>';
+    });
+    // 兜底：万一有条目没有 cluster 字段或不在已定义的簇里，也不能漏渲染
+    var assignedIds = {};
+    clusterDefs.forEach(function(cl){ (byCluster[cl.id || '_none'] || []).forEach(function(p){ assignedIds[p.id] = true; }); });
+    var orphans = list.filter(function(p){ return !assignedIds[p.id]; });
+    if(orphans.length) groupsHTML += '<div class="card-grid">' + orphans.map(principleCardHTML).join('') + '</div>';
     return '<section class="subcat-section" id="' + id + '">' +
       '<h3 class="subcat-h"><span class="sc-name">' + esc(sc.name) + '</span><span class="sc-count mono">' + list.length + ' 条</span></h3>' +
-      '<div class="card-grid">' + list.map(principleCardHTML).join('') + '</div>' +
+      groupsHTML +
       '</section>';
   }
 
@@ -620,11 +657,7 @@
   // ---------- render: quotes tab ----------
   function quoteGroupHTML(p){
     var starred = isStarred(p.id);
-    var quotesHTML = (p.quotes || []).map(function(qt, idx){
-      var key = p.id + '::quote::' + idx;
-      return '<div class="quote-block"><div class="qtext editable" data-key="' + key + '">' + fieldHTML(key, qt.text) + '</div>' +
-        '<div class="qdate mono">' + esc(qt.date || '') + '</div></div>';
-    }).join('');
+    var quotesHTML = (p.quotes || []).map(function(qt, idx){ return quoteBlockHTML(p, qt, idx); }).join('');
     return '<div class="qgroup' + (starred ? ' starred' : '') + '" data-id="' + p.id + '">' +
       '<div class="qgroup-head">' +
         '<span class="pc-id mono">' + p.id + '</span>' +
@@ -761,6 +794,12 @@
     if(rootToggle){
       var id2 = rootToggle.getAttribute('data-id');
       state.showRootFor[id2] = !state.showRootFor[id2];
+      render(); return;
+    }
+    var ctxToggle = t.closest && t.closest('.ctx-toggle');
+    if(ctxToggle){
+      var ctxKey = ctxToggle.getAttribute('data-ctx');
+      state.showCtxFor[ctxKey] = !state.showCtxFor[ctxKey];
       render(); return;
     }
     var head = t.closest && t.closest('.pcard-head');
