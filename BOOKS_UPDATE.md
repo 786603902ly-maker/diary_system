@@ -1,8 +1,10 @@
 # 读书宇宙（Book OS）—— 操作手册
 
-这是 `UPDATE.md`（日记 Mind OS 的操作手册）的读书笔记版。两套系统结构一致、真源都是仓库里
-的 JSON 文件，只是内容来源不同：日记来自十年日记 PDF，读书宇宙来自 5 个读书笔记 Google Doc +
-每天的 Mind Card 学习对话（见 `BOOK_LEARNING_SYSTEM.md`）。
+这是 `UPDATE.md`（日记 Mind OS 的操作手册）的读书笔记版。两套内容结构一致、真源都是仓库里
+的 JSON 文件，只是来源不同：日记来自十年日记 PDF，读书宇宙来自 5 个读书笔记 Google Doc +
+每天的 Mind Card 学习对话（见 `BOOK_LEARNING_SYSTEM.md`）。**两套数据渲染在同一个页面/
+同一个 Artifact 里**（2026-07-25 从"两个独立 Artifact"合并过来，原因和取舍见 `CLAUDE.md`），
+所以下面提到的"构建"、"发布"都只有一次，不是两次。
 
 ## 日常使用（你只需要做这一步）
 
@@ -11,27 +13,28 @@
 - **一天的 Mind Card 学习聊完了** → 说一句"今天聊完了，帮我归档"。Claude 会把这次对话
   蒸馏成一条 `universalTruths[]` 条目（或强化已有条目），同时把"🔄 归还日记库"那部分
   直接写回 `data/mind-os.json` 对应 principle 的 `cases[]`（不再需要你手动复制粘贴到
-  Google Doc），两边都重新构建、发布、提交。
+  Google Doc），跑一次 `python3 src/build.py`、发布一次、提交一次。
 - **某本书的笔记文档更新了 / 读完一本新书想补充笔记** → 把内容发给 Claude，说"这是新
   笔记，帮我融进读书宇宙"。Claude 会判断是强化已有 `universalTruths` 还是新增一条，
   更新对应 `books[]` 的 `status`。
 - **两边内容都要更新**（比如某天聊的东西同时涉及新日记和新书感悟）→ 直接说清楚就行，
-  Claude 会分别写回两个 JSON。如果内容本身就写得含糊，Claude 会先确认再动手，不会瞎猜。
+  Claude 会分别写回两个 JSON，仍然只需要构建发布一次。如果内容本身就写得含糊，Claude
+  会先确认再动手，不会瞎猜。
 
 ## 文件结构
 
 ```
-data/book-os.json        ← 读书宇宙真源：四象限骨架（与日记共用同一套taxonomy）+ threads[]
-                            （跨学科主线注册表）+ books[]（书目roster）+ universalTruths[]
-src/book_template.html   ← 页面模板，fork 自 src/template.html，复用高亮/标星/原文展开机制，
-                            新增「关联图谱」SVG 可视化 tab
-src/build_books.py       ← 构建脚本：把 JSON 内联进模板 → 生成 book-os.html
-book-os.html             ← 生成产物，发布为独立 Artifact（固定链接见 CLAUDE.md）
-BOOK_LEARNING_SYSTEM.md  ← 每日 Mind Card 学习法的完整规则（改造自 v4.3 Project Instruction）
+data/book-os.json          ← 读书宇宙真源：四象限骨架（与日记共用同一套taxonomy）+ threads[]
+                              （跨学科主线注册表）+ books[]（书目roster）+ universalTruths[]
+src/template.html          ← 页面模板（与日记共用同一份），"普世智金字塔/关联图谱/书籍索引"
+                              三个 Tab 渲染这份数据；关联图谱是纯 SVG + 原生 JS 手写的枢纽图
+src/build.py                ← 构建脚本：把 mind-os.json 和 book-os.json 都内联进模板 → 生成
+                              index.html（同一个脚本，两套数据一起构建）
+BOOK_LEARNING_SYSTEM.md    ← 每日 Mind Card 学习法的完整规则（改造自 v4.3 Project Instruction）
 ```
 
-**改内容永远改 `data/book-os.json`，改样式/交互永远改 `src/book_template.html`，
-然后跑 `python3 src/build_books.py` 重新生成 `book-os.html`，绝不直接手改 `book-os.html`。**
+**改内容永远改 `data/book-os.json`，改样式/交互永远改 `src/template.html`（日记那边也在用
+同一份），然后跑 `python3 src/build.py` 重新生成 `index.html`，绝不直接手改 `index.html`。**
 
 ## universalTruths 的字段怎么填
 
@@ -59,20 +62,23 @@ BOOK_LEARNING_SYSTEM.md  ← 每日 Mind Card 学习法的完整规则（改造�
 
 ## 双向链接是怎么实现的
 
-两个 Artifact 是各自独立的自包含单文件，做不到同页面原地跳转，只能是外链
-（`target="_blank"`）：
+因为现在是同一个页面，跳转不是外链，是原地切 Tab + 展开卡片（点击瞬间完成，没有"确认跳转"
+弹窗）：
 
-- 读书宇宙里的 `universalTruth.mindOsRefs` → 渲染成 `日记 MAS-C-50 ↗` 链接，
-  指向 `<mind-os固定链接>#MAS-C-50`。
-- 日记里的 `principle.bookRefs` → 渲染成 `读书宇宙 UT-MAS-C-10 ↗` 链接，
-  指向 `<book-os固定链接>#UT-MAS-C-10`。
+- 读书宇宙里的 `universalTruth.mindOsRefs` → 渲染成 `🔗 日记 MAS-C-50 →` 这个 chip，点击后
+  切到"思维库" Tab、展开 MAS-C-50。
+- 日记里的 `principle.bookRefs` → 渲染成 `📚 读书宇宙 UT-MAS-C-10 →` 这个 chip，点击后切到
+  "普世智金字塔" Tab、展开 UT-MAS-C-10。
 
-两边模板都在页面加载时读 `location.hash`，如果命中一条已有条目，会自动展开并滚动过去
-（不需要额外的路由逻辑）。新增双向链接时，**两边的 JSON 都要改**，只改一边等于链接单向。
+这靠两边共用的 `data-jump-kb`/`data-jump-pyramid` data 属性和一套委托点击处理实现（`main`
+上只挂一个 click listener，两套卡片共用同一批 class 名如 `.pcard-head`/`.chip-jump`，不用
+分别写跳转函数）。页面加载时读 `location.hash` 也会自动判断该 ID 属于哪一边（`principleById`
+还是 `truthById`）并展开对应 Tab。新增双向链接时，**两边的 JSON 都要改**，只改一边等于
+链接单向。
 
 ## 「关联图谱」怎么工作
 
-`book_template.html` 的"关联图谱" tab 是纯 SVG + 原生 JS 手写的枢纽图（不依赖任何外部
+`src/template.html` 里"关联图谱" tab 是纯 SVG + 原生 JS 手写的枢纽图（不依赖任何外部
 可视化库，因为 Artifact 的 CSP 不允许拉 CDN）：以 `threads[]` 里每条主线为一个枢纽节点，
 所有标了该 thread 的 `universalTruths` 作为卫星节点画线连过去，节点按四象限配色、点击
 跳转回金字塔里对应的完整卡片。没有标 thread 的条目会归到"待归类"分组，不会丢失，只是
@@ -101,7 +107,7 @@ tab 顶部的覆盖率统计（"X / 40 已开始梳理"）直接读这个字段�
 4. 单本书内部的论点如果和其他书已有的 `universalTruths` 内核相同，合并（追加到
    `insights[]`/`books[]`），不是每本书都必须开新条目——**这正是"跨学科"的价值所在**：
    越多书落进同一条 `universalTruth`，说明这条越接近真正的普世智。
-5. 跑 `python3 src/build_books.py`，republish，git commit。
+5. 跑 `python3 src/build.py`，republish，git commit。
 
 这一步信息量很大（5 个文档、几十本书），建议分批做（比如一次一个文档），做完跟你确认
 再继续下一批，而不是一次性全塞进一次对话上下文。

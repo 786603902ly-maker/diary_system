@@ -3,8 +3,7 @@
     "title": "读书宇宙",
     "subtitle": "Book OS · 跨学科普世智慧金字塔",
     "updated": "2026-07-25",
-    "totalBooks": 40,
-    "mindOsUrl": "https://claude.ai/code/artifact/354d6b9a-e846-4293-a021-7a01cc768be0"
+    "totalBooks": 40
   },
   "quadrants": [
     {
@@ -17,28 +16,58 @@
           "id": "A",
           "name": "效能、习惯与学习执行",
           "clusters": [
-            { "id": "c1", "name": "专注与习惯基础" },
-            { "id": "c2", "name": "学习方法论" },
-            { "id": "c3", "name": "阅读方法" },
-            { "id": "c4", "name": "AI协作方法" }
+            {
+              "id": "c1",
+              "name": "专注与习惯基础"
+            },
+            {
+              "id": "c2",
+              "name": "学习方法论"
+            },
+            {
+              "id": "c3",
+              "name": "阅读方法"
+            },
+            {
+              "id": "c4",
+              "name": "AI协作方法"
+            }
           ]
         },
         {
           "id": "B",
           "name": "情绪与内耗管理",
           "clusters": [
-            { "id": "c1", "name": "情绪根源认知" },
-            { "id": "c2", "name": "认可与自我价值" },
-            { "id": "c3", "name": "欲望与自控" }
+            {
+              "id": "c1",
+              "name": "情绪根源认知"
+            },
+            {
+              "id": "c2",
+              "name": "认可与自我价值"
+            },
+            {
+              "id": "c3",
+              "name": "欲望与自控"
+            }
           ]
         },
         {
           "id": "C",
           "name": "底层操作系统重塑",
           "clusters": [
-            { "id": "c1", "name": "身心基础" },
-            { "id": "c2", "name": "自我认知框架" },
-            { "id": "c3", "name": "意义与仪式" }
+            {
+              "id": "c1",
+              "name": "身心基础"
+            },
+            {
+              "id": "c2",
+              "name": "自我认知框架"
+            },
+            {
+              "id": "c3",
+              "name": "意义与仪式"
+            }
           ]
         }
       ]
@@ -53,19 +82,40 @@
           "id": "A",
           "name": "底层心智模型",
           "clusters": [
-            { "id": "c1", "name": "底层分析工具" },
-            { "id": "c2", "name": "认知偏误觉察" },
-            { "id": "c3", "name": "特殊主题" }
+            {
+              "id": "c1",
+              "name": "底层分析工具"
+            },
+            {
+              "id": "c2",
+              "name": "认知偏误觉察"
+            },
+            {
+              "id": "c3",
+              "name": "特殊主题"
+            }
           ]
         },
         {
           "id": "B",
           "name": "世界观与核心信念",
           "clusters": [
-            { "id": "c1", "name": "时间与因果观" },
-            { "id": "c2", "name": "决策与判断" },
-            { "id": "c3", "name": "幸福论" },
-            { "id": "c4", "name": "成长姿态" }
+            {
+              "id": "c1",
+              "name": "时间与因果观"
+            },
+            {
+              "id": "c2",
+              "name": "决策与判断"
+            },
+            {
+              "id": "c3",
+              "name": "幸福论"
+            },
+            {
+              "id": "c4",
+              "name": "成长姿态"
+            }
           ]
         }
       ]
@@ -80,35 +130,68 @@
           "id": "A",
           "name": "原则与社交边界",
           "clusters": [
-            { "id": "c1", "name": "自我立场" },
-            { "id": "c2", "name": "边界与拒绝" },
-            { "id": "c3", "name": "待人姿态" }
+            {
+              "id": "c1",
+              "name": "自我立场"
+            },
+            {
+              "id": "c2",
+              "name": "边界与拒绝"
+            },
+            {
+              "id": "c3",
+              "name": "待人姿态"
+            }
           ]
         },
         {
           "id": "B",
           "name": "沟通与人际技巧",
           "clusters": [
-            { "id": "c1", "name": "表达技巧" },
-            { "id": "c2", "name": "倾听与理解" },
-            { "id": "c3", "name": "关系维系" }
+            {
+              "id": "c1",
+              "name": "表达技巧"
+            },
+            {
+              "id": "c2",
+              "name": "倾听与理解"
+            },
+            {
+              "id": "c3",
+              "name": "关系维系"
+            }
           ]
         },
         {
           "id": "C",
           "name": "家庭与亲密关系",
           "clusters": [
-            { "id": "c1", "name": "夫妻关系" },
-            { "id": "c2", "name": "原生家庭" },
-            { "id": "c3", "name": "大家庭社交" }
+            {
+              "id": "c1",
+              "name": "夫妻关系"
+            },
+            {
+              "id": "c2",
+              "name": "原生家庭"
+            },
+            {
+              "id": "c3",
+              "name": "大家庭社交"
+            }
           ]
         },
         {
           "id": "D",
           "name": "育儿策略",
           "clusters": [
-            { "id": "c1", "name": "育儿哲学" },
-            { "id": "c2", "name": "具体方法" }
+            {
+              "id": "c1",
+              "name": "育儿哲学"
+            },
+            {
+              "id": "c2",
+              "name": "具体方法"
+            }
           ]
         }
       ]
@@ -123,80 +206,368 @@
           "id": "A",
           "name": "职场进阶与执行力",
           "clusters": [
-            { "id": "c1", "name": "沟通与执行" },
-            { "id": "c2", "name": "战略定位" },
-            { "id": "c3", "name": "心态与成长" },
-            { "id": "c4", "name": "决策框架" }
+            {
+              "id": "c1",
+              "name": "沟通与执行"
+            },
+            {
+              "id": "c2",
+              "name": "战略定位"
+            },
+            {
+              "id": "c3",
+              "name": "心态与成长"
+            },
+            {
+              "id": "c4",
+              "name": "决策框架"
+            }
           ]
         },
         {
           "id": "B",
           "name": "团队管理与领导力",
           "clusters": [
-            { "id": "c1", "name": "团队沟通" },
-            { "id": "c2", "name": "领导力心态" }
+            {
+              "id": "c1",
+              "name": "团队沟通"
+            },
+            {
+              "id": "c2",
+              "name": "领导力心态"
+            }
           ]
         },
         {
           "id": "C",
           "name": "财富积累与风控投资",
           "clusters": [
-            { "id": "c1", "name": "投资心态" },
-            { "id": "c2", "name": "决策策略" }
+            {
+              "id": "c1",
+              "name": "投资心态"
+            },
+            {
+              "id": "c2",
+              "name": "决策策略"
+            }
           ]
         }
       ]
     }
   ],
   "threads": [
-    { "id": "compound", "name": "复利曲线", "desc": "习惯复利、知识复利、投资复利、关系复利" },
-    { "id": "entropy", "name": "熵增对抗", "desc": "精神熵、系统熵、组织熵；心流/习惯/制度=熵减工具" },
-    { "id": "feedback-loop", "name": "反馈回路", "desc": "习惯四步循环、系统增强/调节回路、学习即时反馈" },
-    { "id": "stretch-zone", "name": "拉伸区原理", "desc": "心流条件、刻意练习、匹配原则、舒适区边缘" },
-    { "id": "separation", "name": "课题分离", "desc": "自我vs他人边界、领导力放权、育儿安全感、投资能力圈" },
-    { "id": "identity-vote", "name": "身份投票", "desc": "行为即投票、证据积累成默认设置、元身份稳定+情境表达灵活" }
+    {
+      "id": "compound",
+      "name": "复利曲线",
+      "desc": "习惯复利、知识复利、投资复利、关系复利"
+    },
+    {
+      "id": "entropy",
+      "name": "熵增对抗",
+      "desc": "精神熵、系统熵、组织熵；心流/习惯/制度=熵减工具"
+    },
+    {
+      "id": "feedback-loop",
+      "name": "反馈回路",
+      "desc": "习惯四步循环、系统增强/调节回路、学习即时反馈"
+    },
+    {
+      "id": "stretch-zone",
+      "name": "拉伸区原理",
+      "desc": "心流条件、刻意练习、匹配原则、舒适区边缘"
+    },
+    {
+      "id": "separation",
+      "name": "课题分离",
+      "desc": "自我vs他人边界、领导力放权、育儿安全感、投资能力圈"
+    },
+    {
+      "id": "identity-vote",
+      "name": "身份投票",
+      "desc": "行为即投票、证据积累成默认设置、元身份稳定+情境表达灵活"
+    }
   ],
   "books": [
-    { "id": "b-001", "title": "高效能人士的七个习惯", "author": "史蒂芬·柯维", "docSource": "个人提升_为人处事 P1", "status": "queued" },
-    { "id": "b-002", "title": "财富自由之路", "author": "李笑来", "docSource": "个人提升_为人处事 P1", "status": "queued" },
-    { "id": "b-003", "title": "被讨厌的勇气", "author": "岸见一郎 / 古贺史健", "docSource": "个人提升_为人处事 P1", "status": "queued" },
-    { "id": "b-004", "title": "影响力", "author": "罗伯特·西奥迪尼", "docSource": "个人提升_为人处事 P1", "status": "queued" },
-    { "id": "b-005", "title": "穷查理宝典", "author": "查理·芒格", "docSource": "个人提升_为人处事 P1", "status": "queued" },
-    { "id": "b-006", "title": "认知觉醒", "author": "周岭", "docSource": "个人提升_为人处事 P1", "status": "in-progress" },
-    { "id": "b-007", "title": "系统之美", "author": "德内拉·梅多斯", "docSource": "个人提升_为人处事 P1", "status": "queued" },
-    { "id": "b-008", "title": "心流", "author": "米哈里·契克森米哈赖", "docSource": "个人提升_为人处事 P1", "status": "queued" },
-    { "id": "b-009", "title": "只有偏执狂才能生存", "author": "安迪·格鲁夫", "docSource": "个人提升_为人处事 P2", "status": "queued" },
-    { "id": "b-010", "title": "悉达多", "author": "赫尔曼·黑塞", "docSource": "个人提升_为人处事 P2", "status": "queued" },
-    { "id": "b-011", "title": "赢（Winning）", "author": "杰克·韦尔奇", "docSource": "个人提升_为人处事 P2", "status": "queued" },
-    { "id": "b-012", "title": "卓有成效的管理者", "author": "彼得·德鲁克", "docSource": "个人提升_为人处事 P2", "status": "queued" },
-    { "id": "b-013", "title": "贪婪的多巴胺", "author": "丹尼尔·利伯曼", "docSource": "个人提升_为人处事 P2", "status": "in-progress" },
-    { "id": "b-014", "title": "学习之道", "author": "芭芭拉·奥克利", "docSource": "个人提升_为人处事 P2", "status": "queued" },
-    { "id": "b-015", "title": "掌控习惯", "author": "詹姆斯·克利尔", "docSource": "个人提升_为人处事 P2", "status": "in-progress" },
-    { "id": "b-016", "title": "金字塔原理", "author": "芭芭拉·明托", "docSource": "个人提升_为人处事 P2", "status": "queued" },
-    { "id": "b-017", "title": "远见", "author": "布莱恩·费瑟斯通豪", "docSource": "个人提升_为人处事 P2", "status": "queued" },
-    { "id": "b-018", "title": "中国历代政治得失", "author": "钱穆", "docSource": "知识面扩宽 小说文学 技能教学 P1", "status": "queued" },
-    { "id": "b-019", "title": "置身事内", "author": "兰小欢", "docSource": "知识面扩宽 小说文学 技能教学 P1", "status": "queued" },
-    { "id": "b-020", "title": "智变时代", "author": "", "docSource": "知识面扩宽 小说文学 技能教学 P1", "status": "queued" },
-    { "id": "b-021", "title": "真希望我父母读过这本书", "author": "菲利帕·佩里", "docSource": "知识面扩宽 小说文学 技能教学 P1", "status": "queued" },
-    { "id": "b-022", "title": "与家人相处的秘密", "author": "", "docSource": "知识面扩宽 小说文学 技能教学 P1", "status": "queued" },
-    { "id": "b-023", "title": "医生的修炼", "author": "阿图·葛文德", "docSource": "知识面扩宽 小说文学 技能教学 P1", "status": "queued" },
-    { "id": "b-024", "title": "The Ride of a Lifetime", "author": "Robert Iger", "docSource": "知识面扩宽 小说文学 技能教学 P1", "status": "queued" },
-    { "id": "b-025", "title": "使女的故事", "author": "玛格丽特·阿特伍德", "docSource": "知识面扩宽 小说文学 技能教学 P2", "status": "queued" },
-    { "id": "b-026", "title": "生命是什么", "author": "王立铭", "docSource": "知识面扩宽 小说文学 技能教学 P2", "status": "queued" },
-    { "id": "b-027", "title": "李光耀观天下", "author": "李光耀", "docSource": "知识面扩宽 小说文学 技能教学 P2", "status": "queued" },
-    { "id": "b-028", "title": "浪潮之巅", "author": "吴军", "docSource": "知识面扩宽 小说文学 技能教学 P2", "status": "queued" },
-    { "id": "b-029", "title": "定投改变命运", "author": "银行螺丝钉", "docSource": "知识面扩宽 小说文学 技能教学 P2", "status": "queued" },
-    { "id": "b-030", "title": "第一次做奶爸", "author": "", "docSource": "知识面扩宽 小说文学 技能教学 P2", "status": "queued" },
-    { "id": "b-031", "title": "人类简史", "author": "尤瓦尔·赫拉利", "docSource": "知识面扩宽 小说文学 技能教学 P2", "status": "queued" },
-    { "id": "b-032", "title": "你是你吃出来的", "author": "", "docSource": "知识面扩宽 小说文学 技能教学 P2", "status": "queued" },
-    { "id": "b-033", "title": "法治的细节", "author": "罗翔", "docSource": "知识面扩宽 小说文学 技能教学 P2", "status": "queued" },
-    { "id": "b-034", "title": "医生的精进", "author": "阿图·葛文德", "docSource": "知识面扩宽 小说文学 技能教学 P3", "status": "queued" },
-    { "id": "b-035", "title": "寻路中国", "author": "彼得·海斯勒", "docSource": "知识面扩宽 小说文学 技能教学 P3", "status": "queued" },
-    { "id": "b-036", "title": "写给大家看的设计书", "author": "罗宾·威廉姆斯", "docSource": "知识面扩宽 小说文学 技能教学 P3", "status": "queued" },
-    { "id": "b-037", "title": "世界因你而不同", "author": "李开复", "docSource": "知识面扩宽 小说文学 技能教学 P3", "status": "queued" },
-    { "id": "b-038", "title": "芯片战争", "author": "克里斯·米勒", "docSource": "知识面扩宽 小说文学 技能教学 P3", "status": "queued" },
-    { "id": "b-039", "title": "万历十五年", "author": "黄仁宇", "docSource": "知识面扩宽 小说文学 技能教学 P3", "status": "queued" },
-    { "id": "b-040", "title": "投资中最简单的事", "author": "邱国鹭", "docSource": "知识面扩宽 小说文学 技能教学 P3", "status": "queued" }
+    {
+      "id": "b-001",
+      "title": "高效能人士的七个习惯",
+      "author": "史蒂芬·柯维",
+      "docSource": "个人提升_为人处事 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-002",
+      "title": "财富自由之路",
+      "author": "李笑来",
+      "docSource": "个人提升_为人处事 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-003",
+      "title": "被讨厌的勇气",
+      "author": "岸见一郎 / 古贺史健",
+      "docSource": "个人提升_为人处事 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-004",
+      "title": "影响力",
+      "author": "罗伯特·西奥迪尼",
+      "docSource": "个人提升_为人处事 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-005",
+      "title": "穷查理宝典",
+      "author": "查理·芒格",
+      "docSource": "个人提升_为人处事 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-006",
+      "title": "认知觉醒",
+      "author": "周岭",
+      "docSource": "个人提升_为人处事 P1",
+      "status": "in-progress"
+    },
+    {
+      "id": "b-007",
+      "title": "系统之美",
+      "author": "德内拉·梅多斯",
+      "docSource": "个人提升_为人处事 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-008",
+      "title": "心流",
+      "author": "米哈里·契克森米哈赖",
+      "docSource": "个人提升_为人处事 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-009",
+      "title": "只有偏执狂才能生存",
+      "author": "安迪·格鲁夫",
+      "docSource": "个人提升_为人处事 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-010",
+      "title": "悉达多",
+      "author": "赫尔曼·黑塞",
+      "docSource": "个人提升_为人处事 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-011",
+      "title": "赢（Winning）",
+      "author": "杰克·韦尔奇",
+      "docSource": "个人提升_为人处事 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-012",
+      "title": "卓有成效的管理者",
+      "author": "彼得·德鲁克",
+      "docSource": "个人提升_为人处事 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-013",
+      "title": "贪婪的多巴胺",
+      "author": "丹尼尔·利伯曼",
+      "docSource": "个人提升_为人处事 P2",
+      "status": "in-progress"
+    },
+    {
+      "id": "b-014",
+      "title": "学习之道",
+      "author": "芭芭拉·奥克利",
+      "docSource": "个人提升_为人处事 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-015",
+      "title": "掌控习惯",
+      "author": "詹姆斯·克利尔",
+      "docSource": "个人提升_为人处事 P2",
+      "status": "in-progress"
+    },
+    {
+      "id": "b-016",
+      "title": "金字塔原理",
+      "author": "芭芭拉·明托",
+      "docSource": "个人提升_为人处事 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-017",
+      "title": "远见",
+      "author": "布莱恩·费瑟斯通豪",
+      "docSource": "个人提升_为人处事 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-018",
+      "title": "中国历代政治得失",
+      "author": "钱穆",
+      "docSource": "知识面扩宽 小说文学 技能教学 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-019",
+      "title": "置身事内",
+      "author": "兰小欢",
+      "docSource": "知识面扩宽 小说文学 技能教学 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-020",
+      "title": "智变时代",
+      "author": "",
+      "docSource": "知识面扩宽 小说文学 技能教学 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-021",
+      "title": "真希望我父母读过这本书",
+      "author": "菲利帕·佩里",
+      "docSource": "知识面扩宽 小说文学 技能教学 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-022",
+      "title": "与家人相处的秘密",
+      "author": "",
+      "docSource": "知识面扩宽 小说文学 技能教学 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-023",
+      "title": "医生的修炼",
+      "author": "阿图·葛文德",
+      "docSource": "知识面扩宽 小说文学 技能教学 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-024",
+      "title": "The Ride of a Lifetime",
+      "author": "Robert Iger",
+      "docSource": "知识面扩宽 小说文学 技能教学 P1",
+      "status": "queued"
+    },
+    {
+      "id": "b-025",
+      "title": "使女的故事",
+      "author": "玛格丽特·阿特伍德",
+      "docSource": "知识面扩宽 小说文学 技能教学 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-026",
+      "title": "生命是什么",
+      "author": "王立铭",
+      "docSource": "知识面扩宽 小说文学 技能教学 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-027",
+      "title": "李光耀观天下",
+      "author": "李光耀",
+      "docSource": "知识面扩宽 小说文学 技能教学 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-028",
+      "title": "浪潮之巅",
+      "author": "吴军",
+      "docSource": "知识面扩宽 小说文学 技能教学 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-029",
+      "title": "定投改变命运",
+      "author": "银行螺丝钉",
+      "docSource": "知识面扩宽 小说文学 技能教学 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-030",
+      "title": "第一次做奶爸",
+      "author": "",
+      "docSource": "知识面扩宽 小说文学 技能教学 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-031",
+      "title": "人类简史",
+      "author": "尤瓦尔·赫拉利",
+      "docSource": "知识面扩宽 小说文学 技能教学 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-032",
+      "title": "你是你吃出来的",
+      "author": "",
+      "docSource": "知识面扩宽 小说文学 技能教学 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-033",
+      "title": "法治的细节",
+      "author": "罗翔",
+      "docSource": "知识面扩宽 小说文学 技能教学 P2",
+      "status": "queued"
+    },
+    {
+      "id": "b-034",
+      "title": "医生的精进",
+      "author": "阿图·葛文德",
+      "docSource": "知识面扩宽 小说文学 技能教学 P3",
+      "status": "queued"
+    },
+    {
+      "id": "b-035",
+      "title": "寻路中国",
+      "author": "彼得·海斯勒",
+      "docSource": "知识面扩宽 小说文学 技能教学 P3",
+      "status": "queued"
+    },
+    {
+      "id": "b-036",
+      "title": "写给大家看的设计书",
+      "author": "罗宾·威廉姆斯",
+      "docSource": "知识面扩宽 小说文学 技能教学 P3",
+      "status": "queued"
+    },
+    {
+      "id": "b-037",
+      "title": "世界因你而不同",
+      "author": "李开复",
+      "docSource": "知识面扩宽 小说文学 技能教学 P3",
+      "status": "queued"
+    },
+    {
+      "id": "b-038",
+      "title": "芯片战争",
+      "author": "克里斯·米勒",
+      "docSource": "知识面扩宽 小说文学 技能教学 P3",
+      "status": "queued"
+    },
+    {
+      "id": "b-039",
+      "title": "万历十五年",
+      "author": "黄仁宇",
+      "docSource": "知识面扩宽 小说文学 技能教学 P3",
+      "status": "queued"
+    },
+    {
+      "id": "b-040",
+      "title": "投资中最简单的事",
+      "author": "邱国鹭",
+      "docSource": "知识面扩宽 小说文学 技能教学 P3",
+      "status": "queued"
+    }
   ],
   "universalTruths": [
     {
@@ -249,9 +620,18 @@
         "mantra": "启动前先问——这件事让我卡住的，是模糊还是诱惑？",
         "futureApplication": ""
       },
-      "books": ["b-006", "b-013"],
-      "mindOsRefs": ["MAS-C-50", "MAS-A-30", "MAS-A-50"],
-      "threads": ["feedback-loop"]
+      "books": [
+        "b-006",
+        "b-013"
+      ],
+      "mindOsRefs": [
+        "MAS-C-50",
+        "MAS-A-30",
+        "MAS-A-50"
+      ],
+      "threads": [
+        "feedback-loop"
+      ]
     },
     {
       "id": "UT-MAS-A-10",
@@ -303,9 +683,18 @@
         "mantra": "启动后问自己——我现在在哪个区？下一步能往拉伸区移一格吗？",
         "futureApplication": "把备忘录升级一步——给每个任务标注它在哪个区段。例如\"整理 Mind Card 归档\"= 舒适区入口，\"七巨头文案\"= 拉伸区中段，\"vibe coding 改模块逻辑\"= 拉伸区高段。这样每次打开备忘录，不只是选\"最容易的\"，而是清楚知道今天的精力能爬到哪一级。"
       },
-      "books": ["b-006", "b-015"],
-      "mindOsRefs": ["MAS-A-20", "MAS-A-70", "MAS-A-40"],
-      "threads": ["stretch-zone"]
+      "books": [
+        "b-006",
+        "b-015"
+      ],
+      "mindOsRefs": [
+        "MAS-A-20",
+        "MAS-A-70",
+        "MAS-A-40"
+      ],
+      "threads": [
+        "stretch-zone"
+      ]
     },
     {
       "id": "UT-MAS-C-20",
@@ -357,9 +746,16 @@
         "mantra": "遇到冲突或压力时先问——此刻'做正确的事'在这个场景里意味着什么？",
         "futureApplication": "在职场每次选择不说出不同意见时，问自己是\"元身份推导后判断此刻不说是正确的\"，还是\"INFJ本能在回避\"——这两个看起来一样的沉默，背后的驱动力完全不同，长期积累的身份投票记录也完全不同。"
       },
-      "books": ["b-015"],
-      "mindOsRefs": ["MAS-B-10", "MAS-C-50"],
-      "threads": ["identity-vote"]
+      "books": [
+        "b-015"
+      ],
+      "mindOsRefs": [
+        "MAS-B-10",
+        "MAS-C-50"
+      ],
+      "threads": [
+        "identity-vote"
+      ]
     }
   ]
 }

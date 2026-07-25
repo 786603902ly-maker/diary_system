@@ -250,7 +250,8 @@ Claude Code 这个环境没有跨会话语义检索工具，改用 `Read` 工具
 2. 把这条 Mind Card 拆解写入 `data/book-os.json` 的 `universalTruths[]`（新增一条，或如果和已有条目内核相同则强化 `insights[]`/`books[]`），字段对照见 `BOOKS_UPDATE.md`。
 3. 把"🔄 归还日记库"那部分，**直接**追加进 `data/mind-os.json` 对应 principle 的 `cases[]`（不再是"生成一段文字供用户复制粘贴"），同时确认该 principle 有指回来的 `bookRefs`。
 4. 更新 `data/book-os-progress.json`：`lastCompletedDay` 前进一格，`hangingQuestion` 按当天场景模拟的结果设置（有悬挂问题就填，没有就是 `null`）。
-5. 跑 `python3 src/build_books.py` 和（如果改了 `mind-os.json`）`python3 src/build.py`，republish 到各自固定链接，`git add`+commit+push。
+5. 跑 `python3 src/build.py`（一次构建同时读 `book-os.json` 和 `mind-os.json`），republish 到
+   `index.html` 的固定链接（日记与读书宇宙共用同一个 Artifact），`git add`+commit+push。
 6. 用一句话告诉用户"今天的 Mind Card 已经写进读书宇宙，日记那边也同步了一条"，不需要用户再手动做任何事。
 
 ---

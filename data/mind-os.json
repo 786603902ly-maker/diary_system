@@ -4,8 +4,7 @@
     "subtitle": "Mind OS · 2016–2026",
     "updated": "2026-07-25",
     "primaryEraStart": 2022,
-    "totalYears": "2016–2026",
-    "bookOsUrl": "https://claude.ai/code/artifact/2614e44c-ee3d-4f86-add4-668ff07b7f23"
+    "totalYears": "2016–2026"
   },
   "quadrants": [
     {
@@ -296,7 +295,9 @@
       ],
       "recency": "root",
       "cluster": "c1",
-      "bookRefs": ["UT-MAS-A-10"]
+      "bookRefs": [
+        "UT-MAS-A-10"
+      ]
     },
     {
       "id": "MAS-A-30",
@@ -321,7 +322,9 @@
       ],
       "recency": "recent",
       "cluster": "c1",
-      "bookRefs": ["UT-MAS-C-10"]
+      "bookRefs": [
+        "UT-MAS-C-10"
+      ]
     },
     {
       "id": "MAS-A-40",
@@ -367,7 +370,9 @@
       ],
       "recency": "mixed",
       "cluster": "c1",
-      "bookRefs": ["UT-MAS-A-10"]
+      "bookRefs": [
+        "UT-MAS-A-10"
+      ]
     },
     {
       "id": "MAS-A-50",
@@ -397,7 +402,9 @@
       ],
       "recency": "mixed",
       "cluster": "c1",
-      "bookRefs": ["UT-MAS-C-10"]
+      "bookRefs": [
+        "UT-MAS-C-10"
+      ]
     },
     {
       "id": "MAS-A-60",
@@ -454,7 +461,9 @@
       ],
       "recency": "mixed",
       "cluster": "c2",
-      "bookRefs": ["UT-MAS-A-10"]
+      "bookRefs": [
+        "UT-MAS-A-10"
+      ]
     },
     {
       "id": "MAS-A-80",
@@ -823,7 +832,9 @@
       ],
       "recency": "recent",
       "cluster": "c1",
-      "bookRefs": ["UT-MAS-C-20"]
+      "bookRefs": [
+        "UT-MAS-C-20"
+      ]
     },
     {
       "id": "MAS-B-20",
@@ -1292,7 +1303,10 @@
       ],
       "recency": "recent",
       "cluster": "c2",
-      "bookRefs": ["UT-MAS-C-10", "UT-MAS-C-20"]
+      "bookRefs": [
+        "UT-MAS-C-10",
+        "UT-MAS-C-20"
+      ]
     },
     {
       "id": "MAS-C-60",
