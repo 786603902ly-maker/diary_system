@@ -65,25 +65,46 @@ index.html               ← 生成产物，自包含单文件，发布为 Artif
 6. 视觉语言手工照 shadcn/ui 的"new-york"风格复刻（Tabs 分段控件/Badge/卡片内 Accordion/
    聚焦环），因为 Artifact 是自包含单文件、CSP 禁止拉外部脚本，没法真的安装 shadcn 的
    React 组件源码——这是刻意的技术取舍，不是偷懒。
+7. 加了"主题簇"二级分组（子类内按主题再分组，恢复金字塔"总→分"层次感），并对全部 120 条
+   principles 做过一轮内容质检（分类/案例代表性/副标题去重复）。
+8. 加了"查看原始日记片段"（`context` 字段）：思维库和原话集共用同一套 `quoteBlockHTML`/
+   `caseItemHTML`/`ctxToggleHTML`，生活记录（含健康追踪）也接上了同一套机制——三处的
+   "原文展开"是完全统一的同一段代码，不是分别实现的。字段没内容时按钮不渲染，不强行填充。
+   目前覆盖：120 条 principles 里 45 条、63 条 lifeRecords 里 24 条挂了原文，年份覆盖
+   2021–2025（2016–2020 root era 按用户指示暂不挖，除非用户明确要求）。
+9. 修过一个"卡片区块显示不一致"的误报：`⏳ 历史回溯（近年）`这个标签命名是反的（近年内容
+   不该叫"回溯历史"），已改名为平实的`📎 案例`；真正的旧年内容还是叫`🕰 历史根系`，折叠展示。
+10. 修过一个真 bug：快捷跳转导航条点击没反应。根因是 `<body>` 上设了 `overflow-x:hidden`——
+    这是个经典 CSS 陷阱，会让 `body` 变成一个独立滚动容器，从而破坏子孙元素的
+    `position:sticky`（顶部导航栏实际上并没有真正吸顶）。**以后遇到"sticky 元素明明设了
+    却不生效"，第一反应检查祖先链上是不是有非 visible 的 overflow。** 修法：overflow-x:hidden
+    只放在 `html` 上，不放 `body`；`scrollToSection` 也从 `scrollIntoView()` 改成了在点击时
+    实测头部实际高度再算精确的 `window.scrollTo` 偏移量，不依赖写死的 CSS scroll-margin-top。
 
-## 正在做 / 下一步方向（如果半途而废，从这里接着看）
+## 原始日记源文件（Google Drive fileId 对照表，避免重新翻找）
 
-用户最新一轮反馈（当前会话）要求：
-- 对全部 120 条 principles 做一次认真的内容质检：分类是否准确、案例是否最有代表性、
-  语言是否清晰有"人味"（不是 AI 腔）——用户明确授权"放手去做"，可以推倒重写。
-- 卡片副标题目前经常只是重复了一遍关键词标题（如"专注力保护" / "专注力是稀缺资源"），
-  要改成真正有增量信息的一句话总结。
-- 子类下卡片会越攒越多（如"效能、习惯与学习执行"已经 21 条），需要在子类和卡片之间加一层
-  "主题簇"分组，恢复金字塔"总→分"的层次感，不能任其变成一个大杂烩。
-- 新增一层"查看原始日记片段"的详情展开：现在的 quotes/cases 是精炼过的一两句话，用户想要
-  在需要的时候能点开看到当时日记更长的原始文字（不是要看全部原文，是要比现在展示的更多
-  一点上下文），这样彻底不需要再翻旧的日记 PDF/笔记本身。这需要回原始日记源文件里挖更长的
-  原文片段，不是从现有 JSON 里能直接生成的。
+10 个 PDF，每年一个，文件名形如"2016年1-12月.pdf"。用
+`mcp__Google_Drive__read_file_content` 读全文（内容较长时会自动存成本地文件，用 Read 工具分段读）：
 
-原始日记源文件是 10 个 Google Drive PDF（2016–2025，每年一个，文件名形如
-"2016年1-12月.pdf"），当时挖掘内容时用过 `mcp__Google_Drive__get_file_metadata` /
-`download_file_content` 读取。如果这些内容还没做完，找用户要一下原始 Drive 链接
-（用户第一次给的十个链接都是 `drive.google.com/file/d/.../view` 形式）。
+| 年份 | fileId |
+|---|---|
+| 2016 | `1kvXMgVQ1UsmZ_aWGpWD0xYEQMOA-EP8o` |
+| 2017 | `1t35Cf7aAeyaEB5VwOK0wHy2ZJdZD65Sp` |
+| 2018 | `1wYyCOqODxDg822yBO5BpIrx4Ne8lnafj` |
+| 2019 | `1pkwEBl2JZTsGjqoVURFMdQEWH0vg3fol` |
+| 2020 | `1U8pU7lE78zjr_fDrz1aPpngpWf3IjsQr` |
+| 2021 | `1mz3PvSmZnZQRIy4y1Z3L3qdc-otWQKn9` |
+| 2022 | `1bH5hBQ5qOugBAeIYIJ7_TJBaa49V7DUQ` |
+| 2023 | `1lCpe8vwsq-GpIPCDcxWo98bNDICYFOKa` |
+| 2024 | `1MQBAir50oBPfey0YL6e9gUYcu9130-Ea` |
+| 2025 | `18ms0LmAFy5hury2iNIPQzz-67vRg5RtS` |
+
+挖 `context` 原文片段的流程（如果用户要求继续往 2016–2020 补，或某年份想补更多条目）：
+1. `read_file_content` 拉全年文本，本地存一份纯文本（不要每次都重新拉一遍全文再扫，存下来复用）。
+2. 用日期做锚点匹配：`data/mind-os.json` 里每条 `quotes[]`/`cases[]` 都有 `date` 字段，去原文里找
+   对应日期的日记条目（原文格式通常是"M/D(标题）\n\n年月日 星期X 时间\n\n正文"），把正文原样摘出来
+   （不是重新概括），只在真的比现有摘要更长更完整时才补 `context`，宁可少补也不要编。
+3. 补完跑 `python3 src/build.py` 重建、发布、提交推送。
 
 ## 构建 / 发布 / 提交的标准动作
 
