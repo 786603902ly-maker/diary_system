@@ -41,7 +41,8 @@
     }
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+  html{overflow-x:hidden;}
+  body{margin:0;padding:0;background:var(--bg);color:var(--ink);}
   body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;line-height:1.6;}
   @media (prefers-reduced-motion: reduce){ *{animation-duration:.01ms !important; transition-duration:.01ms !important;} }
   a{color:inherit}
@@ -106,7 +107,7 @@
   .quad-en{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--ink-faint);text-transform:uppercase;font-weight:400;}
   .quad-tag{font-size:.8rem;color:var(--ink-faint);margin:2px 0 12px;}
 
-  .subcat-section{margin-bottom:18px;scroll-margin-top:118px;}
+  .subcat-section{margin-bottom:18px;scroll-margin-top:236px;}
   .subcat-h{display:flex;align-items:baseline;gap:8px;font-size:.88rem;font-weight:700;color:var(--ink-soft);margin-bottom:8px;}
   .sc-count{font-size:.68rem;color:var(--ink-faint);font-weight:400;background:var(--bg-sunken);border-radius:999px;padding:2px 8px;}
   .cluster-h{font-size:.72rem;font-weight:600;color:var(--ink-faint);margin:12px 0 6px;padding-left:9px;border-left:2px solid var(--line);}
@@ -757,7 +758,13 @@
   }
   function scrollToSection(id){
     var el = document.getElementById(id);
-    if(el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
+    if(!el) return;
+    // measured at click time (not a fixed CSS value) so it stays correct if the sticky
+    // header's real height changes — quickjump row hidden/shown, edit toolbar, responsive wrap, etc.
+    var header = document.querySelector('header.top');
+    var offset = (header ? header.getBoundingClientRect().height : 0) + 10;
+    var top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
   }
 
   // ---------- cross-tab jump (KB ↔ 原话集) ----------
