@@ -1,8 +1,7 @@
-<title>个人思维操作系统 · Mind OS</title>
+<title>读书宇宙 · Book OS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
   :root{
-    /* 冷调石灰纸 + 深松石绿——刻意避开"暖米白+赭石"的默认配色 */
     --bg:#f1f3f1; --bg-elev:#ffffff; --bg-sunken:#e9ece9; --ink:#1b211e; --ink-soft:#4e5651; --ink-faint:#838c86;
     --line:#dfe4e0; --line-soft:#eaeeeb;
     --accent:#2f6b57; --accent-soft:#e3ece7; --accent-ink:#1b4a3c;
@@ -12,8 +11,8 @@
     --shadow-sm:0 1px 2px rgba(20,30,25,.05);
     --shadow:0 1px 2px rgba(20,30,25,.05), 0 6px 20px rgba(20,30,25,.07);
     --radius:12px; --radius-sm:8px; --radius-lg:16px;
-    --life-bg:#eaeeeb;
     --mono:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
+    --thread-1:#b0691f; --thread-2:#2f6b57; --thread-3:#6a5a9e; --thread-4:#a6433f; --thread-5:#2f6b8f; --thread-6:#8a7a2f;
     font-size:16px;
   }
   :root[data-theme="dark"]{
@@ -25,7 +24,7 @@
     --star:#e0b34c; --star-soft:#2c2411;
     --shadow-sm:0 1px 2px rgba(0,0,0,.3);
     --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
-    --life-bg:#171d19;
+    --thread-1:#d99a4e; --thread-2:#7fbfa3; --thread-3:#a79bde; --thread-4:#d68787; --thread-5:#7fa9d9; --thread-6:#cdbb5f;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -37,7 +36,7 @@
       --star:#e0b34c; --star-soft:#2c2411;
       --shadow-sm:0 1px 2px rgba(0,0,0,.3);
       --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
-      --life-bg:#171d19;
+      --thread-1:#d99a4e; --thread-2:#7fbfa3; --thread-3:#a79bde; --thread-4:#d68787; --thread-5:#7fa9d9; --thread-6:#cdbb5f;
     }
   }
   *{box-sizing:border-box}
@@ -51,9 +50,8 @@
   h1,h2,h3{text-wrap:balance;margin:0;}
   [tabindex]:focus-visible, button:focus-visible, input:focus-visible, [contenteditable]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
   .mono{font-family:var(--mono);font-variant-numeric:tabular-nums;}
-  body.edit-mode .wrap{padding-bottom:160px;}
+  body.edit-mode .wrap{padding-bottom:120px;}
 
-  /* ---------- header ---------- */
   header.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
   .top-inner{max-width:1040px;margin:0 auto;padding:14px 16px 10px;}
   .title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;}
@@ -69,14 +67,7 @@
   .search-box input{width:100%;padding:9px 14px 9px 34px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--bg-elev);color:var(--ink);font-size:.88rem;outline:none;}
   .search-box input:focus{border-color:var(--accent)}
   .search-box::before{content:"⌕";position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--ink-faint);font-size:1rem;}
-  .toggle-pill{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--ink-soft);border:1px solid var(--line);background:var(--bg-elev);border-radius:999px;padding:6px 12px;cursor:pointer;white-space:nowrap;}
-  .toggle-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);display:inline-block;}
-  .toggle-pill .dot.star-dot{width:auto;height:auto;border-radius:0;background:none;color:var(--ink-faint);font-size:.8rem;}
-  .toggle-pill.on{background:var(--recent-soft);color:var(--recent);border-color:var(--recent);font-weight:600;}
-  .toggle-pill.on .dot{background:var(--recent);}
-  .toggle-pill.on .dot.star-dot{background:none;color:var(--star);}
-  #star-toggle.on{background:var(--star-soft);color:var(--star);border-color:var(--star);}
-  #star-toggle.on .dot.star-dot{color:var(--star);}
+  .stat-pill{font-size:.74rem;color:var(--ink-faint);background:var(--bg-sunken);border-radius:999px;padding:6px 12px;white-space:nowrap;}
 
   .tabs{display:flex;gap:3px;margin-top:12px;background:var(--bg-sunken);border-radius:var(--radius-sm);padding:3px;width:fit-content;max-width:100%;overflow-x:auto;}
   .tab{flex:none;padding:7px 16px;border-radius:7px;font-size:.82rem;color:var(--ink-faint);cursor:pointer;border:none;background:transparent;white-space:nowrap;}
@@ -95,11 +86,9 @@
 
   main{padding-top:16px;}
 
-  /* ---------- quadrant / subcat section headers ---------- */
   .quad-block{margin-bottom:26px;}
   .quad-h{font-size:1.05rem;font-weight:800;display:flex;align-items:baseline;gap:8px;margin-bottom:2px;}
   .quad-dot{width:10px;height:10px;border-radius:50%;flex:none;}
-  .quad-block:nth-of-type(1) .quad-dot,[data-q="MAS"].quad-dot{background:var(--quad-mas);}
   .quad-h[data-q="MAS"]{color:var(--quad-mas);} .quad-h[data-q="MAS"] .quad-dot{background:var(--quad-mas);}
   .quad-h[data-q="INW"]{color:var(--quad-inw);} .quad-h[data-q="INW"] .quad-dot{background:var(--quad-inw);}
   .quad-h[data-q="DEO"]{color:var(--quad-deo);} .quad-h[data-q="DEO"] .quad-dot{background:var(--quad-deo);}
@@ -113,12 +102,10 @@
   .cluster-h{font-size:.72rem;font-weight:600;color:var(--ink-faint);margin:12px 0 6px;padding-left:9px;border-left:2px solid var(--line);}
   .cluster-h:first-child{margin-top:0;}
 
-  /* ---------- card grid (flat, expand-in-place) ---------- */
   .card-grid{display:flex;flex-wrap:wrap;gap:8px;}
-  .pcard{flex:1 1 190px;max-width:300px;background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:border-color .12s,box-shadow .12s;}
+  .pcard{flex:1 1 220px;max-width:340px;background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:border-color .12s,box-shadow .12s;}
   .pcard:hover{border-color:var(--accent);}
-  .pcard.starred{border-color:var(--star);background:linear-gradient(var(--star-soft),var(--star-soft)) padding-box, var(--bg-elev);}
-  .pcard.starred{background:var(--star-soft);}
+  .pcard.starred{background:var(--star-soft);border-color:var(--star);}
   .pcard.expanded{flex:1 1 100%;max-width:100%;box-shadow:var(--shadow);}
   .pcard.flash{animation:flashPulse 1.6s ease;}
   @keyframes flashPulse{0%{box-shadow:0 0 0 3px var(--accent);}100%{box-shadow:var(--shadow-sm);}}
@@ -131,63 +118,72 @@
   .pc-title{font-size:.72rem;color:var(--ink-faint);line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
   .pcard.expanded .pc-title{-webkit-line-clamp:initial;}
   .pc-meta{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
-  .b-recent{width:6px;height:6px;border-radius:50%;background:var(--recent);display:inline-block;}
-  .b-evergreen{font-size:.62rem;background:var(--accent-soft);color:var(--accent-ink);border-radius:999px;padding:1px 6px;white-space:nowrap;}
-  .b-quote{border:1px solid var(--line);background:var(--bg-sunken);color:var(--ink-soft);border-radius:999px;font-size:.65rem;padding:1px 7px;cursor:pointer;white-space:nowrap;}
-  .b-quote:hover{border-color:var(--accent);color:var(--accent-ink);}
+  .pc-books{font-size:.62rem;background:var(--accent-soft);color:var(--accent-ink);border-radius:999px;padding:1px 7px;white-space:nowrap;}
   .pc-id{font-size:.62rem;color:var(--ink-faint);}
   .pc-chev{font-size:.6rem;color:var(--ink-faint);}
+  .pc-day{font-size:.6rem;color:var(--ink-faint);white-space:nowrap;}
 
   .pcard-body{padding:0 15px 16px;border-top:1px solid var(--line-soft);margin-top:2px;padding-top:12px;}
   .pcard-body{animation:pcardIn .18s ease;}
   @keyframes pcardIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
   .core{font-size:.92rem;color:var(--ink);margin-bottom:12px;white-space:pre-wrap;}
-  .action{font-size:.86rem;color:var(--ink-soft);background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 13px;margin-bottom:14px;white-space:pre-wrap;}
-  .action b{color:var(--accent-ink);}
+  .day-prog{font-size:.8rem;color:var(--ink-soft);background:var(--bg-sunken);border-radius:var(--radius-sm);padding:8px 12px;margin-bottom:12px;white-space:pre-wrap;}
   .section-label{font-size:.68rem;font-weight:700;letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase;margin:14px 0 7px;}
 
-  .quote-block{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;margin-bottom:8px;}
-  .quote-block .qtext{font-size:.9rem;font-style:italic;color:var(--accent-ink);}
-  .quote-block .qdate{font-size:.68rem;color:var(--ink-faint);margin-top:4px;}
+  .insight-block{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;margin-bottom:8px;}
+  .insight-title{font-weight:700;font-size:.86rem;color:var(--accent-ink);margin-bottom:2px;}
+  .insight-src{font-size:.68rem;color:var(--ink-faint);margin-bottom:6px;}
+  .insight-mech{font-size:.84rem;color:var(--ink-soft);margin-bottom:6px;white-space:pre-wrap;}
+  .insight-ex{font-size:.82rem;color:var(--ink-soft);background:var(--bg-elev);border-radius:var(--radius-sm);padding:7px 10px;margin-bottom:6px;white-space:pre-wrap;}
+  .insight-ex b{color:var(--accent-ink);}
+  .insight-take{font-size:.83rem;color:var(--ink);font-weight:600;white-space:pre-wrap;}
 
-  .case-item{position:relative;padding:0 0 12px 16px;border-left:2px solid var(--line-soft);}
-  .case-item:last-child{border-color:transparent;padding-bottom:0;}
-  .case-item::before{content:"";position:absolute;left:-5px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--ink-faint);}
-  .case-item.recent::before{background:var(--recent);}
-  .case-item .cdate{font-size:.7rem;color:var(--ink-faint);font-weight:600;margin-bottom:2px;}
-  .case-item .ctext{font-size:.83rem;color:var(--ink-soft);}
+  .analogy-block{border-left:3px solid var(--quad-deo);background:color-mix(in srgb, var(--quad-deo) 12%, var(--bg-elev));border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;margin-bottom:12px;}
+  .analogy-domain{font-weight:700;font-size:.82rem;color:var(--quad-deo);margin-bottom:4px;}
+  .analogy-text{font-size:.84rem;color:var(--ink-soft);white-space:pre-wrap;}
 
-  .ctx-toggle{font-size:.68rem;color:var(--accent-ink);background:none;border:none;cursor:pointer;padding:0;margin-top:5px;text-decoration:underline;text-underline-offset:2px;display:inline-block;}
-  .ctx-panel{display:none;margin-top:6px;padding:9px 11px;background:var(--bg-sunken);border-radius:var(--radius-sm);font-size:.8rem;color:var(--ink-soft);white-space:pre-wrap;}
-  .ctx-panel.open{display:block;}
-  .root-toggle{font-size:.76rem;color:var(--ink-faint);cursor:pointer;border:1px dashed var(--line);background:none;border-radius:var(--radius-sm);padding:6px 12px;display:inline-block;margin-top:2px;}
-  .root-toggle:hover{border-color:var(--accent);color:var(--accent);}
-  .root-cases{display:none;margin-top:9px;}
-  .root-cases.open{display:block;}
-  .jump-link-btn,.jump-link{font-size:.76rem;color:var(--accent-ink);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;display:inline-block;margin-top:10px;}
+  .scenario-block{border-left:3px solid var(--quad-leg);background:color-mix(in srgb, var(--quad-leg) 10%, var(--bg-elev));border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;margin-bottom:12px;}
+  .scenario-case{font-size:.68rem;color:var(--ink-faint);font-weight:600;margin-bottom:4px;}
+  .scenario-text{font-size:.84rem;color:var(--ink-soft);margin-bottom:6px;white-space:pre-wrap;}
+  .scenario-q{font-size:.84rem;color:var(--ink);font-style:italic;white-space:pre-wrap;}
+  .scenario-hang{font-size:.7rem;color:var(--quad-leg);font-weight:700;margin-top:6px;}
+  .scenario-ans{font-size:.82rem;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);white-space:pre-wrap;}
+
+  .internal-block{background:var(--bg-sunken);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:.84rem;}
+  .internal-block div{margin-bottom:4px;}
+  .internal-block b{color:var(--accent-ink);}
+
   .link-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
-  .chip-bookos{font-size:.72rem;background:var(--accent-soft);color:var(--accent-ink);border:1px solid var(--accent);border-radius:999px;padding:4px 10px;text-decoration:none;display:inline-block;}
-  .chip-bookos:hover{background:var(--accent);color:#fff;}
-
-  /* ---------- quotes tab ---------- */
-  .qgroup-list{display:flex;flex-direction:column;gap:10px;}
-  .qgroup{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:14px 15px;box-shadow:var(--shadow-sm);}
-  .qgroup.starred{border-color:var(--star);background:var(--star-soft);}
-  .qgroup-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
-  .qgroup-head .pc-id{background:var(--bg-sunken);border-radius:6px;padding:2px 7px;font-size:.68rem;color:var(--ink-soft);}
-  .qgroup-title{font-weight:700;font-size:.86rem;flex:1;min-width:120px;}
-  .qgroup .quote-block:last-child{margin-bottom:0;}
-
-  /* ---------- life tab ---------- */
-  .life-list{margin-top:10px;}
-  .life-year{font-size:.78rem;font-weight:700;color:var(--ink-faint);margin:18px 0 8px;letter-spacing:.05em;}
-  .life-item{background:var(--life-bg);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:6px;font-size:.85rem;color:var(--ink-soft);display:flex;gap:10px;}
-  .life-item .ldate{flex:none;font-size:.72rem;color:var(--ink-faint);padding-top:1px;white-space:nowrap;}
-  .life-item .life-body{flex:1;min-width:0;}
-  .life-member{color:var(--ink-faint);font-weight:600;}
+  .chip-book{font-size:.72rem;background:var(--bg-sunken);color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:4px 10px;}
+  .chip-mindos{font-size:.72rem;background:var(--accent-soft);color:var(--accent-ink);border:1px solid var(--accent);border-radius:999px;padding:4px 10px;text-decoration:none;display:inline-block;}
+  .chip-mindos:hover{background:var(--accent);color:#fff;}
+  .chip-thread{font-size:.68rem;border-radius:999px;padding:3px 9px;border:1px solid var(--line);color:var(--ink-soft);cursor:pointer;}
 
   .empty-hint{color:var(--ink-faint);font-size:.85rem;padding:40px 10px;text-align:center;}
-  .search-hit-meta{font-size:.7rem;color:var(--ink-faint);margin-bottom:10px;}
+
+  /* ---------- graph tab ---------- */
+  .graph-wrap{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:8px;box-shadow:var(--shadow-sm);}
+  .graph-wrap svg{width:100%;height:auto;display:block;}
+  .g-node{cursor:pointer;}
+  .g-node circle{stroke:var(--bg-elev);stroke-width:2px;}
+  .g-node text{font-size:10px;fill:var(--ink);pointer-events:none;}
+  .g-hub text{font-size:11px;font-weight:700;fill:var(--ink-soft);}
+  .g-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .g-legend-item{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--ink-soft);}
+  .g-legend-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .graph-hint{font-size:.76rem;color:var(--ink-faint);margin-top:8px;}
+
+  /* ---------- books tab ---------- */
+  .book-doc-group{margin-bottom:20px;}
+  .book-doc-h{font-size:.86rem;font-weight:700;color:var(--ink-soft);margin-bottom:8px;}
+  .book-row{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius-sm);margin-bottom:6px;}
+  .book-status{width:8px;height:8px;border-radius:50%;flex:none;background:var(--line);}
+  .book-status.distilled{background:var(--recent);}
+  .book-status.in-progress{background:var(--star);}
+  .book-title{font-weight:600;font-size:.86rem;}
+  .book-author{font-size:.72rem;color:var(--ink-faint);margin-left:6px;}
+  .book-links{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;}
+  .book-link{font-size:.68rem;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:3px 9px;cursor:pointer;white-space:nowrap;}
 
   /* ---------- editable ---------- */
   .editable{border-radius:4px;}
@@ -195,7 +191,6 @@
   body.edit-mode .editable:hover{outline-color:var(--line);background:var(--bg-sunken);}
   body.edit-mode .editable:focus{outline:1px solid var(--accent);background:var(--bg-elev);}
 
-  /* ---------- fixed edit toolbar ---------- */
   .edit-toolbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--bg-elev);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.08);padding:10px 16px;}
   .edit-toolbar[hidden]{display:none;}
   .et-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:1040px;margin:0 auto;padding:3px 0;}
@@ -215,7 +210,7 @@
     <div class="top-inner">
       <div class="title-row">
         <div>
-          <h1 id="site-title">个人思维操作系统</h1>
+          <h1 id="site-title">读书宇宙</h1>
           <span class="sub" id="site-sub"></span>
         </div>
         <div class="head-actions">
@@ -224,14 +219,13 @@
         </div>
       </div>
       <div class="controls">
-        <div class="search-box"><input id="search" type="text" placeholder="搜索关键词 / 原话 / 案例…" /></div>
-        <button class="toggle-pill" id="recent-toggle"><span class="dot"></span>只看近 3–4 年</button>
-        <button class="toggle-pill" id="star-toggle"><span class="dot star-dot">★</span>只看重点</button>
+        <div class="search-box"><input id="search" type="text" placeholder="搜索关键词 / 书名 / 论点…" /></div>
+        <span class="stat-pill" id="stat-pill"></span>
       </div>
       <div class="tabs" role="tablist">
-        <button class="tab active" data-tab="kb">思维库</button>
-        <button class="tab" data-tab="quotes">原话集</button>
-        <button class="tab" data-tab="life">生活记录</button>
+        <button class="tab active" data-tab="pyramid">普世智金字塔</button>
+        <button class="tab" data-tab="graph">关联图谱</button>
+        <button class="tab" data-tab="books">书籍索引</button>
       </div>
     </div>
     <div class="quickjump" id="quickjump" hidden></div>
@@ -263,18 +257,18 @@
   </div>
 </div>
 
-<script type="application/json" id="mind-os-data">__MIND_OS_DATA__</script>
+<script type="application/json" id="book-os-data">__BOOK_OS_DATA__</script>
 <script>
 (function(){
-  var DATA = JSON.parse(document.getElementById('mind-os-data').textContent);
-  var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, showCtxFor:{}, jumpTo:null };
+  var DATA = JSON.parse(document.getElementById('book-os-data').textContent);
+  var state = { tab:'pyramid', search:'', starOnly:false, editMode:false, expanded:{}, jumpTo:null };
 
   var $ = function(sel, el){ return (el||document).querySelector(sel); };
   var main = $('#main');
   var quickjumpEl = $('#quickjump');
   var searchInput = $('#search');
 
-  $('#site-title').textContent = DATA.meta.title || '个人思维操作系统';
+  $('#site-title').textContent = DATA.meta.title || '读书宇宙';
   $('#site-sub').textContent = DATA.meta.subtitle || '';
 
   function esc(s){
@@ -284,13 +278,10 @@
   }
   function matchText(hay, needle){ return hay && hay.toLowerCase().indexOf(needle) !== -1; }
 
-  // ---------- local edit overlay (no cloud storage capability granted to this session:
-  // edits persist per-browser via localStorage; 导出/导入 bridges across devices) ----------
+  // ---------- local edit overlay (localStorage, namespaced separately from Mind OS) ----------
   var overlay = {};
-  try{ overlay = JSON.parse(localStorage.getItem('mindos-edits-v1')||'{}'); }catch(e){ overlay = {}; }
-  function saveOverlay(){
-    try{ localStorage.setItem('mindos-edits-v1', JSON.stringify(overlay)); }catch(e){}
-  }
+  try{ overlay = JSON.parse(localStorage.getItem('bookos-edits-v1')||'{}'); }catch(e){ overlay = {}; }
+  function saveOverlay(){ try{ localStorage.setItem('bookos-edits-v1', JSON.stringify(overlay)); }catch(e){} }
   var FALLBACK = {};
   function fieldHTML(key, plain){
     FALLBACK[key] = plain || '';
@@ -363,10 +354,10 @@
   // ---------- theme ----------
   var themeBtn = $('#theme-btn');
   function applyTheme(t){
-    if(t){ document.documentElement.setAttribute('data-theme', t); localStorage.setItem('mindos-theme', t); }
-    else { document.documentElement.removeAttribute('data-theme'); localStorage.removeItem('mindos-theme'); }
+    if(t){ document.documentElement.setAttribute('data-theme', t); localStorage.setItem('bookos-theme', t); }
+    else { document.documentElement.removeAttribute('data-theme'); localStorage.removeItem('bookos-theme'); }
   }
-  var savedTheme = localStorage.getItem('mindos-theme');
+  var savedTheme = localStorage.getItem('bookos-theme');
   if(savedTheme) applyTheme(savedTheme);
   themeBtn.addEventListener('click', function(){
     var cur = document.documentElement.getAttribute('data-theme');
@@ -429,7 +420,7 @@
     try{
       var blob = new Blob([text], {type:'application/json'});
       var url = URL.createObjectURL(blob);
-      var a = document.createElement('a'); a.href = url; a.download = 'mindos-edits-' + todayStr() + '.json';
+      var a = document.createElement('a'); a.href = url; a.download = 'bookos-edits-' + todayStr() + '.json';
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(function(){ URL.revokeObjectURL(url); }, 3000);
     }catch(e){ alert('导出失败：' + (e && e.message || e)); }
@@ -437,7 +428,7 @@
   function exportEdits(){
     var payload = JSON.stringify(overlay, null, 2);
     if(window.claude && window.claude.downloads){
-      window.claude.downloads.save({filename:'mindos-edits-' + todayStr() + '.json', data: payload}).catch(function(){
+      window.claude.downloads.save({filename:'bookos-edits-' + todayStr() + '.json', data: payload}).catch(function(){
         fallbackDownload(payload);
       });
     } else {
@@ -481,27 +472,12 @@
     });
   });
 
-  // ---------- search / filters ----------
   var searchTimer;
   searchInput.addEventListener('input', function(){
     clearTimeout(searchTimer);
     searchTimer = setTimeout(function(){ state.search = searchInput.value.trim(); render(); }, 120);
   });
-  var recentToggle = $('#recent-toggle');
-  recentToggle.addEventListener('click', function(){
-    state.recentOnly = !state.recentOnly;
-    recentToggle.classList.toggle('on', state.recentOnly);
-    render();
-  });
-  var starToggle = $('#star-toggle');
-  starToggle.addEventListener('click', function(){
-    state.starOnly = !state.starOnly;
-    starToggle.classList.toggle('on', state.starOnly);
-    render();
-  });
 
-  // 键盘可达性：自定义 div 控件（tabindex=0）用 Enter/Space 触发点击；
-  // 排除真实 button/input 与 contenteditable，避免打字时空格被拦截。
   document.addEventListener('keydown', function(e){
     if(e.key !== 'Enter' && e.key !== ' ') return;
     var el = document.activeElement;
@@ -510,25 +486,19 @@
     el.click();
   });
 
-  function principleById(id){ return DATA.principles.find(function(p){ return p.id === id; }); }
-  function quadrantById(id){ return DATA.quadrants.find(function(q){ return q.id === id; }); }
-  function principlesOf(qid, scid){
-    return DATA.principles.filter(function(p){ return p.quadrant === qid && (!scid || p.subcat === scid); });
-  }
-  function isRecentEnough(p){
-    return p.recency === 'recent' || p.recency === 'mixed' || p.recency === 'evergreen';
-  }
+  function truthById(id){ return DATA.universalTruths.find(function(t){ return t.id === id; }); }
+  function bookById(id){ return DATA.books.find(function(b){ return b.id === id; }); }
+  function threadById(id){ return DATA.threads.find(function(t){ return t.id === id; }); }
   function isStarred(id){ return !!overlay[id + '::star']; }
 
-  function principleMatchesSearch(p, q){
-    if(matchText(effectiveText(p.id + '::title', p.title), q)) return true;
-    if(matchText(effectiveText(p.id + '::keyword', p.keyword), q)) return true;
-    if(matchText(effectiveText(p.id + '::core', p.core), q)) return true;
-    if(matchText(effectiveText(p.id + '::action', p.action), q)) return true;
-    var quotes = p.quotes || [];
-    for(var i = 0; i < quotes.length; i++){ if(matchText(effectiveText(p.id + '::quote::' + i, quotes[i].text), q)) return true; }
-    var cases = p.cases || [];
-    for(var j = 0; j < cases.length; j++){ if(matchText(effectiveText(p.id + '::case::' + j, cases[j].text), q)) return true; }
+  function truthMatchesSearch(t, q){
+    if(matchText(effectiveText(t.id + '::title', t.title), q)) return true;
+    if(matchText(effectiveText(t.id + '::keyword', t.keyword), q)) return true;
+    if(matchText(effectiveText(t.id + '::core', t.core), q)) return true;
+    var books = (t.books || []).map(bookById).filter(Boolean);
+    for(var i=0;i<books.length;i++){ if(matchText(books[i].title.toLowerCase(), q)) return true; }
+    var insights = t.insights || [];
+    for(var j=0;j<insights.length;j++){ if(matchText((insights[j].title||'').toLowerCase(), q)) return true; }
     return false;
   }
 
@@ -538,206 +508,229 @@
       '<div class="quad-tag">' + esc(quad.tagline) + '</div>';
   }
 
-  function ctxToggleHTML(ctxKey, context){
-    if(!context) return '';
-    var open = !!state.showCtxFor[ctxKey];
-    return '<button class="ctx-toggle" data-ctx="' + ctxKey + '">' + (open ? '收起原始日记片段 ▲' : '查看原始日记片段 ▼') + '</button>' +
-      '<div class="ctx-panel' + (open ? ' open' : '') + '">' + esc(context) + '</div>';
-  }
-
-  function caseItemHTML(p, o, recentClass){
-    var key = p.id + '::case::' + o.i;
-    var ctxKey = key + '::ctx';
-    return '<div class="case-item' + (recentClass ? ' recent' : '') + '"><div class="cdate mono">' + esc(o.c.date || '') + '</div>' +
-      '<div class="ctext editable" data-key="' + key + '">' + fieldHTML(key, o.c.text) + '</div>' +
-      ctxToggleHTML(ctxKey, o.c.context) + '</div>';
-  }
-
-  function quoteBlockHTML(p, qt, idx){
-    var key = p.id + '::quote::' + idx;
-    var ctxKey = key + '::ctx';
-    return '<div class="quote-block"><div class="qtext editable" data-key="' + key + '">' + fieldHTML(key, qt.text) + '</div>' +
-      '<div class="qdate mono">' + esc(qt.date || '') + '</div>' +
-      ctxToggleHTML(ctxKey, qt.context) + '</div>';
-  }
-
-  function pcardDetailHTML(p){
-    var quotes = p.quotes || [];
-    var cases = p.cases || [];
-    var casesWithIdx = cases.map(function(c, i){ return {c: c, i: i}; });
-    var recentCases = casesWithIdx.filter(function(o){ return o.c.era === 'recent' || o.c.era === 'mixed'; });
-    var rootCases = casesWithIdx.filter(function(o){ return o.c.era === 'root'; });
-    var quotesHTML = quotes.map(function(qt, idx){ return quoteBlockHTML(p, qt, idx); }).join('');
-    var recentHTML = recentCases.map(function(o){ return caseItemHTML(p, o, true); }).join('');
-    var rootHTML = rootCases.map(function(o){ return caseItemHTML(p, o, false); }).join('');
-    var rootOpen = !!state.showRootFor[p.id];
-    var coreKey = p.id + '::core';
-    var actionKey = p.id + '::action';
-    return '<div class="pcard-body">' +
-      '<div class="core editable" data-key="' + coreKey + '">' + fieldHTML(coreKey, p.core) + '</div>' +
-      (p.action ? '<div class="action"><b>行动指南　</b><span class="editable" data-key="' + actionKey + '">' + fieldHTML(actionKey, p.action) + '</span></div>' : '') +
-      (quotesHTML ? '<div class="section-label" data-id="q-' + p.id + '">📖 原话</div>' + quotesHTML : '') +
-      (recentHTML ? '<div class="section-label">📎 案例</div>' + recentHTML : '') +
-      (rootHTML ? '<div class="section-label">🕰 历史根系（旧年，' + rootCases.length + ' 条）</div>' +
-        '<button class="root-toggle" data-id="' + p.id + '">' + (rootOpen ? '收起旧年案例 ▲' : '展开旧年案例 ▼') + '</button>' +
-        '<div class="root-cases' + (rootOpen ? ' open' : '') + '">' + rootHTML + '</div>' : '') +
-      (quotes.length ? '<button class="jump-link" data-jump-quotes="' + p.id + '">在原话集中查看这条的全部原话 →</button>' : '') +
-      bookRefChipsHTML(p) +
+  function insightHTML(t, ins, idx){
+    return '<div class="insight-block">' +
+      '<div class="insight-title">' + (idx+1) + '. ' + esc(ins.title) + '</div>' +
+      (ins.source ? '<div class="insight-src">Source：' + esc(ins.source) + '</div>' : '') +
+      (ins.mechanism ? '<div class="insight-mech">' + esc(ins.mechanism) + '</div>' : '') +
+      (ins.example ? '<div class="insight-ex"><b>例如：</b>' + esc(ins.example) + '</div>' : '') +
+      (ins.takeaway ? '<div class="insight-take">洞察：' + esc(ins.takeaway) + '</div>' : '') +
       '</div>';
   }
 
-  function bookRefChipsHTML(p){
-    var refs = p.bookRefs || [];
-    if(!refs.length || !DATA.meta.bookOsUrl) return '';
-    var chips = refs.map(function(ref){
-      var url = DATA.meta.bookOsUrl + '#' + ref;
-      return '<a class="chip-bookos" href="' + esc(url) + '" target="_blank" rel="noopener">📚 读书宇宙 ' + esc(ref) + ' ↗</a>';
-    }).join('');
-    return '<div class="link-chips">' + chips + '</div>';
+  function analogyHTML(a){
+    if(!a || !a.text) return '';
+    return '<div class="section-label">🔗 突触连接（跨学科跳跃）</div>' +
+      '<div class="analogy-block"><div class="analogy-domain">' + esc(a.domain||'') + '</div>' +
+      '<div class="analogy-text">' + esc(a.text) + '</div></div>';
   }
 
-  function principleCardHTML(p){
-    var quoteCount = (p.quotes || []).length;
-    var starred = isStarred(p.id);
-    var expanded = !!state.expanded[p.id];
-    var badge = p.recency === 'evergreen'
-      ? '<span class="b-evergreen" title="旧年但至今仍适用的主教训">⏳ 长效</span>'
-      : (isRecentEnough(p) ? '<span class="b-recent" title="近3–4年"></span>' : '');
-    return '<article class="pcard' + (expanded ? ' expanded' : '') + (starred ? ' starred' : '') + '" data-id="' + p.id + '">' +
-      '<div class="pcard-head" data-id="' + p.id + '" tabindex="0">' +
-        '<button class="star-btn" data-id="' + p.id + '" title="标记重点">' + (starred ? '★' : '☆') + '</button>' +
+  function scenarioHTML(s){
+    if(!s || !s.caseText) return '';
+    return '<div class="section-label">⚔️ 场景模拟</div>' +
+      '<div class="scenario-block">' +
+      (s.caseRef ? '<div class="scenario-case mono">Case · ' + esc(s.caseRef) + '</div>' : '') +
+      '<div class="scenario-text">' + esc(s.caseText) + '</div>' +
+      (s.question ? '<div class="scenario-q">' + esc(s.question) + '</div>' : '') +
+      (s.hanging ? '<div class="scenario-hang">⏳ 悬挂问题，留待下一次学习回收</div>' : '') +
+      (s.answer ? '<div class="scenario-ans">' + esc(s.answer) + '</div>' : '') +
+      '</div>';
+  }
+
+  function internalHTML(i){
+    if(!i) return '';
+    var rows = '';
+    if(i.identity) rows += '<div><b>身份　</b>' + esc(i.identity) + '</div>';
+    if(i.mantra) rows += '<div><b>咒语　</b>' + esc(i.mantra) + '</div>';
+    if(i.futureApplication) rows += '<div><b>未来应用　</b>' + esc(i.futureApplication) + '</div>';
+    if(!rows) return '';
+    return '<div class="section-label">📝 我的内化</div><div class="internal-block">' + rows + '</div>';
+  }
+
+  function linkChipsHTML(t){
+    var chips = '';
+    (t.books || []).forEach(function(bid){
+      var b = bookById(bid);
+      if(b) chips += '<span class="chip-book" data-jump-books="' + bid + '">📚 ' + esc(b.title) + '</span>';
+    });
+    (t.mindOsRefs || []).forEach(function(ref){
+      var url = (DATA.meta.mindOsUrl || '#') + '#' + ref;
+      chips += '<a class="chip-mindos" href="' + esc(url) + '" target="_blank" rel="noopener">🔗 日记 ' + esc(ref) + ' ↗</a>';
+    });
+    (t.threads || []).forEach(function(tid){
+      var th = threadById(tid);
+      if(th) chips += '<span class="chip-thread">🧵 ' + esc(th.name) + '</span>';
+    });
+    return chips ? '<div class="link-chips">' + chips + '</div>' : '';
+  }
+
+  function truthCardHTML(t){
+    var starred = isStarred(t.id);
+    var expanded = !!state.expanded[t.id];
+    var bookCount = (t.books || []).length;
+    return '<article class="pcard' + (expanded ? ' expanded' : '') + (starred ? ' starred' : '') + '" data-id="' + t.id + '">' +
+      '<div class="pcard-head" data-id="' + t.id + '" tabindex="0">' +
+        '<button class="star-btn" data-id="' + t.id + '" title="标记重点">' + (starred ? '★' : '☆') + '</button>' +
         '<div class="pcard-head-text">' +
-          '<div class="pc-kw editable" data-key="' + p.id + '::keyword">' + fieldHTML(p.id + '::keyword', p.keyword) + '</div>' +
-          '<div class="pc-title editable" data-key="' + p.id + '::title">' + fieldHTML(p.id + '::title', p.title) + '</div>' +
+          '<div class="pc-kw editable" data-key="' + t.id + '::keyword">' + fieldHTML(t.id + '::keyword', t.keyword) + '</div>' +
+          '<div class="pc-title editable" data-key="' + t.id + '::title">' + fieldHTML(t.id + '::title', t.title) + '</div>' +
         '</div>' +
-        '<div class="pc-meta">' + badge +
-          (quoteCount ? '<button class="b-quote" data-id="' + p.id + '" title="查看原话">❝ ' + quoteCount + '</button>' : '') +
-          '<span class="pc-id mono">' + p.id + '</span>' +
+        '<div class="pc-meta">' +
+          (bookCount ? '<span class="pc-books">📚 ' + bookCount + '</span>' : '') +
+          (t.dayLabel ? '<span class="pc-day mono">' + esc(t.dayLabel) + '</span>' : '') +
+          '<span class="pc-id mono">' + t.id + '</span>' +
           '<span class="pc-chev">' + (expanded ? '▲' : '▾') + '</span>' +
         '</div>' +
       '</div>' +
-      (expanded ? pcardDetailHTML(p) : '') +
+      (expanded ? truthDetailHTML(t) : '') +
       '</article>';
+  }
+
+  function truthDetailHTML(t){
+    var coreKey = t.id + '::core';
+    var insights = (t.insights || []).map(function(ins, idx){ return insightHTML(t, ins, idx); }).join('');
+    return '<div class="pcard-body">' +
+      '<div class="core editable" data-key="' + coreKey + '">' + fieldHTML(coreKey, t.core) + '</div>' +
+      (t.dayProgression ? '<div class="day-prog">Day 递进　' + esc(t.dayProgression) + '</div>' : '') +
+      (insights ? '<div class="section-label">💡 核心洞察</div>' + insights : '') +
+      analogyHTML(t.crossDomainAnalogy) +
+      scenarioHTML(t.scenario) +
+      internalHTML(t.internalization) +
+      linkChipsHTML(t) +
+      '</div>';
   }
 
   function sectionForSubcat(quad, sc, list){
     var id = 'sc-' + quad.id + '-' + sc.id;
     var clusterDefs = (sc.clusters && sc.clusters.length) ? sc.clusters : [{id: null, name: null}];
     var byCluster = {};
-    list.forEach(function(p){
-      var cid = p.cluster || '_none';
-      (byCluster[cid] = byCluster[cid] || []).push(p);
+    list.forEach(function(t){
+      var cid = t.cluster || '_none';
+      (byCluster[cid] = byCluster[cid] || []).push(t);
     });
     var groupsHTML = '';
     clusterDefs.forEach(function(cl){
       var items = byCluster[cl.id || '_none'] || [];
       if(!items.length) return;
       groupsHTML += (cl.name ? '<div class="cluster-h">' + esc(cl.name) + '</div>' : '') +
-        '<div class="card-grid">' + items.map(principleCardHTML).join('') + '</div>';
+        '<div class="card-grid">' + items.map(truthCardHTML).join('') + '</div>';
     });
-    // 兜底：万一有条目没有 cluster 字段或不在已定义的簇里，也不能漏渲染
     var assignedIds = {};
-    clusterDefs.forEach(function(cl){ (byCluster[cl.id || '_none'] || []).forEach(function(p){ assignedIds[p.id] = true; }); });
-    var orphans = list.filter(function(p){ return !assignedIds[p.id]; });
-    if(orphans.length) groupsHTML += '<div class="card-grid">' + orphans.map(principleCardHTML).join('') + '</div>';
+    clusterDefs.forEach(function(cl){ (byCluster[cl.id || '_none'] || []).forEach(function(t){ assignedIds[t.id] = true; }); });
+    var orphans = list.filter(function(t){ return !assignedIds[t.id]; });
+    if(orphans.length) groupsHTML += '<div class="card-grid">' + orphans.map(truthCardHTML).join('') + '</div>';
     return '<section class="subcat-section" id="' + id + '">' +
       '<h3 class="subcat-h"><span class="sc-name">' + esc(sc.name) + '</span><span class="sc-count mono">' + list.length + ' 条</span></h3>' +
       groupsHTML +
       '</section>';
   }
 
-  function filteredList(qid, scid, q){
-    var list = principlesOf(qid, scid);
-    if(state.recentOnly) list = list.filter(isRecentEnough);
-    if(state.starOnly) list = list.filter(function(p){ return isStarred(p.id); });
-    if(q) list = list.filter(function(p){ return principleMatchesSearch(p, q); });
+  function filteredTruths(qid, scid, q){
+    var list = DATA.universalTruths.filter(function(t){ return t.quadrant === qid && (!scid || t.subcat === scid); });
+    if(state.starOnly) list = list.filter(function(t){ return isStarred(t.id); });
+    if(q) list = list.filter(function(t){ return truthMatchesSearch(t, q); });
     return list;
   }
 
-  // ---------- render: KB tab ----------
-  function renderKB(){
+  // ---------- render: pyramid tab ----------
+  function renderPyramid(){
     var q = state.search.toLowerCase();
     var html = '';
     DATA.quadrants.forEach(function(quad){
       var quadHTML = '';
       quad.subcats.forEach(function(sc){
-        var list = filteredList(quad.id, sc.id, q);
+        var list = filteredTruths(quad.id, sc.id, q);
         if(!list.length) return;
         quadHTML += sectionForSubcat(quad, sc, list);
       });
       if(quadHTML) html += '<div class="quad-block">' + quadHeaderHTML(quad) + quadHTML + '</div>';
     });
-    main.innerHTML = html || '<div class="empty-hint">没有匹配的内容，试试关闭筛选或换个搜索词。</div>';
+    main.innerHTML = html || '<div class="empty-hint">这里还没有收录的普世智条目，或没有匹配结果。随着新一天的 Mind Card 融入，这里会持续增多。</div>';
   }
 
-  // ---------- render: quotes tab ----------
-  function quoteGroupHTML(p){
-    var starred = isStarred(p.id);
-    var quotesHTML = (p.quotes || []).map(function(qt, idx){ return quoteBlockHTML(p, qt, idx); }).join('');
-    return '<div class="qgroup' + (starred ? ' starred' : '') + '" data-id="' + p.id + '">' +
-      '<div class="qgroup-head">' +
-        '<span class="pc-id mono">' + p.id + '</span>' +
-        '<span class="qgroup-title editable" data-key="' + p.id + '::title">' + fieldHTML(p.id + '::title', p.title) + '</span>' +
-        '<button class="jump-link-btn" data-jump-kb="' + p.id + '">← 思维库</button>' +
-      '</div>' + quotesHTML + '</div>';
-  }
-  function renderQuotes(){
-    var q = state.search.toLowerCase();
-    var html = '';
-    DATA.quadrants.forEach(function(quad){
-      var quadHTML = '';
-      quad.subcats.forEach(function(sc){
-        var list = filteredList(quad.id, sc.id, q).filter(function(p){ return (p.quotes || []).length > 0; });
-        if(!list.length) return;
-        quadHTML += '<section class="subcat-section" id="qsc-' + quad.id + '-' + sc.id + '">' +
-          '<h3 class="subcat-h"><span class="sc-name">' + esc(sc.name) + '</span><span class="sc-count mono">' + list.length + ' 条含原话</span></h3>' +
-          '<div class="qgroup-list">' + list.map(quoteGroupHTML).join('') + '</div></section>';
-      });
-      if(quadHTML) html += '<div class="quad-block">' + quadHeaderHTML(quad) + quadHTML + '</div>';
+  // ---------- render: graph tab ----------
+  function renderGraph(){
+    var truths = DATA.universalTruths;
+    if(!truths.length){ main.innerHTML = '<div class="empty-hint">还没有可视化的条目。</div>'; return; }
+    var buckets = {};
+    truths.forEach(function(t){
+      var tids = (t.threads && t.threads.length) ? t.threads : ['_unassigned'];
+      tids.forEach(function(tid){ (buckets[tid] = buckets[tid] || []).push(t); });
     });
-    main.innerHTML = html || '<div class="empty-hint">还没有收录原话，或没有匹配结果。随着新日记不断融入，这里会持续增多。</div>';
+    var threadIds = Object.keys(buckets);
+    var W = 760, H = 560, cx = W/2, cy = H/2, R1 = Math.min(W,H)/2 - 110;
+    var colorVar = ['var(--thread-1)','var(--thread-2)','var(--thread-3)','var(--thread-4)','var(--thread-5)','var(--thread-6)'];
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+    var nodesSvg = '', edgesSvg = '';
+    threadIds.forEach(function(tid, i){
+      var angle = (i / threadIds.length) * Math.PI * 2 - Math.PI/2;
+      var hx = cx + R1 * Math.cos(angle), hy = cy + R1 * Math.sin(angle);
+      var th = threadById(tid);
+      var color = colorVar[i % colorVar.length];
+      var members = buckets[tid];
+      var R2 = 70;
+      members.forEach(function(t, j){
+        var a2 = (members.length === 1) ? angle : angle + (j/(members.length-1) - 0.5) * 1.1;
+        var nx = hx + R2 * Math.cos(a2), ny = hy + R2 * Math.sin(a2);
+        edgesSvg += '<line x1="' + hx.toFixed(1) + '" y1="' + hy.toFixed(1) + '" x2="' + nx.toFixed(1) + '" y2="' + ny.toFixed(1) + '" stroke="' + color + '" stroke-width="1.3" stroke-opacity="0.55"/>';
+        var qColor = 'var(--quad-' + t.quadrant.toLowerCase() + ')';
+        var r = 7 + Math.min(3, (t.books||[]).length);
+        nodesSvg += '<g class="g-node" data-jump-pyramid="' + t.id + '" transform="translate(' + nx.toFixed(1) + ',' + ny.toFixed(1) + ')">' +
+          '<title>' + esc(t.title) + '</title>' +
+          '<circle r="' + r + '" fill="' + qColor + '"/>' +
+          '<text x="0" y="' + (r+12) + '" text-anchor="middle">' + esc((t.keyword||t.title||'').slice(0,8)) + '</text>' +
+          '</g>';
+      });
+      nodesSvg += '<g class="g-hub" transform="translate(' + hx.toFixed(1) + ',' + hy.toFixed(1) + ')">' +
+        '<circle r="5" fill="' + color + '"/>' +
+        '<text x="0" y="-10" text-anchor="middle">' + esc(th ? th.name : '待归类') + '</text>' +
+        '</g>';
+    });
+    svg += edgesSvg + nodesSvg + '</svg>';
+
+    var legend = '<div class="g-legend">' + threadIds.map(function(tid, i){
+      var th = threadById(tid);
+      var color = colorVar[i % colorVar.length];
+      return '<div class="g-legend-item"><span class="g-legend-dot" style="background:' + color + '"></span>' +
+        esc(th ? th.name + '（' + th.desc + '）' : '待归类') + '</div>';
+    }).join('') + '</div>';
+
+    main.innerHTML = '<div class="graph-wrap">' + svg + '</div>' + legend +
+      '<div class="graph-hint">节点 = 一条普世智条目（颜色按四象限），线条颜色 = 所属跨学科主线；点击节点跳转到金字塔中的完整卡片。</div>';
   }
 
-  // ---------- render: life tab ----------
-  function renderLife(){
-    var list = (DATA.lifeRecords || []).map(function(x, i){ return {rec: x, idx: i}; });
-    var health = (DATA.healthLog || []).map(function(x, i){ return {rec: x, idx: i}; });
+  // ---------- render: books tab ----------
+  function renderBooks(){
     var q = state.search.toLowerCase();
-    if(q){
-      list = list.filter(function(o){ return matchText(effectiveText('life::' + o.idx, o.rec.text), q); });
-      health = health.filter(function(o){ return matchText(effectiveText('health::' + o.idx, o.rec.note), q) || matchText(o.rec.member, q); });
-    }
-    list.sort(function(a, b){ return (b.rec.date || '').localeCompare(a.rec.date || ''); });
-    health.sort(function(a, b){ return (b.rec.date || '').localeCompare(a.rec.date || ''); });
-
-    var healthHTML = '';
-    if(health.length){
-      healthHTML = '<div class="life-year">🩺 全家健康追踪</div><div class="life-list" style="margin-top:0;">' +
-        health.map(function(o){
-          var key = 'health::' + o.idx;
-          var ctxKey = key + '::ctx';
-          return '<div class="life-item"><span class="ldate mono">' + esc(o.rec.date || '') + '</span>' +
-            '<div class="life-body"><span class="life-member">' + esc(o.rec.member || '') + '</span>　<span class="editable" data-key="' + key + '">' + fieldHTML(key, o.rec.note) + '</span>' +
-            ctxToggleHTML(ctxKey, o.rec.context) + '</div></div>';
-        }).join('') + '</div>';
-    }
-    if(!list.length && !health.length){ main.innerHTML = '<div class="empty-hint">生活记录还在陆续补充中，或没有匹配结果。</div>'; return; }
-    var byYear = {};
-    list.forEach(function(o){ var y = (o.rec.date || '未知').slice(0, 4); (byYear[y] = byYear[y] || []).push(o); });
-    var years = Object.keys(byYear).sort().reverse();
-    var lifeHTML = years.length ? ('<div class="life-list">' + years.map(function(y){
-      return '<div class="life-year">' + y + '</div>' + byYear[y].map(function(o){
-        var key = 'life::' + o.idx;
-        var ctxKey = key + '::ctx';
-        return '<div class="life-item"><span class="ldate mono">' + esc(o.rec.date || '') + '</span>' +
-          '<div class="life-body"><span class="editable" data-key="' + key + '">' + fieldHTML(key, o.rec.text) + '</span>' +
-          ctxToggleHTML(ctxKey, o.rec.context) + '</div></div>';
-      }).join('');
-    }).join('') + '</div>') : '';
-    main.innerHTML = healthHTML + lifeHTML;
+    var byDoc = {};
+    var order = [];
+    DATA.books.forEach(function(b){
+      if(q && !matchText(b.title.toLowerCase(), q) && !matchText((b.author||'').toLowerCase(), q)) return;
+      if(!byDoc[b.docSource]){ byDoc[b.docSource] = []; order.push(b.docSource); }
+      byDoc[b.docSource].push(b);
+    });
+    if(!order.length){ main.innerHTML = '<div class="empty-hint">没有匹配的书。</div>'; return; }
+    var distilled = DATA.books.filter(function(b){ return b.status !== 'queued'; }).length;
+    var html = '<div class="stat-pill" style="margin-bottom:14px;display:inline-block;">已开始梳理 ' + distilled + ' / ' + DATA.books.length + ' 本</div>';
+    order.forEach(function(doc){
+      html += '<div class="book-doc-group"><div class="book-doc-h">' + esc(doc) + '</div>';
+      byDoc[doc].forEach(function(b){
+        var refs = DATA.universalTruths.filter(function(t){ return (t.books||[]).indexOf(b.id) !== -1; });
+        html += '<div class="book-row">' +
+          '<span class="book-status ' + esc(b.status) + '"></span>' +
+          '<span class="book-title">' + esc(b.title) + '</span>' +
+          (b.author ? '<span class="book-author">' + esc(b.author) + '</span>' : '') +
+          '<div class="book-links">' + refs.map(function(t){
+            return '<span class="book-link" data-jump-pyramid="' + t.id + '">' + esc(t.keyword || t.id) + ' →</span>';
+          }).join('') + '</div>' +
+          '</div>';
+      });
+      html += '</div>';
+    });
+    main.innerHTML = html;
   }
 
-  // ---------- quick-jump rail ----------
+  // ---------- quick-jump rail (pyramid tab only) ----------
   var io = null;
   function observeSections(){
     if(io) io.disconnect();
@@ -756,7 +749,7 @@
     Array.prototype.forEach.call(sections, function(s){ io.observe(s); });
   }
   function renderQuickJump(){
-    if(state.tab !== 'kb'){ quickjumpEl.hidden = true; quickjumpEl.innerHTML = ''; return; }
+    if(state.tab !== 'pyramid'){ quickjumpEl.hidden = true; quickjumpEl.innerHTML = ''; return; }
     quickjumpEl.hidden = false;
     var html = '';
     DATA.quadrants.forEach(function(quad){
@@ -773,20 +766,15 @@
   function scrollToSection(id){
     var el = document.getElementById(id);
     if(!el) return;
-    // measured at click time (not a fixed CSS value) so it stays correct if the sticky
-    // header's real height changes — quickjump row hidden/shown, edit toolbar, responsive wrap, etc.
     var header = document.querySelector('header.top');
     var offset = (header ? header.getBoundingClientRect().height : 0) + 10;
     var top = el.getBoundingClientRect().top + window.pageYOffset - offset;
     window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
   }
 
-  // ---------- cross-tab jump (KB ↔ 原话集) ----------
-  function jumpToQuotes(id){
-    state.tab = 'quotes'; setActiveTab('quotes'); state.search = ''; searchInput.value = ''; state.jumpTo = id; render();
-  }
-  function jumpToKB(id){
-    state.tab = 'kb'; setActiveTab('kb'); state.search = ''; searchInput.value = ''; state.expanded[id] = true; state.jumpTo = id; render();
+  function jumpToPyramid(id){
+    state.tab = 'pyramid'; setActiveTab('pyramid'); state.search = ''; searchInput.value = '';
+    state.expanded[id] = true; state.jumpTo = id; render();
   }
   function afterRenderJump(){
     if(!state.jumpTo) return;
@@ -800,7 +788,6 @@
     });
   }
 
-  // ---------- delegated click handling ----------
   main.addEventListener('click', function(e){
     var t = e.target;
     var starBtn = t.closest && t.closest('.star-btn');
@@ -810,23 +797,11 @@
       if(overlay[key1]) delete overlay[key1]; else overlay[key1] = true;
       saveOverlay(); render(); return;
     }
-    var quoteBadge = t.closest && t.closest('.b-quote');
-    if(quoteBadge){ jumpToQuotes(quoteBadge.getAttribute('data-id')); return; }
-    var jumpQ = t.closest && t.closest('[data-jump-quotes]');
-    if(jumpQ){ jumpToQuotes(jumpQ.getAttribute('data-jump-quotes')); return; }
-    var jumpKB = t.closest && t.closest('[data-jump-kb]');
-    if(jumpKB){ jumpToKB(jumpKB.getAttribute('data-jump-kb')); return; }
-    var rootToggle = t.closest && t.closest('.root-toggle');
-    if(rootToggle){
-      var id2 = rootToggle.getAttribute('data-id');
-      state.showRootFor[id2] = !state.showRootFor[id2];
-      render(); return;
-    }
-    var ctxToggle = t.closest && t.closest('.ctx-toggle');
-    if(ctxToggle){
-      var ctxKey = ctxToggle.getAttribute('data-ctx');
-      state.showCtxFor[ctxKey] = !state.showCtxFor[ctxKey];
-      render(); return;
+    var jumpPyr = t.closest && t.closest('[data-jump-pyramid]');
+    if(jumpPyr){ jumpToPyramid(jumpPyr.getAttribute('data-jump-pyramid')); return; }
+    var jumpBooks = t.closest && t.closest('[data-jump-books]');
+    if(jumpBooks){
+      state.tab = 'books'; setActiveTab('books'); state.search = ''; searchInput.value = ''; render(); return;
     }
     var head = t.closest && t.closest('.pcard-head');
     if(head){
@@ -837,25 +812,30 @@
     }
   });
 
-  // quickjump chips live in <header>, outside #main's subtree, so they need their own delegated listener
   quickjumpEl.addEventListener('click', function(e){
     var qjChip = e.target.closest && e.target.closest('.qj-chip');
     if(qjChip) scrollToSection(qjChip.getAttribute('data-target'));
   });
 
+  function updateStatPill(){
+    var distilled = DATA.books.filter(function(b){ return b.status !== 'queued'; }).length;
+    $('#stat-pill').textContent = distilled + ' / ' + DATA.books.length + ' 本已开始梳理 · ' + DATA.universalTruths.length + ' 条普世智';
+  }
+
   function render(){
-    if(state.tab === 'kb') renderKB();
-    else if(state.tab === 'quotes') renderQuotes();
-    else renderLife();
+    updateStatPill();
+    if(state.tab === 'pyramid') renderPyramid();
+    else if(state.tab === 'graph') renderGraph();
+    else renderBooks();
     renderQuickJump();
     applyEditableAttrs();
     afterRenderJump();
   }
 
-  // deep-link support: #MAS-C-50 (from another artifact, e.g. 读书宇宙) opens directly into that card
+  // deep-link support: #UT-xxx opens directly into that card on first load
   if(location.hash && location.hash.length > 1){
     var hashId = decodeURIComponent(location.hash.slice(1));
-    if(principleById(hashId)){ state.tab = 'kb'; setActiveTab('kb'); state.expanded[hashId] = true; state.jumpTo = hashId; }
+    if(truthById(hashId)) state.jumpTo = hashId, state.expanded[hashId] = true;
   }
 
   render();

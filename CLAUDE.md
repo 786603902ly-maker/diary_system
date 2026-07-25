@@ -9,6 +9,43 @@ https://claude.ai/code/artifact/354d6b9a-e846-4293-a021-7a01cc768be0
 每次改完都用 `Artifact` 工具把 `index.html` 重新发布到**这同一个 url**（传 `url` 参数），
 这样用户不需要换书签。
 
+## 第二套系统：读书宇宙 · Book OS（2026-07-25 新增，同一个 repo 里）
+
+这个 repo 现在维护**两套独立但互链的系统**：上面的日记 Mind OS，和读书笔记「读书宇宙 ·
+Book OS」——40 本书的读书笔记（5 个 Google Doc）+ 一套 42 天跨学科 Mind Card 学习法
+蒸馏成的"普世智金字塔"。两套系统**不合并成一个页面**（用户明确选择过"两个独立 Artifact +
+双向链接"，不要改成合并），但共用同一套四象限十二子类分类体系，卡片之间可以互相跳转。
+
+**Book OS 当前线上链接（固定，不要发布成新链接）**：
+https://claude.ai/code/artifact/2614e44c-ee3d-4f86-add4-668ff07b7f23
+
+Book OS 的真源是 `data/book-os.json`，模板是 `src/book_template.html`，构建脚本是
+`src/build_books.py`，生成产物 `book-os.html`。操作手册见 `BOOKS_UPDATE.md`；每日 42 天
+学习法的完整规则（角色设定/语言风格/书单/交互流程/Mind Card 格式/质量检查）见
+`BOOK_LEARNING_SYSTEM.md`（改造自用户原有的 v4.3 Project Instruction，把依赖 Claude.ai
+Projects 的 `recent_chats`/`project_knowledge_search` 换成了仓库原生实现，见该文件末尾
+"与 v4.3 的差异"表格）。跨系统进度记在 `data/book-os-progress.json`（上次完成到 Day 几、
+有没有悬挂问题——这是仓库版替代"搜索历史对话"的机制）。
+
+**两套系统怎么互链**：`mind-os.json` 里某条 principle 如果有 `bookRefs: ["UT-xxx"]`，
+渲染成一个跳转到 book-os.html#UT-xxx 的外链；反过来 `book-os.json` 里某条 universalTruth
+如果有 `mindOsRefs: ["MAS-x-xx"]`，渲染成跳转到 index.html#MAS-x-xx 的外链。两个模板都在
+加载时读 `location.hash` 自动展开命中的卡片。**新增双向链接时两边 JSON 都要改**，只改
+一边等于单向链接。
+
+**新内容进来时怎么判断归哪个系统（不确定就问用户，不要瞎猜）**：
+- 内容是日常生活片段/情绪反思/某天发生的事 → Mind OS，走 `UPDATE.md` 的流程。
+- 内容是读书笔记、书摘、Mind Card 学习法的每日产出、跨学科论点 → Book OS，走
+  `BOOKS_UPDATE.md` / `BOOK_LEARNING_SYSTEM.md` 的流程。
+- 内容同时涉及两边（比如某天的 Mind Card 学习本身就要把"归还日记库"那部分写回
+  `mind-os.json`）→ 两个文件都要改，这是正常情况，不是例外。
+- 两套系统的 Google Doc 源文件（无论是读书笔记 5 个文档，还是用户另外维护的"日记思维库
+  2026"这类导出副本）**都不会被这个 repo 自动感知更新**——不存在被动监听 Google Drive
+  文件变化的机制。用户想让新内容生效，必须在对话里明确说一声（"这本书读完了/这周日记
+  更新了，帮我融进去"），Claude 才会去读文档、分类、改 JSON、重新构建发布。这是用户
+  刻意选择的路径（手动触发，不建自动化基础设施），不要主动去接类似 Drive webhook 的
+  自动同步方案，除非用户明确要求。
+
 ## 用户是谁 / 想要什么（不要重新问一遍）
 
 - 这是个人向的成长笔记系统，不是给别人看的。用户看重的是**内容抓重点的能力和文字的"人味"**，
@@ -41,6 +78,9 @@ index.html               ← 生成产物，自包含单文件，发布为 Artif
 
 **改内容永远改 `data/mind-os.json`，改样式/交互永远改 `src/template.html`，
 然后跑 `python3 src/build.py` 重新生成 `index.html`，绝不直接手改 `index.html`。**
+
+（读书宇宙 Book OS 是同样的模式，另一套文件：`data/book-os.json` / `src/book_template.html` /
+`src/build_books.py` / `book-os.html`，详见上面"第二套系统"一节。）
 
 ## 分类体系
 
@@ -115,3 +155,8 @@ python3 src/build.py     # 改完 data/mind-os.json 或 src/template.html 后重
 发布用 `Artifact` 工具，`file_path` 传 `index.html`，`url` 传上面的固定链接，
 `capabilities` 传 `{"downloads": true}`（编辑系统的导出功能要用）。
 改完记得 `git add` + commit + push 到当前分支（不要新建分支，除非用户要求）。
+
+Book OS 同理：`python3 src/build_books.py` 生成 `book-os.html`，`Artifact` 工具发布到
+`file_path: book-os.html`、`url` 传本文件"第二套系统"一节里的 Book OS 固定链接。如果同一次
+改动两边都动了（比如一天的 Mind Card 学习产出既写了 `book-os.json` 又写了 `mind-os.json`），
+两个 `build` 脚本都要跑、两个 Artifact 都要重新发布。

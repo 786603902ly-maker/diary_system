@@ -1,0 +1,12 @@
+{
+  "lastCompletedDay": 3,
+  "lastCompletedDate": "2026-05-06",
+  "nextDay": 4,
+  "hangingQuestion": {
+    "fromDay": 3,
+    "truthId": "UT-MAS-C-20",
+    "caseRef": "MAS-B-10 / 2024/12/04",
+    "question": "换一个场景：在家庭里，当父母的建议开始造成不好的影响，判断需要表达了。这时感受到的驱动力，是\"有原则的工程师\"这个身份在起作用（职场身份溢出到家庭），还是需要重新激活一个\"家庭里也有原则的人\"这个独立的身份（家庭场景里独立建立了投票记录）？"
+  },
+  "note": "这个文件由 BOOK_LEARNING_SYSTEM.md 的 Step 0A 读取/更新，替代原 v4.3 里依赖 Claude.ai Projects 的 recent_chats / conversation_search 工具——本仓库环境没有那两个工具，改用这个小文件做跨会话的进度记忆。"
+}
