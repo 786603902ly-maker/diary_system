@@ -814,8 +814,12 @@
       state.expanded[id3] = !state.expanded[id3];
       render(); return;
     }
-    var qjChip = t.closest && t.closest('.qj-chip');
-    if(qjChip){ scrollToSection(qjChip.getAttribute('data-target')); return; }
+  });
+
+  // quickjump chips live in <header>, outside #main's subtree, so they need their own delegated listener
+  quickjumpEl.addEventListener('click', function(e){
+    var qjChip = e.target.closest && e.target.closest('.qj-chip');
+    if(qjChip) scrollToSection(qjChip.getAttribute('data-target'));
   });
 
   function render(){
