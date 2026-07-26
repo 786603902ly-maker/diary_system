@@ -237,6 +237,15 @@
   .g-legend-item{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--ink-soft);}
   .g-legend-dot{width:9px;height:9px;border-radius:50%;flex:none;}
   .graph-hint{font-size:.76rem;color:var(--ink-faint);margin-top:8px;}
+  .cross-group{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:12px;box-shadow:var(--shadow-sm);}
+  .cross-group-head{font-weight:700;font-size:.86rem;color:var(--accent-ink);margin-bottom:10px;}
+  .group-member{border-left:3px solid var(--line);padding:6px 0 6px 12px;margin-bottom:8px;cursor:pointer;border-radius:0 var(--radius-sm) var(--radius-sm) 0;}
+  .group-member:last-child{margin-bottom:0;}
+  .group-member:hover{background:var(--bg-sunken);border-left-color:var(--accent);}
+  .group-member-head{display:flex;align-items:center;gap:8px;margin-bottom:2px;}
+  .group-member-title{font-size:.82rem;color:var(--ink-faint);margin-bottom:4px;}
+  .group-member-core{font-size:.86rem;color:var(--ink);}
+  .group-member-ann{font-size:.82rem;color:var(--accent-ink);background:var(--accent-soft);border-radius:var(--radius-sm);padding:6px 9px;margin-top:6px;}
 
   /* ---------- books tab ---------- */
   .book-doc-group{margin-bottom:20px;}
@@ -1083,7 +1092,63 @@
     }).join('');
     var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">' + edgesSvg + nodesSvg + quadLabelsSvg + '</svg>';
     main.innerHTML = graphModeSwitchHTML() + '<div class="graph-wrap">' + svg + '</div>' +
-      '<div class="graph-hint">' + entries.length + ' 条读书思维库条目，按四象限分布；节点颜色=象限，连线=同一底层概念在不同书/不同条目间的呼应（跨学科连接）。悬停看标题，点击跳转到读书思维库对应卡片。</div>';
+      '<div class="graph-hint">' + entries.length + ' 条读书思维库条目，按四象限分布；节点颜色=象限，连线=同一底层概念在不同书/不同条目间的呼应（跨学科连接）。悬停看标题，点击跳转到读书思维库对应卡片。下面是这些连线对应的可读内容，直接往下滑就能看，不用去点图上的点。</div>' +
+      crossBookGroupsHTML(entries);
+  }
+
+  // ---------- cross-book connection groups: the readable substitute for staring at graph dots ----------
+  // A connected component of the relatedIds graph = one underlying idea that showed up in more
+  // than one book. This turns that into scrollable, fully-readable cards (title/book/core/
+  // annotation for every member) so "which books share this concept" is visible without clicking.
+  function libraryComponents(entries){
+    var byId = {};
+    entries.forEach(function(e){ byId[e.id] = e; });
+    var visited = {};
+    var components = [];
+    entries.forEach(function(e){
+      if(visited[e.id] || !(e.relatedIds && e.relatedIds.length)) return;
+      var stack = [e.id], comp = [];
+      while(stack.length){
+        var cur = stack.pop();
+        if(visited[cur]) continue;
+        visited[cur] = true;
+        comp.push(cur);
+        (byId[cur].relatedIds || []).forEach(function(rid){ if(!visited[rid]) stack.push(rid); });
+      }
+      components.push(comp.map(function(id){ return byId[id]; }));
+    });
+    components.sort(function(a, b){ return b.length - a.length; });
+    return components;
+  }
+  function groupMemberHTML(e){
+    var b = bookById(e.book);
+    return '<div class="group-member" data-id="' + e.id + '" data-jump-library="' + e.id + '">' +
+      '<div class="group-member-head">' +
+        '<span class="pc-kw">' + esc(e.keyword) + '</span>' +
+        (b ? '<span class="pc-books">📖 ' + esc(b.title) + '</span>' : '') +
+      '</div>' +
+      '<div class="group-member-title">' + esc(e.title) + '</div>' +
+      '<div class="group-member-core">' + esc(e.core) + '</div>' +
+      (e.annotation ? '<div class="group-member-ann">🖊 ' + esc(e.annotation) + '</div>' : '') +
+      '</div>';
+  }
+  function crossBookGroupsHTML(entries){
+    var groups = libraryComponents(entries);
+    if(!groups.length) return '<div class="empty-hint">还没有发现跨书连接。</div>';
+    var html = '<div class="section-label" style="margin-top:20px;">🔗 跨学科连接组（' + groups.length + ' 组，' +
+      groups.reduce(function(n,g){ return n+g.length; },0) + ' 条条目参与）</div>';
+    html += groups.map(function(members){
+      var books = [];
+      members.forEach(function(e){
+        var b = bookById(e.book);
+        if(b && books.indexOf(b.title) === -1) books.push(b.title);
+      });
+      return '<div class="cross-group">' +
+        '<div class="cross-group-head">📚 ' + books.map(esc).join(' × ') + '</div>' +
+        members.map(groupMemberHTML).join('') +
+        '</div>';
+    }).join('');
+    return html;
   }
   function renderThreadGraph(){
     var truths = BOOKS.universalTruths;
@@ -1244,16 +1309,50 @@
     });
   }
 
+  // ---------- targeted DOM updates for the two hottest interactions (expand/collapse, star) ----------
+  // Large tabs (读书思维库 alone can hold 260+ cards) made a full render() per click needlessly
+  // expensive — every keystroke-free click was re-building and re-parsing the entire visible
+  // list's HTML just to flip one card's state. These two paths patch only the affected node.
+  function detailHTMLFor(id){
+    var p = principleById(id); if(p) return pcardDetailHTML(p);
+    var t = truthById(id); if(t) return truthDetailHTML(t);
+    var e = libById(id); if(e) return libDetailHTML(e);
+    return '';
+  }
+  function toggleCardExpand(id){
+    var wasExpanded = !!state.expanded[id];
+    state.expanded[id] = !wasExpanded;
+    var el = main.querySelector('.pcard[data-id="' + id + '"]');
+    if(!el){ render(); return; }
+    el.classList.toggle('expanded', !wasExpanded);
+    var chev = el.querySelector('.pc-chev');
+    if(chev) chev.textContent = wasExpanded ? '▾' : '▲';
+    if(wasExpanded){
+      var body = el.querySelector('.pcard-body');
+      if(body) body.remove();
+    } else {
+      el.insertAdjacentHTML('beforeend', detailHTMLFor(id));
+    }
+    applyEditableAttrs();
+  }
+  function toggleStar(id){
+    var key = id + '::star';
+    var willStar = !overlay[key];
+    if(willStar) overlay[key] = true; else delete overlay[key];
+    saveOverlay();
+    if(state.starOnly){ render(); return; } // visibility itself changes under this filter
+    var el = main.querySelector('.pcard[data-id="' + id + '"]');
+    if(!el){ render(); return; }
+    el.classList.toggle('starred', willStar);
+    var btn = el.querySelector('.star-btn[data-id="' + id + '"]');
+    if(btn) btn.textContent = willStar ? '★' : '☆';
+  }
+
   // ---------- delegated click handling (shared across both systems: same class names / data-attrs) ----------
   main.addEventListener('click', function(e){
     var t = e.target;
     var starBtn = t.closest && t.closest('.star-btn');
-    if(starBtn){
-      var id1 = starBtn.getAttribute('data-id');
-      var key1 = id1 + '::star';
-      if(overlay[key1]) delete overlay[key1]; else overlay[key1] = true;
-      saveOverlay(); render(); return;
-    }
+    if(starBtn){ toggleStar(starBtn.getAttribute('data-id')); return; }
     var quoteBadge = t.closest && t.closest('.b-quote');
     if(quoteBadge){ jumpToQuotes(quoteBadge.getAttribute('data-id')); return; }
     var jumpQ = t.closest && t.closest('[data-jump-quotes]');
@@ -1283,9 +1382,8 @@
     var head = t.closest && t.closest('.pcard-head');
     if(head){
       if(state.editMode && t.closest('.editable')) return;
-      var id3 = head.getAttribute('data-id');
-      state.expanded[id3] = !state.expanded[id3];
-      render(); return;
+      toggleCardExpand(head.getAttribute('data-id'));
+      return;
     }
   });
 
