@@ -6,7 +6,7 @@
     --bg:#f1f3f1; --bg-elev:#ffffff; --bg-sunken:#e9ece9; --ink:#1b211e; --ink-soft:#4e5651; --ink-faint:#838c86;
     --line:#dfe4e0; --line-soft:#eaeeeb;
     --accent:#2f6b57; --accent-soft:#e3ece7; --accent-ink:#1b4a3c;
-    --quad-mas:#b0691f; --quad-inw:#2f6b57; --quad-deo:#6a5a9e; --quad-leg:#a6433f;
+    --quad-mas:#b0691f; --quad-inw:#2f6b57; --quad-deo:#6a5a9e; --quad-leg:#a6433f; --health-accent:#2f6b8f;
     --recent:#2f6b57; --recent-soft:#e3ece7;
     --star:#b8860f; --star-soft:#f6ecd2;
     --shadow-sm:0 1px 2px rgba(20,30,25,.05);
@@ -21,7 +21,7 @@
     --bg:#10140f; --bg-elev:#171d19; --bg-sunken:#1b221d; --ink:#e7ece9; --ink-soft:#b7c0bb; --ink-faint:#7c8781;
     --line:#29332d; --line-soft:#1d2521;
     --accent:#7fbfa3; --accent-soft:#1d362e; --accent-ink:#bfe6d3;
-    --quad-mas:#d99a4e; --quad-inw:#7fbfa3; --quad-deo:#a79bde; --quad-leg:#d68787;
+    --quad-mas:#d99a4e; --quad-inw:#7fbfa3; --quad-deo:#a79bde; --quad-leg:#d68787; --health-accent:#7fa9d9;
     --recent:#7fbfa3; --recent-soft:#1d362e;
     --star:#e0b34c; --star-soft:#2c2411;
     --shadow-sm:0 1px 2px rgba(0,0,0,.3);
@@ -34,7 +34,7 @@
       --bg:#10140f; --bg-elev:#171d19; --bg-sunken:#1b221d; --ink:#e7ece9; --ink-soft:#b7c0bb; --ink-faint:#7c8781;
       --line:#29332d; --line-soft:#1d2521;
       --accent:#7fbfa3; --accent-soft:#1d362e; --accent-ink:#bfe6d3;
-      --quad-mas:#d99a4e; --quad-inw:#7fbfa3; --quad-deo:#a79bde; --quad-leg:#d68787;
+      --quad-mas:#d99a4e; --quad-inw:#7fbfa3; --quad-deo:#a79bde; --quad-leg:#d68787; --health-accent:#7fa9d9;
       --recent:#7fbfa3; --recent-soft:#1d362e;
       --star:#e0b34c; --star-soft:#2c2411;
       --shadow-sm:0 1px 2px rgba(0,0,0,.3);
@@ -198,6 +198,16 @@
   .life-item .ldate{flex:none;font-size:.72rem;color:var(--ink-faint);padding-top:1px;white-space:nowrap;}
   .life-item .life-body{flex:1;min-width:0;}
   .life-member{color:var(--ink-faint);font-weight:600;}
+  .tl-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+  .tl-chip{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--ink-soft);background:var(--bg-elev);border:1px solid var(--line);border-radius:999px;padding:5px 11px;cursor:pointer;white-space:nowrap;}
+  .tl-chip .tl-dot{width:8px;height:8px;border-radius:50%;flex:none;}
+  .tl-chip.active{border-color:var(--ink-soft);color:var(--ink);font-weight:600;background:var(--bg-sunken);}
+  .tl-chip[data-tl-filter="life"] .tl-dot{background:var(--ink-faint);}
+  .tl-chip[data-tl-filter="health"] .tl-dot{background:var(--health-accent);}
+  .tl-chip[data-tl-filter="MAS"] .tl-dot{background:var(--quad-mas);}
+  .tl-chip[data-tl-filter="INW"] .tl-dot{background:var(--quad-inw);}
+  .tl-chip[data-tl-filter="DEO"] .tl-dot{background:var(--quad-deo);}
+  .tl-chip[data-tl-filter="LEG"] .tl-dot{background:var(--quad-leg);}
 
   .empty-hint{color:var(--ink-faint);font-size:.85rem;padding:40px 10px;text-align:center;}
   .search-hit-meta{font-size:.7rem;color:var(--ink-faint);margin-bottom:10px;}
@@ -358,7 +368,7 @@
   var BOOKS = JSON.parse(document.getElementById('book-os-data').textContent);
   var TAB_FAMILY = {kb:'mindos', quotes:'mindos', timeline:'mindos', pyramid:'bookos', library:'bookos', graph:'bookos', books:'bookos'};
   var TIMELINE_START = DATA.meta.timelineStart || '2017-09-25';
-  var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, showCtxFor:{}, jumpTo:null, graphMode:'library' };
+  var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, showCtxFor:{}, jumpTo:null, graphMode:'library', timelineCategory:null };
 
   var $ = function(sel, el){ return (el||document).querySelector(sel); };
   var main = $('#main');
@@ -980,11 +990,24 @@
     for(var i = 0; i < 3; i++){ if(a[i] !== b[i]) return a[i] - b[i]; }
     return 0;
   }
+  var TL_CATEGORIES = [
+    { id: 'life', label: '生活记录' },
+    { id: 'health', label: '健康追踪' },
+    { id: 'MAS', label: null }, { id: 'INW', label: null }, { id: 'DEO', label: null }, { id: 'LEG', label: null }
+  ];
+  function timelineItemCategory(it){
+    return it.kind === 'insight' ? it.quadrant : it.kind;
+  }
   function collectTimelineItems(){
     var items = [];
     (DATA.lifeRecords || []).forEach(function(rec, idx){
       items.push({ date: rec.date, kind: 'life', text: rec.text, context: rec.context,
         key: 'life::' + idx, ctxKey: 'life::' + idx + '::ctx' });
+    });
+    (DATA.healthLog || []).forEach(function(rec, idx){
+      var key = 'health::' + idx;
+      items.push({ date: rec.date, kind: 'health', text: rec.note, context: rec.context, member: rec.member,
+        key: key, ctxKey: key + '::ctx' });
     });
     DATA.principles.forEach(function(p){
       (p.quotes || []).forEach(function(qt, idx){
@@ -1015,45 +1038,45 @@
           ctxToggleHTML(it.ctxKey, it.context) +
         '</div></div>';
     }
+    if(it.kind === 'health'){
+      return '<div class="life-item insight" style="border-left:3px solid var(--health-accent);background:color-mix(in srgb, var(--health-accent) 9%, var(--life-bg));">' +
+        '<span class="ldate mono">' + esc(it.date || '') + '</span>' +
+        '<div class="life-body"><span class="life-member">🩺 ' + esc(it.member || '') + '</span>　<span class="editable" data-key="' + it.key + '">' + fieldHTML(it.key, it.text) + '</span>' +
+        ctxToggleHTML(it.ctxKey, it.context) + '</div></div>';
+    }
     return '<div class="life-item"><span class="ldate mono">' + esc(it.date || '') + '</span>' +
       '<div class="life-body"><span class="editable" data-key="' + it.key + '">' + fieldHTML(it.key, it.text) + '</span>' +
       ctxToggleHTML(it.ctxKey, it.context) + '</div></div>';
   }
+  function renderTimelineLegend(){
+    return '<div class="tl-legend">' + TL_CATEGORIES.map(function(c){
+      var label = c.label || (DATA.quadrants.filter(function(q){ return q.id === c.id; })[0] || {}).name || c.id;
+      return '<button class="tl-chip' + (state.timelineCategory === c.id ? ' active' : '') + '" data-tl-filter="' + c.id + '">' +
+        '<span class="tl-dot"></span>' + esc(label) + '</button>';
+    }).join('') + '</div>';
+  }
   function renderTimeline(){
     var q = state.search.toLowerCase();
-    var health = (DATA.healthLog || []).map(function(x, i){ return {rec: x, idx: i}; });
-    if(q){
-      health = health.filter(function(o){ return matchText(effectiveText('health::' + o.idx, o.rec.note), q) || matchText(o.rec.member, q); });
-    }
-    health.sort(function(a, b){ return (b.rec.date || '').localeCompare(a.rec.date || ''); });
-
     var items = collectTimelineItems();
-    if(q) items = items.filter(function(it){ return matchText(effectiveText(it.key, it.text), q) || (it.keyword && matchText(it.keyword.toLowerCase(), q)); });
+    if(q) items = items.filter(function(it){
+      return matchText(effectiveText(it.key, it.text), q) || (it.keyword && matchText(it.keyword.toLowerCase(), q)) || (it.member && matchText(it.member, q));
+    });
     if(state.recentOnly){
       var eraStart = DATA.meta.primaryEraStart || 2022;
       items = items.filter(function(it){ var dt = parseDateTuple(it.date); return dt && dt[0] >= eraStart; });
     }
+    if(state.timelineCategory) items = items.filter(function(it){ return timelineItemCategory(it) === state.timelineCategory; });
     items.sort(function(a, b){ return (b.date || '').localeCompare(a.date || ''); });
 
-    var healthHTML = '';
-    if(health.length){
-      healthHTML = '<div class="life-year">🩺 全家健康追踪</div><div class="life-list" style="margin-top:0;">' +
-        health.map(function(o){
-          var key = 'health::' + o.idx;
-          var ctxKey = key + '::ctx';
-          return '<div class="life-item"><span class="ldate mono">' + esc(o.rec.date || '') + '</span>' +
-            '<div class="life-body"><span class="life-member">' + esc(o.rec.member || '') + '</span>　<span class="editable" data-key="' + key + '">' + fieldHTML(key, o.rec.note) + '</span>' +
-            ctxToggleHTML(ctxKey, o.rec.context) + '</div></div>';
-        }).join('') + '</div>';
-    }
-    if(!items.length && !health.length){ main.innerHTML = '<div class="empty-hint">时间线还在陆续补充中，或没有匹配结果。</div>'; return; }
+    var legendHTML = renderTimelineLegend();
+    if(!items.length){ main.innerHTML = legendHTML + '<div class="empty-hint">时间线还在陆续补充中，或没有匹配结果。</div>'; return; }
     var byYear = {};
     items.forEach(function(it){ var y = (it.date || '未知').slice(0, 4); (byYear[y] = byYear[y] || []).push(it); });
     var years = Object.keys(byYear).sort().reverse();
-    var timelineHTML = years.length ? ('<div class="life-list">' + years.map(function(y){
+    var timelineHTML = '<div class="life-list">' + years.map(function(y){
       return '<div class="life-year">' + y + '</div>' + byYear[y].map(timelineItemHTML).join('');
-    }).join('') + '</div>') : '';
-    main.innerHTML = healthHTML + timelineHTML;
+    }).join('') + '</div>';
+    main.innerHTML = legendHTML + timelineHTML;
   }
 
   // ---------- render: pyramid tab ----------
@@ -1419,6 +1442,12 @@
     if(jumpBooksChip){ jumpToBooksTab(); return; }
     var graphModeBtn = t.closest && t.closest('[data-graph-mode]');
     if(graphModeBtn){ state.graphMode = graphModeBtn.getAttribute('data-graph-mode'); render(); return; }
+    var tlFilterBtn = t.closest && t.closest('[data-tl-filter]');
+    if(tlFilterBtn){
+      var cat = tlFilterBtn.getAttribute('data-tl-filter');
+      state.timelineCategory = (state.timelineCategory === cat) ? null : cat;
+      render(); return;
+    }
     var rootToggle = t.closest && t.closest('.root-toggle');
     if(rootToggle){
       var id2 = rootToggle.getAttribute('data-id');
