@@ -310,7 +310,7 @@
         <div class="tab-group">
           <button class="tab active" data-tab="kb">思维库</button>
           <button class="tab" data-tab="quotes">原话集</button>
-          <button class="tab" data-tab="life">生活记录</button>
+          <button class="tab" data-tab="timeline">时间线记录</button>
         </div>
         <div class="tab-divider"></div>
         <div class="tab-group">
@@ -356,7 +356,8 @@
 (function(){
   var DATA = JSON.parse(document.getElementById('mind-os-data').textContent);
   var BOOKS = JSON.parse(document.getElementById('book-os-data').textContent);
-  var TAB_FAMILY = {kb:'mindos', quotes:'mindos', life:'mindos', pyramid:'bookos', library:'bookos', graph:'bookos', books:'bookos'};
+  var TAB_FAMILY = {kb:'mindos', quotes:'mindos', timeline:'mindos', pyramid:'bookos', library:'bookos', graph:'bookos', books:'bookos'};
+  var TIMELINE_START = DATA.meta.timelineStart || '2017-09-25';
   var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, showCtxFor:{}, jumpTo:null, graphMode:'library' };
 
   var $ = function(sel, el){ return (el||document).querySelector(sel); };
@@ -966,16 +967,73 @@
   }
 
   // ---------- render: life tab ----------
-  function renderLife(){
-    var list = (DATA.lifeRecords || []).map(function(x, i){ return {rec: x, idx: i}; });
-    var health = (DATA.healthLog || []).map(function(x, i){ return {rec: x, idx: i}; });
+  // ---------- timeline: unified, color-coded merge of lifeRecords + every dated principle
+  // quote/case (from TIMELINE_START onward) — "life" rows are plain diary flow, "insight" rows
+  // are the same excerpts already curated into 思维库, tinted by which quadrant they belong to.
+  function parseDateTuple(s){
+    if(!s) return null;
+    var m = /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec(s);
+    if(!m) return null;
+    return [parseInt(m[1], 10), m[2] ? parseInt(m[2], 10) : 1, m[3] ? parseInt(m[3], 10) : 1];
+  }
+  function dateTupleCompare(a, b){
+    for(var i = 0; i < 3; i++){ if(a[i] !== b[i]) return a[i] - b[i]; }
+    return 0;
+  }
+  function collectTimelineItems(){
+    var items = [];
+    (DATA.lifeRecords || []).forEach(function(rec, idx){
+      items.push({ date: rec.date, kind: 'life', text: rec.text, context: rec.context,
+        key: 'life::' + idx, ctxKey: 'life::' + idx + '::ctx' });
+    });
+    DATA.principles.forEach(function(p){
+      (p.quotes || []).forEach(function(qt, idx){
+        var key = p.id + '::quote::' + idx;
+        items.push({ date: qt.date, kind: 'insight', text: qt.text, context: qt.context,
+          quadrant: p.quadrant, principleId: p.id, keyword: p.keyword, key: key, ctxKey: key + '::ctx' });
+      });
+      (p.cases || []).forEach(function(c, idx){
+        var key = p.id + '::case::' + idx;
+        items.push({ date: c.date, kind: 'insight', text: c.text, context: c.context,
+          quadrant: p.quadrant, principleId: p.id, keyword: p.keyword, key: key, ctxKey: key + '::ctx' });
+      });
+    });
+    var cutoff = parseDateTuple(TIMELINE_START);
+    return items.filter(function(it){
+      var dt = parseDateTuple(it.date);
+      return dt && cutoff && dateTupleCompare(dt, cutoff) >= 0;
+    });
+  }
+  function timelineItemHTML(it){
+    if(it.kind === 'insight'){
+      var qColor = 'var(--quad-' + it.quadrant.toLowerCase() + ')';
+      return '<div class="life-item insight" style="border-left:3px solid ' + qColor + ';background:color-mix(in srgb, ' + qColor + ' 9%, var(--life-bg));">' +
+        '<span class="ldate mono">' + esc(it.date || '') + '</span>' +
+        '<div class="life-body">' +
+          '<span class="chip-jump" data-jump-kb="' + it.principleId + '" style="margin-right:6px;">💡 ' + esc(it.keyword) + '</span>' +
+          '<span class="editable" data-key="' + it.key + '">' + fieldHTML(it.key, it.text) + '</span>' +
+          ctxToggleHTML(it.ctxKey, it.context) +
+        '</div></div>';
+    }
+    return '<div class="life-item"><span class="ldate mono">' + esc(it.date || '') + '</span>' +
+      '<div class="life-body"><span class="editable" data-key="' + it.key + '">' + fieldHTML(it.key, it.text) + '</span>' +
+      ctxToggleHTML(it.ctxKey, it.context) + '</div></div>';
+  }
+  function renderTimeline(){
     var q = state.search.toLowerCase();
+    var health = (DATA.healthLog || []).map(function(x, i){ return {rec: x, idx: i}; });
     if(q){
-      list = list.filter(function(o){ return matchText(effectiveText('life::' + o.idx, o.rec.text), q); });
       health = health.filter(function(o){ return matchText(effectiveText('health::' + o.idx, o.rec.note), q) || matchText(o.rec.member, q); });
     }
-    list.sort(function(a, b){ return (b.rec.date || '').localeCompare(a.rec.date || ''); });
     health.sort(function(a, b){ return (b.rec.date || '').localeCompare(a.rec.date || ''); });
+
+    var items = collectTimelineItems();
+    if(q) items = items.filter(function(it){ return matchText(effectiveText(it.key, it.text), q) || (it.keyword && matchText(it.keyword.toLowerCase(), q)); });
+    if(state.recentOnly){
+      var eraStart = DATA.meta.primaryEraStart || 2022;
+      items = items.filter(function(it){ var dt = parseDateTuple(it.date); return dt && dt[0] >= eraStart; });
+    }
+    items.sort(function(a, b){ return (b.date || '').localeCompare(a.date || ''); });
 
     var healthHTML = '';
     if(health.length){
@@ -988,20 +1046,14 @@
             ctxToggleHTML(ctxKey, o.rec.context) + '</div></div>';
         }).join('') + '</div>';
     }
-    if(!list.length && !health.length){ main.innerHTML = '<div class="empty-hint">生活记录还在陆续补充中，或没有匹配结果。</div>'; return; }
+    if(!items.length && !health.length){ main.innerHTML = '<div class="empty-hint">时间线还在陆续补充中，或没有匹配结果。</div>'; return; }
     var byYear = {};
-    list.forEach(function(o){ var y = (o.rec.date || '未知').slice(0, 4); (byYear[y] = byYear[y] || []).push(o); });
+    items.forEach(function(it){ var y = (it.date || '未知').slice(0, 4); (byYear[y] = byYear[y] || []).push(it); });
     var years = Object.keys(byYear).sort().reverse();
-    var lifeHTML = years.length ? ('<div class="life-list">' + years.map(function(y){
-      return '<div class="life-year">' + y + '</div>' + byYear[y].map(function(o){
-        var key = 'life::' + o.idx;
-        var ctxKey = key + '::ctx';
-        return '<div class="life-item"><span class="ldate mono">' + esc(o.rec.date || '') + '</span>' +
-          '<div class="life-body"><span class="editable" data-key="' + key + '">' + fieldHTML(key, o.rec.text) + '</span>' +
-          ctxToggleHTML(ctxKey, o.rec.context) + '</div></div>';
-      }).join('');
+    var timelineHTML = years.length ? ('<div class="life-list">' + years.map(function(y){
+      return '<div class="life-year">' + y + '</div>' + byYear[y].map(timelineItemHTML).join('');
     }).join('') + '</div>') : '';
-    main.innerHTML = healthHTML + lifeHTML;
+    main.innerHTML = healthHTML + timelineHTML;
   }
 
   // ---------- render: pyramid tab ----------
@@ -1409,7 +1461,7 @@
   function render(){
     if(state.tab === 'kb') renderKB();
     else if(state.tab === 'quotes') renderQuotes();
-    else if(state.tab === 'life') renderLife();
+    else if(state.tab === 'timeline') renderTimeline();
     else if(state.tab === 'pyramid') renderPyramid();
     else if(state.tab === 'library') renderLibrary();
     else if(state.tab === 'graph') renderGraph();
