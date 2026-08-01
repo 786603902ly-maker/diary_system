@@ -275,6 +275,14 @@
   body.edit-mode .editable:hover{outline-color:var(--line);background:var(--bg-sunken);}
   body.edit-mode .editable:focus{outline:1px solid var(--accent);background:var(--bg-elev);}
 
+  /* ---------- floating cross-tab back button ---------- */
+  .nav-back-btn{position:fixed;right:16px;bottom:16px;z-index:26;display:flex;align-items:center;gap:6px;background:var(--accent);color:#fff;border:none;border-radius:999px;padding:10px 16px;font-size:.82rem;font-weight:600;box-shadow:var(--shadow);cursor:pointer;}
+  .nav-back-btn:hover{opacity:.9;}
+  .nav-back-btn[hidden]{display:none;}
+  .nav-back-btn .nbb-arrow{font-size:.95rem;}
+  body.edit-mode .nav-back-btn{bottom:170px;}
+  @media (max-width:480px){ .nav-back-btn{right:12px;bottom:12px;padding:9px 13px;font-size:.78rem;} body.edit-mode .nav-back-btn{bottom:170px;} }
+
   /* ---------- fixed edit toolbar ---------- */
   .edit-toolbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--bg-elev);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.08);padding:10px 16px;}
   .edit-toolbar[hidden]{display:none;}
@@ -336,6 +344,10 @@
   <main id="main"></main>
 </div>
 
+<button class="nav-back-btn" id="nav-back-btn" hidden title="返回跳转前的阅读位置">
+  <span class="nbb-arrow" aria-hidden="true">↩</span><span id="nav-back-label">返回上一页</span>
+</button>
+
 <div class="edit-toolbar" id="edit-toolbar" hidden>
   <div class="et-row">
     <span class="et-label">高亮</span>
@@ -368,12 +380,14 @@
   var BOOKS = JSON.parse(document.getElementById('book-os-data').textContent);
   var TAB_FAMILY = {kb:'mindos', quotes:'mindos', timeline:'mindos', pyramid:'bookos', library:'bookos', graph:'bookos', books:'bookos'};
   var TIMELINE_START = DATA.meta.timelineStart || '2017-09-25';
-  var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, showCtxFor:{}, jumpTo:null, graphMode:'library', timelineCategory:null };
+  var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, showCtxFor:{}, jumpTo:null, graphMode:'library', timelineCategory:null, navStack:[] };
 
   var $ = function(sel, el){ return (el||document).querySelector(sel); };
   var main = $('#main');
   var quickjumpEl = $('#quickjump');
   var searchInput = $('#search');
+  var navBackBtn = $('#nav-back-btn');
+  var navBackLabel = $('#nav-back-label');
 
   $('#site-sub-mindos').textContent = DATA.meta.subtitle || '';
   $('#site-sub-bookos').textContent = BOOKS.meta.subtitle || '';
@@ -1357,19 +1371,55 @@
   }
 
   // ---------- cross-tab / cross-system jump ----------
+  // Every jump* below hops to a different tab (and often a different card), which used to
+  // strand the reader's scroll position with no way back. pushNav() snapshots "where I was"
+  // right before the hop; the floating "返回上一页" button (goBack) pops the stack and restores
+  // it. One shared stack works across both Mind OS and Book OS since they render into the same
+  // #main / state — no per-system implementation needed.
+  function pushNav(){
+    state.navStack.push({ tab: state.tab, scrollY: window.scrollY, search: state.search, timelineCategory: state.timelineCategory, graphMode: state.graphMode });
+    if(state.navStack.length > 30) state.navStack.shift();
+    updateNavBackBtn();
+  }
+  function updateNavBackBtn(){
+    var n = state.navStack.length;
+    navBackBtn.hidden = n === 0;
+    navBackLabel.textContent = n > 1 ? ('返回上一页（' + n + '）') : '返回上一页';
+  }
+  function goBack(){
+    if(!state.navStack.length) return;
+    var snap = state.navStack.pop();
+    state.tab = snap.tab; setActiveTab(snap.tab);
+    state.search = snap.search || ''; searchInput.value = state.search;
+    state.timelineCategory = snap.timelineCategory;
+    if(snap.graphMode) state.graphMode = snap.graphMode;
+    render();
+    updateNavBackBtn();
+    // scroll restore needs to happen after the new tab's (possibly much taller/shorter) HTML
+    // has actually been laid out, hence the double rAF rather than a single one.
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ window.scrollTo({top: snap.scrollY, behavior: 'auto'}); });
+    });
+  }
+  navBackBtn.addEventListener('click', goBack);
   function jumpToQuotes(id){
+    pushNav();
     state.tab = 'quotes'; setActiveTab('quotes'); state.search = ''; searchInput.value = ''; state.jumpTo = id; render();
   }
   function jumpToKB(id){
+    pushNav();
     state.tab = 'kb'; setActiveTab('kb'); state.search = ''; searchInput.value = ''; state.expanded[id] = true; state.jumpTo = id; render();
   }
   function jumpToPyramid(id){
+    pushNav();
     state.tab = 'pyramid'; setActiveTab('pyramid'); state.search = ''; searchInput.value = ''; state.expanded[id] = true; state.jumpTo = id; render();
   }
   function jumpToLibrary(id){
+    pushNav();
     state.tab = 'library'; setActiveTab('library'); state.search = ''; searchInput.value = ''; state.expanded[id] = true; state.jumpTo = id; render();
   }
   function jumpToBooksTab(){
+    pushNav();
     state.tab = 'books'; setActiveTab('books'); state.search = ''; searchInput.value = ''; render();
   }
   function afterRenderJump(){
