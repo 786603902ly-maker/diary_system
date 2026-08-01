@@ -198,6 +198,8 @@
   .life-item .ldate{flex:none;font-size:.72rem;color:var(--ink-faint);padding-top:1px;white-space:nowrap;}
   .life-item .life-body{flex:1;min-width:0;}
   .life-member{color:var(--ink-faint);font-weight:600;}
+  .tl-part + .tl-part{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);}
+  .tl-part-quote{font-style:italic;}
   .tl-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
   .tl-chip{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--ink-soft);background:var(--bg-elev);border:1px solid var(--line);border-radius:999px;padding:5px 11px;cursor:pointer;white-space:nowrap;}
   .tl-chip .tl-dot{width:8px;height:8px;border-radius:50%;flex:none;}
@@ -1024,15 +1026,22 @@
         key: key, ctxKey: key + '::ctx' });
     });
     DATA.principles.forEach(function(p){
+      // A quote and a case dated the same day are almost always the same diary moment seen
+      // twice (verbatim excerpt + distilled reflection) — group same-principle/same-date
+      // quotes+cases into one timeline card instead of two near-identical ones, so reading the
+      // timeline doesn't mean re-reading the same day's insight back to back.
+      var byDate = {};
       (p.quotes || []).forEach(function(qt, idx){
         var key = p.id + '::quote::' + idx;
-        items.push({ date: qt.date, kind: 'insight', text: qt.text, context: qt.context,
-          quadrant: p.quadrant, principleId: p.id, keyword: p.keyword, key: key, ctxKey: key + '::ctx' });
+        (byDate[qt.date] = byDate[qt.date] || []).push({ type: 'quote', text: qt.text, context: qt.context, key: key, ctxKey: key + '::ctx' });
       });
       (p.cases || []).forEach(function(c, idx){
         var key = p.id + '::case::' + idx;
-        items.push({ date: c.date, kind: 'insight', text: c.text, context: c.context,
-          quadrant: p.quadrant, principleId: p.id, keyword: p.keyword, key: key, ctxKey: key + '::ctx' });
+        (byDate[c.date] = byDate[c.date] || []).push({ type: 'case', text: c.text, context: c.context, key: key, ctxKey: key + '::ctx' });
+      });
+      Object.keys(byDate).forEach(function(date){
+        var parts = byDate[date].slice().sort(function(a, b){ return a.type === b.type ? 0 : (a.type === 'quote' ? -1 : 1); });
+        items.push({ date: date, kind: 'insight', quadrant: p.quadrant, principleId: p.id, keyword: p.keyword, parts: parts });
       });
     });
     var cutoff = parseDateTuple(TIMELINE_START);
@@ -1044,12 +1053,17 @@
   function timelineItemHTML(it){
     if(it.kind === 'insight'){
       var qColor = 'var(--quad-' + it.quadrant.toLowerCase() + ')';
+      var partsHTML = it.parts.map(function(part){
+        return '<div class="tl-part' + (part.type === 'quote' ? ' tl-part-quote' : '') + '">' +
+          '<span class="editable" data-key="' + part.key + '">' + fieldHTML(part.key, part.text) + '</span>' +
+          ctxToggleHTML(part.ctxKey, part.context) +
+        '</div>';
+      }).join('');
       return '<div class="life-item insight" style="border-left:3px solid ' + qColor + ';background:color-mix(in srgb, ' + qColor + ' 9%, var(--life-bg));">' +
         '<span class="ldate mono">' + esc(it.date || '') + '</span>' +
         '<div class="life-body">' +
           '<span class="chip-jump" data-jump-kb="' + it.principleId + '" style="margin-right:6px;">💡 ' + esc(it.keyword) + '</span>' +
-          '<span class="editable" data-key="' + it.key + '">' + fieldHTML(it.key, it.text) + '</span>' +
-          ctxToggleHTML(it.ctxKey, it.context) +
+          partsHTML +
         '</div></div>';
     }
     if(it.kind === 'health'){
@@ -1073,7 +1087,8 @@
     var q = state.search.toLowerCase();
     var items = collectTimelineItems();
     if(q) items = items.filter(function(it){
-      return matchText(effectiveText(it.key, it.text), q) || (it.keyword && matchText(it.keyword.toLowerCase(), q)) || (it.member && matchText(it.member, q));
+      if(it.parts) return it.parts.some(function(part){ return matchText(effectiveText(part.key, part.text), q); }) || (it.keyword && matchText(it.keyword.toLowerCase(), q));
+      return matchText(effectiveText(it.key, it.text), q) || (it.member && matchText(it.member, q));
     });
     if(state.recentOnly){
       var eraStart = DATA.meta.primaryEraStart || 2022;
