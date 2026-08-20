@@ -249,8 +249,19 @@
   .g-legend-item{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--ink-soft);}
   .g-legend-dot{width:9px;height:9px;border-radius:50%;flex:none;}
   .graph-hint{font-size:.76rem;color:var(--ink-faint);margin-top:8px;}
-  .cross-group{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:12px;box-shadow:var(--shadow-sm);}
-  .cross-group-head{font-weight:700;font-size:.86rem;color:var(--accent-ink);margin-bottom:10px;}
+  .cross-group{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;box-shadow:var(--shadow-sm);}
+  .cross-group-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:8px;}
+  .cross-group-books{font-weight:700;font-size:.86rem;color:var(--accent-ink);}
+  .xl-type-badge{display:inline-flex;align-items:center;gap:4px;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap;}
+  .xl-type-isomorphism{background:var(--quad-inw);color:var(--bg-elev);}
+  .xl-type-convergence{background:var(--quad-mas);color:var(--bg-elev);}
+  .xl-type-instance{background:var(--ink-faint);color:var(--bg-elev);}
+  .xl-type-chain{background:var(--quad-leg);color:var(--bg-elev);}
+  .xl-type-tension{background:var(--quad-deo);color:var(--bg-elev);}
+  .xl-type-complement{background:var(--accent);color:var(--bg-elev);}
+  .xl-law{font-size:.94rem;font-weight:700;color:var(--ink);line-height:1.55;padding:8px 10px;background:var(--bg-sunken);border-radius:var(--radius-sm);margin-bottom:8px;}
+  .xl-why{font-size:.84rem;color:var(--ink-soft);line-height:1.65;margin-bottom:12px;}
+  .xl-members-label{font-size:.72rem;color:var(--ink-faint);font-weight:700;margin-bottom:6px;}
   .group-member{border-left:3px solid var(--line);padding:6px 0 6px 12px;margin-bottom:8px;cursor:pointer;border-radius:0 var(--radius-sm) var(--radius-sm) 0;}
   .group-member:last-child{margin-bottom:0;}
   .group-member:hover{background:var(--bg-sunken);border-left-color:var(--accent);}
@@ -865,9 +876,16 @@
     var chips = '';
     var b = bookById(e.book);
     if(b) chips += '<span class="chip-book" data-jump-books>📖 ' + esc(b.title) + '</span>';
-    (e.relatedIds || []).forEach(function(rid){
-      var r = libById(rid);
-      if(r) chips += '<span class="chip-jump" data-jump-library="' + rid + '">🔗 ' + esc(r.keyword || rid) + ' →</span>';
+    var seen = {};
+    (libAdjacency()[e.id] || []).forEach(function(xl){
+      var meta = XL_TYPE_META[xl.type] || { emoji: '🔗' };
+      xl.members.forEach(function(rid){
+        if(rid === e.id || seen[rid]) return;
+        var r = libById(rid);
+        if(!r) return;
+        seen[rid] = true;
+        chips += '<span class="chip-jump" data-jump-library="' + rid + '" title="' + esc(xl.law) + '">' + meta.emoji + ' ' + esc(r.keyword || rid) + ' →</span>';
+      });
     });
     return chips ? '<div class="link-chips">' + chips + '</div>' : '';
   }
@@ -1170,13 +1188,20 @@
       });
     });
     var edgesSvg = '';
-    entries.forEach(function(e){
-      (e.relatedIds || []).forEach(function(rid){
-        if(!pos[rid] || !pos[e.id]) return;
-        if(e.id > rid) return; // draw each edge once
-        var p1 = pos[e.id], p2 = pos[rid];
-        edgesSvg += '<line x1="' + p1.x.toFixed(1) + '" y1="' + p1.y.toFixed(1) + '" x2="' + p2.x.toFixed(1) + '" y2="' + p2.y.toFixed(1) + '" stroke="var(--ink-faint)" stroke-width="0.8" stroke-opacity="0.35"/>';
-      });
+    var drawnPairs = {};
+    (BOOKS.crossLinks || []).forEach(function(xl){
+      var m = xl.members;
+      for(var i = 0; i < m.length; i++){
+        for(var j = i + 1; j < m.length; j++){
+          var a = m[i], b = m[j];
+          if(!pos[a] || !pos[b]) continue;
+          var key = a < b ? a + '|' + b : b + '|' + a;
+          if(drawnPairs[key]) continue;
+          drawnPairs[key] = true;
+          var p1 = pos[a], p2 = pos[b];
+          edgesSvg += '<line x1="' + p1.x.toFixed(1) + '" y1="' + p1.y.toFixed(1) + '" x2="' + p2.x.toFixed(1) + '" y2="' + p2.y.toFixed(1) + '" stroke="var(--ink-faint)" stroke-width="0.8" stroke-opacity="0.35"/>';
+        }
+      }
     });
     var nodesSvg = entries.map(function(e){
       var p = pos[e.id];
@@ -1196,33 +1221,32 @@
     }).join('');
     var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">' + edgesSvg + nodesSvg + quadLabelsSvg + '</svg>';
     main.innerHTML = graphModeSwitchHTML() + '<div class="graph-wrap">' + svg + '</div>' +
-      '<div class="graph-hint">' + entries.length + ' 条读书思维库条目，按四象限分布；节点颜色=象限，连线=同一底层概念在不同书/不同条目间的呼应（跨学科连接）。悬停看标题，点击跳转到读书思维库对应卡片。下面是这些连线对应的可读内容，直接往下滑就能看，不用去点图上的点。</div>' +
-      crossBookGroupsHTML(entries);
+      '<div class="graph-hint">' + entries.length + ' 条读书思维库条目，按四象限分布；节点颜色=象限，连线=经过人工核实、写明"为什么"的跨书连接（悬停看标题，点击跳转到读书思维库对应卡片）。下面是这些连线对应的可读内容，每一组先给出共享的底层规律和成立的理由，再列出参与的条目，直接往下滑就能看，不用去点图上的点。</div>' +
+      crossBookGroupsHTML();
   }
 
-  // ---------- cross-book connection groups: the readable substitute for staring at graph dots ----------
-  // A connected component of the relatedIds graph = one underlying idea that showed up in more
-  // than one book. This turns that into scrollable, fully-readable cards (title/book/core/
-  // annotation for every member) so "which books share this concept" is visible without clicking.
-  function libraryComponents(entries){
-    var byId = {};
-    entries.forEach(function(e){ byId[e.id] = e; });
-    var visited = {};
-    var components = [];
-    entries.forEach(function(e){
-      if(visited[e.id] || !(e.relatedIds && e.relatedIds.length)) return;
-      var stack = [e.id], comp = [];
-      while(stack.length){
-        var cur = stack.pop();
-        if(visited[cur]) continue;
-        visited[cur] = true;
-        comp.push(cur);
-        (byId[cur].relatedIds || []).forEach(function(rid){ if(!visited[rid]) stack.push(rid); });
-      }
-      components.push(comp.map(function(id){ return byId[id]; }));
+  // ---------- cross-book connection groups: editorial, not inferred ----------
+  // BOOKS.crossLinks is the single source of truth for "which entries share a deeper
+  // idea" — each entry is an explicit, hand-checked claim (law + why), never a bare
+  // ID pair. A crossLink's `type` names what kind of connection it actually is, so a
+  // real cross-domain structural analogy is never visually confused with "these two
+  // just happen to sit in the same subcategory."
+  var XL_TYPE_META = {
+    isomorphism: { emoji: '🧬', label: '跨学科同构' },
+    convergence: { emoji: '📚', label: '同源汇聚' },
+    instance:    { emoji: '📎', label: '案例佐证' },
+    chain:       { emoji: '⛓', label: '递进链条' },
+    tension:     { emoji: '⚖️', label: '观点张力' },
+    complement:  { emoji: '🧩', label: '互补策略' }
+  };
+  function libAdjacency(){
+    if(BOOKS._xlAdj) return BOOKS._xlAdj;
+    var adj = {};
+    (BOOKS.crossLinks || []).forEach(function(xl){
+      xl.members.forEach(function(id){ (adj[id] = adj[id] || []).push(xl); });
     });
-    components.sort(function(a, b){ return b.length - a.length; });
-    return components;
+    BOOKS._xlAdj = adj;
+    return adj;
   }
   function groupMemberHTML(e){
     var b = bookById(e.book);
@@ -1236,22 +1260,33 @@
       (e.annotation ? '<div class="group-member-ann">🖊 ' + esc(e.annotation) + '</div>' : '') +
       '</div>';
   }
-  function crossBookGroupsHTML(entries){
-    var groups = libraryComponents(entries);
+  function crossLinkCardHTML(xl){
+    var members = xl.members.map(libById).filter(Boolean);
+    var books = [];
+    members.forEach(function(e){
+      var b = bookById(e.book);
+      if(b && books.indexOf(b.title) === -1) books.push(b.title);
+    });
+    var meta = XL_TYPE_META[xl.type] || { emoji: '🔗', label: xl.type };
+    return '<div class="cross-group">' +
+      '<div class="cross-group-head">' +
+        '<span class="xl-type-badge xl-type-' + esc(xl.type) + '">' + meta.emoji + ' ' + esc(meta.label) + '</span>' +
+        '<span class="cross-group-books">📚 ' + books.map(esc).join(' × ') + '</span>' +
+      '</div>' +
+      '<div class="xl-law">' + esc(xl.law) + '</div>' +
+      '<div class="xl-why">' + esc(xl.why) + '</div>' +
+      '<div class="xl-members-label">参与条目（' + members.length + '）</div>' +
+      members.map(groupMemberHTML).join('') +
+      '</div>';
+  }
+  function crossBookGroupsHTML(){
+    var groups = BOOKS.crossLinks || [];
     if(!groups.length) return '<div class="empty-hint">还没有发现跨书连接。</div>';
+    var touched = {};
+    groups.forEach(function(xl){ xl.members.forEach(function(id){ touched[id] = true; }); });
     var html = '<div class="section-label" style="margin-top:20px;">🔗 跨学科连接组（' + groups.length + ' 组，' +
-      groups.reduce(function(n,g){ return n+g.length; },0) + ' 条条目参与）</div>';
-    html += groups.map(function(members){
-      var books = [];
-      members.forEach(function(e){
-        var b = bookById(e.book);
-        if(b && books.indexOf(b.title) === -1) books.push(b.title);
-      });
-      return '<div class="cross-group">' +
-        '<div class="cross-group-head">📚 ' + books.map(esc).join(' × ') + '</div>' +
-        members.map(groupMemberHTML).join('') +
-        '</div>';
-    }).join('');
+      Object.keys(touched).length + ' 条条目参与）</div>';
+    html += groups.map(crossLinkCardHTML).join('');
     return html;
   }
   function renderThreadGraph(){

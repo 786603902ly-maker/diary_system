@@ -28,9 +28,19 @@ Mind OS」，和 40 本书读书笔记「读书宇宙 · Book OS」。**两者�
   用户批注 `annotation` + 原文摘录 `quote`），用户不用再打开原始 Google Doc 就能抓住每本书
   的要点和自己当年的批注。两者字段结构不同、彼此独立，**普世智金字塔不是读书思维库的子集**，
   但可以互相参照。
-- 「关联图谱」Tab 内部有个模式切换（"思维库全景" / "金字塔主线"）：前者是基于 `library[].
-  relatedIds` 的四象限全景图（跨书跨领域连接，节点=一条思维库条目），后者是原来那个基于
+- 「关联图谱」Tab 内部有个模式切换（"思维库全景" / "金字塔主线"）：前者是基于顶层
+  `crossLinks[]` 的四象限全景图（跨书跨领域连接，节点=一条思维库条目），后者是原来那个基于
   `threads[]` 的小型主线枢纽图（节点=一条普世智）。两套图独立，不要合并成一套。
+  **`crossLinks[]` 是 2026-08-20 重做的结构**（详见下面"已经走过的迭代"第 11 条）：每条边
+  `{id, type, law, why, members[]}`，`law`+`why` 是人工写死的解释文字（为什么这些条目共享
+  同一条底层规律），不是靠关键词/子类相似度自动推断的——**新增连接时必须先过"逻辑连接
+  自查"：能不能说清"为什么 A 能推出/解释 B"，说不清就不写这条连接，宁可少连不要乱连**。
+  `type` 取值见 `src/template.html` 里的 `XL_TYPE_META`（isomorphism 跨学科同构最珍贵/
+  convergence 同源汇聚/instance 案例佐证/chain 递进链条/tension 观点张力/complement 互补
+  策略），选错类型比不写类型更误导人，比如把"同一公司两本书都提到"标成 isomorphism 就是
+  谎报连接的性质。`library[]` 条目上**不再有** `relatedIds` 字段——它是从 `crossLinks[]`
+  在渲染时反查出来的（`libAdjacency()`），改连接只改 `crossLinks`，不要在 library 条目里
+  加回 `relatedIds`，否则两处数据会不同步。
 
 **当前线上链接（固定，不要发布成新链接）**：
 https://claude.ai/code/artifact/354d6b9a-e846-4293-a021-7a01cc768be0
@@ -113,6 +123,8 @@ BOOKS_UPDATE.md            ← 操作手册：怎么把新书/新 Mind Card 融�
 BOOK_LEARNING_SYSTEM.md    ← 42 天跨学科 Mind Card 学习法的完整规则
 data/mind-os.json          ← 日记真源：四象限骨架 + 全部 principles + lifeRecords + healthLog
 data/book-os.json          ← 读书真源：同一套四象限骨架 + threads + books + universalTruths
+                              + crossLinks（跨书连接的唯一真源，library[] 条目上不再存
+                              relatedIds，见"已经走过的迭代"第 11 条）
 data/book-os-progress.json ← 42 天学习法的跨会话进度（上次 Day 几/有没有悬挂问题）
 src/template.html          ← 唯一的页面模板，同时渲染两套数据（HTML/CSS/JS，
                               __MIND_OS_DATA__ 和 __BOOK_OS_DATA__ 是两个数据占位符）
@@ -162,6 +174,25 @@ index.html                  ← 生成产物，自包含单文件，发布为唯
     却不生效"，第一反应检查祖先链上是不是有非 visible 的 overflow。** 修法：overflow-x:hidden
     只放在 `html` 上，不放 `body`；`scrollToSection` 也从 `scrollIntoView()` 改成了在点击时
     实测头部实际高度再算精确的 `window.scrollTo` 偏移量，不依赖写死的 CSS scroll-margin-top。
+11. **2026-08-20 重做了"关联图谱"的底层逻辑**——用户指出这个 Tab 之前的连接是"完全没有
+    跨学科的感觉"：`library[]` 条目之间的 `relatedIds` 是纯 ID 数组，渲染时只是把两条卡片
+    的原文并排堆在一起，不解释为什么它们算一对连接；审查后发现 40 条旧连接里有一部分就是
+    这个问题的实锤（比如"目的论 × 身份认同"两条被讨厌的勇气/掌控习惯摘要，完全没有一句话
+    讲两者的因果/机制关系；"25种心理倾向 × 归纳推理更好理解"更是纯粹的无关拼接）。**教训：
+    "两个条目被放进同一个连接组"这件事本身不能靠子类/关键词相似度去猜或去堆，必须有人写一句
+    "为什么 A 能推出/解释 B"的机制说明，说不出来就不该连**（这正是用户很早以前给过的
+    Project Instruction 里"逻辑连接自查"那条准则，当时只用在对话里生成 Mind Card，这次是
+    第一次把同一条准则用代码强制在数据结构层面——`crossLinks[]` 的每条边都必须有 `law`+
+    `why` 字段，没有就没法通过 `libRelatedChipsHTML`/`crossBookGroupsHTML` 渲染出内容）。
+    改法：把原来"条目自带 relatedIds 数组 + 前端做连通分量聚类"整个换成"顶层 crossLinks[]
+    编辑层数据 + 前端只做展示"，逐条人工复核旧的 40 条连接（约 1/3 因为讲不出机制被砍掉或
+    重新表述，比如砍掉了"能力圈 × 月亮型行业"这种纯粹顺序步骤硬凑成的连接），保留/改写的
+    连接按关系性质分了 6 种 `type`（isomorphism 跨学科同构最珍贵——两个完全不同学科各自独立
+    满足同一条底层规律，比如"设计留白的邻近性原则"和"金字塔原理的归类分组"其实是格式塔心理学
+    同一条规律的两种媒介实现；其余是 convergence 同源汇聚/instance 案例佐证/chain 递进链条/
+    tension 观点张力/complement 互补策略，不能不加区分地都算"跨学科连接"），并把散落的强连接
+    合并成"多本书收敛到同一条法则"的簇卡片（比如政治学/系统论/医疗管理三个不相关领域都在讲
+    "没有强反馈回路系统就无法自我纠错"）。
 
 ## 原始日记源文件（Google Drive fileId 对照表，避免重新翻找）
 
