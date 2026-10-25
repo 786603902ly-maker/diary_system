@@ -228,4 +228,23 @@ python3 src/build.py     # 改完 data/mind-os.json、data/book-os.json 或 src/
 
 发布用 `Artifact` 工具，`file_path` 传 `index.html`，`url` 传上面的固定链接，
 `capabilities` 传 `{"downloads": true}`（编辑系统的导出功能要用）。
-改完记得 `git add` + commit + push 到当前分支（不要新建分支，除非用户要求）。
+**同时部署 GitHub Pages 版**：`bash src/deploy_pages.sh`（把 build.py 生成的 `site/` 强推到
+`gh-pages` 分支）。改完记得 `git add` + commit + push 到当前分支（不要新建分支，除非用户要求）。
+
+## 可安装 App 版（GitHub Pages PWA，2026-10-25）
+
+用户要在 Android 上"安装成 App"。**Artifact 链接做不到**：Artifact 跑在 claude.ai 的
+沙盒 iframe 里，Chrome 只认顶层页面的 manifest/service worker，所以往 `index.html` 里加
+manifest 是无效的（也不要加）。解法是另外发布一份到 GitHub Pages：
+https://786603902ly-maker.github.io/diary_system/
+- `src/build.py` 除了生成 Artifact 用的 `index.html`，还生成 `site/`（已 gitignore）：同一份
+  页面 + `<!doctype>/<head>` + `manifest.webmanifest` + `sw.js`（网络优先、缓存兜底，可离线
+  打开；`__BUILD_ID__` 每次构建换新，旧缓存自动清掉）+ 图标。PWA 素材的源文件在 `src/pwa/`。
+- 图标是 `src/pwa/make_icons.py` 一次性生成后提交进仓库的 PNG（构建只复制，不依赖 Pillow——
+  容器里系统自带的 Pillow 是坏的，要重画图标就临时建个 venv 装 pillow 再跑）。
+- Pages 设置为 "Deploy from a branch → gh-pages / (root)"。`gh-pages` 只放构建产物，每次
+  `src/deploy_pages.sh` 整体强推覆盖，不在上面手改。会话里的代理不允许调用 Pages 设置 API，
+  所以 Pages 的开关只能用户自己在网页上点。
+- **隐私**：仓库本身是 public，Pages 站点也是公开的（知道网址就能看）。用户知情后选择了这条路。
+- 本机编辑（localStorage 的高亮/标星）按域名隔离：App 版和 Artifact 版各存各的，
+  需要时用编辑栏的导出/导入搬过去。
