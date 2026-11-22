@@ -270,6 +270,49 @@
   .group-member-core{font-size:.86rem;color:var(--ink);}
   .group-member-ann{font-size:.82rem;color:var(--accent-ink);background:var(--accent-soft);border-radius:var(--radius-sm);padding:6px 9px;margin-top:6px;}
 
+  /* ---------- summary tab (书籍总结：用户 OneNote 原排版 + Claude 代写) ---------- */
+  /* 原文的红/蓝/紫/荧光高亮都是按白纸调的色，所以这张"纸"在深色模式下也保持白底，避免配色失真 */
+  .bs-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px;}
+  .bs-head-title{font-weight:700;font-size:.95rem;}
+  .bs-head-meta{font-size:.72rem;color:var(--ink-faint);}
+  .bs-legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.74rem;color:var(--ink-soft);background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius-sm);padding:8px 12px;margin-bottom:10px;}
+  .bs-legend span{white-space:nowrap;}
+  .bs-legend .sw{display:inline-block;padding:0 5px;border-radius:3px;background:#fff;}
+  .bs-intro-wrap{margin-bottom:12px;}
+  .bs-intro-wrap > summary{cursor:pointer;font-size:.8rem;color:var(--ink-soft);padding:4px 0;}
+  .bs-sheet{background:#fff;color:#1b1b1b;border:1px solid #a3a3a3;border-radius:var(--radius-sm);font-family:KaiTi,"Kaiti SC",STKaiti,"楷体","AR PL UKai CN",serif;font-size:.93rem;line-height:1.6;overflow:hidden;}
+  .bs-sheet p{margin:0;}
+  .bs-sheet ul,.bs-sheet ol{margin:0;padding-left:1.6em;}
+  .bs-sheet ul:not([type]){list-style:none;}
+  .bs-sheet a{color:#0563C1;text-decoration:underline;}
+  .bs-sheet table{border-collapse:collapse;margin:4px 0;}
+  .bs-sheet td{border:1px solid #a3a3a3;padding:2px 5px;vertical-align:top;}
+  .bs-intro{padding:10px 12px;}
+  .bs-intro > div{overflow-x:auto;}
+  .bs-ico{font-style:normal;font-weight:700;margin-right:2px;}
+  .bs-ico-star{color:#F39C12;}
+  .bs-ico-ref{color:#2E86C1;}
+  .bs-img{max-width:100%;height:auto;display:block;margin:6px 0;}
+  .bs-row{display:grid;grid-template-columns:minmax(110px,190px) minmax(0,1fr);border-top:1px solid #a3a3a3;}
+  .bs-row:first-child{border-top:none;}
+  .bs-cell{padding:5px 8px;min-width:0;overflow-wrap:anywhere;}
+  .bs-cell.bs-t{border-right:1px solid #a3a3a3;}
+  .bs-row.bs-l1{background:#92D050;}
+  .bs-row.bs-l1 .bs-t{font-weight:700;}
+  .bs-row.bs-l2{background:#FFFF00;}
+  .bs-group{margin:0;scroll-margin-top:236px;}
+  .bs-badge{display:inline-block;margin-top:4px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;font-size:.66rem;font-weight:600;line-height:1.4;border-radius:999px;padding:1px 7px;background:#ede7f6;color:#4a2f9b;border:1px solid #b39ddb;white-space:nowrap;}
+  .bs-row.by-claude .bs-t{box-shadow:inset 3px 0 #7e57c2;}
+  .bs-note{display:block;margin-top:3px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;font-size:.64rem;color:#6b6b6b;line-height:1.35;}
+  .bs-lib{display:inline-block;margin-top:5px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;font-size:.66rem;color:#1b4a3c;background:#e3ece7;border-radius:999px;padding:1px 8px;cursor:pointer;white-space:nowrap;}
+  .bs-lib:hover{background:#2f6b57;color:#fff;}
+  @media (max-width:640px){
+    .bs-row{grid-template-columns:minmax(0,1fr);}
+    .bs-cell.bs-t{border-right:none;}
+    .bs-row.bs-book .bs-t{background:#f3f5f3;border-bottom:1px dashed #c9cfca;}
+    .bs-row.bs-l1 .bs-b:empty,.bs-row.bs-l2 .bs-b:empty{display:none;}
+  }
+
   /* ---------- books tab ---------- */
   .book-doc-group{margin-bottom:20px;}
   .book-doc-h{font-size:.86rem;font-weight:700;color:var(--ink-soft);margin-bottom:8px;}
@@ -345,6 +388,7 @@
         </div>
         <div class="tab-divider"></div>
         <div class="tab-group">
+          <button class="tab" data-tab="summary">书籍总结</button>
           <button class="tab" data-tab="pyramid">普世智金字塔</button>
           <button class="tab" data-tab="library">读书思维库</button>
           <button class="tab" data-tab="graph">关联图谱</button>
@@ -387,11 +431,13 @@
 
 <script type="application/json" id="mind-os-data">__MIND_OS_DATA__</script>
 <script type="application/json" id="book-os-data">__BOOK_OS_DATA__</script>
+<script type="application/json" id="book-summaries-data">__BOOK_SUMMARIES_DATA__</script>
 <script>
 (function(){
   var DATA = JSON.parse(document.getElementById('mind-os-data').textContent);
   var BOOKS = JSON.parse(document.getElementById('book-os-data').textContent);
-  var TAB_FAMILY = {kb:'mindos', quotes:'mindos', timeline:'mindos', pyramid:'bookos', library:'bookos', graph:'bookos', books:'bookos'};
+  var SUMMARIES = JSON.parse(document.getElementById('book-summaries-data').textContent);
+  var TAB_FAMILY = {kb:'mindos', quotes:'mindos', timeline:'mindos', summary:'bookos', pyramid:'bookos', library:'bookos', graph:'bookos', books:'bookos'};
   var TIMELINE_START = DATA.meta.timelineStart || '2017-09-25';
   var state = { tab:'kb', search:'', recentOnly:false, starOnly:false, editMode:false, expanded:{}, showRootFor:{}, showCtxFor:{}, jumpTo:null, graphMode:'library', timelineCategory:null, navStack:[] };
 
@@ -1343,6 +1389,75 @@
     else renderLibraryGraph();
   }
 
+  // ---------- render: summary tab (书籍总结) ----------
+  // 数据：data/book-summaries.json。rows 按原 OneNote 表格顺序排列：l1 = 绿色大类行，l2 = 黄色★子类行，
+  // book = 一本书一行（左书名、右总结）。html 字段是 src/import_onenote_summary.py 清洗过的原排版
+  // （只留颜色/高亮/粗体/下划线/缩进/列表/链接），由构建脚本生成、不来自页面输入，所以直接插入。
+  // by:"claude" 的行是 Claude 代写的，书名下方挂紫色标记，方便用户识别和审阅。
+  function stripTags(h){ var d = document.createElement('div'); d.innerHTML = h || ''; return d.textContent || ''; }
+  var SUMMARY_TEXT = null;
+  function summaryGroups(){
+    // 把扁平 rows 切成 [{l1, l2, books:[]}] 方便搜索时隐藏空分组
+    var groups = [], cur = null, l1 = null;
+    SUMMARIES.rows.forEach(function(r, i){
+      if(r.kind === 'l1'){ l1 = r; cur = null; return; }
+      if(r.kind === 'l2' || !cur){ cur = {l1: l1, l2: r.kind === 'l2' ? r : null, books: [], idx: i}; groups.push(cur); l1 = null; if(r.kind === 'l2') return; }
+      cur.books.push(r);
+    });
+    return groups;
+  }
+  function summaryRowHTML(r){
+    var cls = 'bs-row bs-' + r.kind + (r.by === 'claude' ? ' by-claude' : '');
+    if(r.kind !== 'book'){
+      var icon = r.kind === 'l2' ? '<span class="bs-ico bs-ico-star">★</span>' : '';
+      return '<div class="' + cls + '"><div class="bs-cell bs-t">' + icon + esc(r.title) +
+        (r.by === 'claude' ? '<br><span class="bs-badge">🤖 Claude 新增分类</span>' : '') +
+        '</div><div class="bs-cell bs-b"></div></div>';
+    }
+    var libRefs = r.bookId ? (BOOKS.library || []).filter(function(e){ return e.book === r.bookId; }) : [];
+    var t = (r.titleHtml || esc(r.title));
+    if(r.by === 'claude'){
+      t += '<span class="bs-badge">🤖 Claude 代写 · 待你审阅</span>' +
+        '<span class="bs-note">' + esc(r.note || ('素材：读书思维库 ' + libRefs.length + ' 条笔记 + 你当年的批注')) + '</span>';
+    }
+    if(libRefs.length) t += '<br><span class="bs-lib" data-jump-library="' + libRefs[0].id + '">📖 读书思维库 ' + libRefs.length + ' 条 →</span>';
+    return '<div class="' + cls + '" id="bs-' + esc(r.bookId || r.title) + '"><div class="bs-cell bs-t">' + t + '</div>' +
+      '<div class="bs-cell bs-b">' + (r.html || '') + '</div></div>';
+  }
+  function renderSummary(){
+    var q = state.search.toLowerCase();
+    if(q && !SUMMARY_TEXT){
+      SUMMARY_TEXT = {};
+      SUMMARIES.rows.forEach(function(r){ if(r.kind === 'book') SUMMARY_TEXT[r.title] = (r.title + ' ' + stripTags(r.html)).toLowerCase(); });
+    }
+    var all = SUMMARIES.rows.filter(function(r){ return r.kind === 'book'; });
+    var nClaude = all.filter(function(r){ return r.by === 'claude'; }).length;
+    var html = '<div class="bs-head"><span class="bs-head-title">' + esc(SUMMARIES.meta.title) + '</span>' +
+      '<span class="bs-head-meta">' + esc(SUMMARIES.meta.source) + ' · ' + esc(SUMMARIES.meta.created) + ' · 共 ' + all.length + ' 本（其中 ' + nClaude + ' 本为 Claude 代写）</span></div>' +
+      '<div class="bs-legend">' +
+        '<span><span class="sw" style="color:#0070C0">蓝字</span> 自己的工作/生活举例</span>' +
+        '<span><span class="sw" style="color:#7030A0">紫字</span> 书里的举例</span>' +
+        '<span><span class="sw" style="color:#FA0000">红字</span> 重点（认知范围内）</span>' +
+        '<span><span class="sw" style="color:#FA0000;text-decoration:underline">红下划线</span> 突破已有认知</span>' +
+        '<span><span class="sw" style="background:lime">绿底</span> 高层级</span>' +
+        '<span><span class="sw" style="background:yellow">黄底</span> 低层级</span>' +
+        '<span><span class="bs-badge" style="margin:0">🤖 Claude 代写</span> 我补的，待你审阅</span>' +
+      '</div>' +
+      '<details class="bs-intro-wrap"><summary>📐 原文开头：分类框架 + 归类三问 + 标注图例</summary>' +
+      '<div class="bs-sheet bs-intro">' + SUMMARIES.introHtml + '</div></details>';
+    var body = '', hits = 0;
+    summaryGroups().forEach(function(g, gi){
+      var books = q ? g.books.filter(function(r){ return SUMMARY_TEXT[r.title].indexOf(q) !== -1; }) : g.books;
+      hits += books.length;
+      if(q && !books.length) return;
+      body += '<section class="bs-group subcat-section" id="bs-sec-' + gi + '">' +
+        (g.l1 ? summaryRowHTML(g.l1) : '') + (g.l2 ? summaryRowHTML(g.l2) : '') +
+        books.map(summaryRowHTML).join('') + '</section>';
+    });
+    if(q && !hits){ main.innerHTML = html + '<div class="empty-hint">没有匹配的书籍总结。</div>'; return; }
+    main.innerHTML = html + '<div class="bs-sheet">' + body + '</div>';
+  }
+
   // ---------- render: books tab ----------
   function renderBooks(){
     var q = state.search.toLowerCase();
@@ -1395,6 +1510,19 @@
     Array.prototype.forEach.call(sections, function(s){ io.observe(s); });
   }
   function renderQuickJump(){
+    if(state.tab === 'summary'){
+      quickjumpEl.hidden = false;
+      var sh = '';
+      summaryGroups().forEach(function(g, gi){
+        var target = 'bs-sec-' + gi;
+        var label = (g.l2 ? g.l2.title : (g.l1 ? g.l1.title : '其它'));
+        sh += '<button class="qj-chip' + (document.getElementById(target) ? '' : ' dim') + '" data-target="' + target + '">' +
+          '<span class="qj-dot"></span>' + esc(label) + '</button>';
+      });
+      quickjumpEl.innerHTML = sh;
+      observeSections();
+      return;
+    }
     if(state.tab !== 'kb' && state.tab !== 'pyramid' && state.tab !== 'library'){ quickjumpEl.hidden = true; quickjumpEl.innerHTML = ''; return; }
     quickjumpEl.hidden = false;
     var html = '';
@@ -1591,6 +1719,7 @@
     if(state.tab === 'kb') renderKB();
     else if(state.tab === 'quotes') renderQuotes();
     else if(state.tab === 'timeline') renderTimeline();
+    else if(state.tab === 'summary') renderSummary();
     else if(state.tab === 'pyramid') renderPyramid();
     else if(state.tab === 'library') renderLibrary();
     else if(state.tab === 'graph') renderGraph();

@@ -15,6 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MIND_OS_FILE = ROOT / "data" / "mind-os.json"
 BOOK_OS_FILE = ROOT / "data" / "book-os.json"
+SUMMARIES_FILE = ROOT / "data" / "book-summaries.json"
 TEMPLATE_FILE = ROOT / "src" / "template.html"
 PWA_DIR = ROOT / "src" / "pwa"
 OUT_FILE = ROOT / "index.html"
@@ -60,10 +61,12 @@ def build_site(page):
 def main():
     mind_os = json.loads(MIND_OS_FILE.read_text(encoding="utf-8"))
     book_os = json.loads(BOOK_OS_FILE.read_text(encoding="utf-8"))
+    summaries = json.loads(SUMMARIES_FILE.read_text(encoding="utf-8"))
     template = TEMPLATE_FILE.read_text(encoding="utf-8")
 
     out = template.replace("__MIND_OS_DATA__", inline_json(mind_os))
     out = out.replace("__BOOK_OS_DATA__", inline_json(book_os))
+    out = out.replace("__BOOK_SUMMARIES_DATA__", inline_json(summaries))
     OUT_FILE.write_text(out, encoding="utf-8")
     build_site(out)
 
@@ -72,7 +75,9 @@ def main():
         f"built {OUT_FILE} ({len(out)/1024:.1f} KB) + {SITE_DIR}/ (PWA) | "
         f"mind-os: principles={len(mind_os['principles'])}, lifeRecords={len(mind_os.get('lifeRecords', []))} | "
         f"book-os: books={len(book_os['books'])} (distilled/in-progress={distilled}), "
-        f"universalTruths={len(book_os['universalTruths'])}"
+        f"universalTruths={len(book_os['universalTruths'])} | "
+        f"summaries: books={sum(1 for r in summaries['rows'] if r['kind'] == 'book')} "
+        f"(claude={sum(1 for r in summaries['rows'] if r['kind'] == 'book' and r.get('by') == 'claude')})"
     )
 
 

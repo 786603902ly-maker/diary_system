@@ -8,6 +8,11 @@
 
 ## 日常使用（你只需要做这一步）
 
+- **OneNote 里的「！总结--豆瓣所有书籍」更新了** → 在 OneNote 里"另存为/导出 → 单个文件网页
+  (.mht)"，把文件发给 Claude。Claude 跑 `python3 -I src/import_onenote_summary.py <文件>.mht --keep-claude`
+  重新导入「书籍总结」Tab（排版原样保留，Claude 代写的行不会被冲掉），再构建发布。
+
+
 跟日记系统完全一样的手动触发流程，不需要记细节：
 
 - **一天的 Mind Card 学习聊完了** → 说一句"今天聊完了，帮我归档"。Claude 会把这次对话

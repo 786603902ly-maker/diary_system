@@ -54,6 +54,26 @@ https://claude.ai/code/artifact/354d6b9a-e846-4293-a021-7a01cc768be0
 链接已经不再维护，是历史遗留的旧快照，不要再往那个 url 发布，也不要参考它的代码**（对应的
 `src/book_template.html` / `src/build_books.py` / `book-os.html` 已从仓库删除）。
 
+## 「书籍总结」Tab（2026-11-22 新增）
+
+读书宇宙那组 Tab 的第一个。内容是用户自己在 OneNote 里维护的「！总结--豆瓣所有书籍」——每本书
+几百字的超浓缩要点，靠**颜色/加粗/高亮**标重点，是用户回忆一本书时最先看的东西。**和读书思维库
+（客观全量索引）、普世智金字塔（每日深度条目）是三层不同的东西，不要混。**
+
+- 真源：`data/book-summaries.json`（`introHtml` = 原文开头的分类框架+归类三问+标注图例；
+  `rows[]` 按原表格顺序：`l1` 绿色大类行 / `l2` 黄色★子类行 / `book` 一本书一行，带清洗后的原排版
+  `html`）。由 `src/import_onenote_summary.py <导出的.mht> --keep-claude` 从 OneNote 导出的 .mht
+  生成（`--keep-claude` 保留下面的代写行）。**用户的排版必须原样保留**：红=重点、红下划线=突破
+  认知、蓝=自己的工作生活举例、紫=书里的举例、绿底=高层级、黄底=低层级（图例写在原文开头）。
+  这张"纸"在深色模式下也保持白底，因为原配色是按白纸调的。
+- `by:"claude"` 的行是 Claude 代写的（书名下有紫色「🤖 Claude 代写 · 待你审阅」标记）：首批 7 本
+  = 原表格里只有空行的《远见》+ 表格里没有、但在书目 roster 里的 6 本（七个习惯/财富自由之路/
+  与家人相处的秘密/寻路中国/悉达多/使女的故事），并新增了「小说与文学 › 小说」分类。素材只用
+  `data/book-os.json` 里该书的 `library[]` 条目和用户当年的批注，个人例子不编造。用户审阅后若认可，
+  可以把 `by` 改成 `"user"` 去掉标记。
+- 新书要补总结时：照用户格式写（编号要点 + 红/红粗/红下划线标重点 + 蓝色"+ 比如我…"个人例子 +
+  紫色书中例子 + 必要时绿底分组标题），插到对应子类下，`by:"claude"`、`bookId` 指向 `books[]`。
+
 ## 数据仍然是两套独立源文件，只是渲染合一（2026-07-25）
 
 `data/mind-os.json`（日记）和 `data/book-os.json`（读书）是两个独立维护的真源，**不要合并
@@ -126,6 +146,8 @@ data/book-os.json          ← 读书真源：同一套四象限骨架 + threads
                               + crossLinks（跨书连接的唯一真源，library[] 条目上不再存
                               relatedIds，见"已经走过的迭代"第 11 条）
 data/book-os-progress.json ← 42 天学习法的跨会话进度（上次 Day 几/有没有悬挂问题）
+data/book-summaries.json   ← 「书籍总结」Tab 真源（OneNote 原排版 + Claude 代写行，见上文）
+src/import_onenote_summary.py ← 把 OneNote 导出的 .mht 转成 book-summaries.json
 src/template.html          ← 唯一的页面模板，同时渲染两套数据（HTML/CSS/JS，
                               __MIND_OS_DATA__ 和 __BOOK_OS_DATA__ 是两个数据占位符）
 src/build.py                ← 构建脚本：把两个 JSON 都内联进模板 → 生成 index.html
